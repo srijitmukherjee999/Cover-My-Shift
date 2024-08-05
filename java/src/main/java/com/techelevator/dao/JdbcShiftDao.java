@@ -110,5 +110,4 @@ public class JdbcShiftDao implements ShiftDao{
 
         return shift;
     }
-
 }
