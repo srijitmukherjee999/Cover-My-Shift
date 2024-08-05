@@ -1,8 +1,14 @@
 <template>
-    <div>
-  <h1>Hello User</h1>
-  <h1>Hours Worked: 40</h1>
-</div>
+    <!-- <div class="hello"> -->
+     <body>
+        
+   
+    <div class="yes">
+         <h1>Hello User</h1>
+        <h1>Hours Worked: 40</h1>
+ 
+  
+    </div>
 
   <nav>
     <router-link v-bind:to="{name: 'employee'}">MY HOME</router-link>
@@ -11,25 +17,24 @@
     &nbsp; | &nbsp;
     <router-link v-bind:to="{name: 'pickupshift'}">PICK UP SHIFT</router-link>
   </nav>
+  
+  <div class="yes"></div>
+  
+ 
 
-  <table>
-    <thead>
-        <td>date</td>
-        <td>day</td>
-        <td>start time</td>
-        <td>end time</td>
-    </thead>
-        <tr>
-            <td>1</td>
-            <td>2</td>
-            <td>3</td>
-            <td>4</td>
-        </tr>
+
+
+
+
+
+
+
     
 
 
 
-  </table>
+
+</body>   
 </template>
 
 <script>
@@ -42,15 +47,23 @@ export default {
 
 <style scoped>
 
-div {
+.yes{
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-around;
+    justify-content: space-evenly;
+    flex-grow: 100%;
 }
 
 nav {
     text-align: center;
+  
 }
 
+body{
+
+    background-image: url( "../assets/AdobeStock_440299419_Preview.jpeg");
+    background-size: cover;
+    height: 100%;
+}
 
 </style>
