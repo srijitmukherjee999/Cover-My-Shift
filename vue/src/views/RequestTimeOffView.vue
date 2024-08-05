@@ -7,14 +7,30 @@
     &nbsp; | &nbsp;
     <router-link v-bind:to="{name: 'pickupshift'}">PICK UP SHIFT</router-link>
   </nav>
+  <request-off-form/>
 </template>
 
 <script>
+import RequestOffForm from '../components/RequestOffForm.vue'
 export default {
+    components: {
+        RequestOffForm
+    }
 
 }
 </script>
 
-<style>
+<style scoped>
+
+di
+RequestOffFormv {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+nav {
+    text-align: center;
+}
 
 </style>

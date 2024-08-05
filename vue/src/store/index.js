@@ -5,7 +5,14 @@ export function createStore(currentToken, currentUser) {
   let store = _createStore({
     state: {
       token: currentToken || '',
-      user: currentUser || {}
+      user: currentUser || {},
+      newTimeOffRequest: [
+       {
+        fullName: '',
+        startDate: '',
+        endDate: '',
+       }
+      ]
     },
     mutations: {
       SET_AUTH_TOKEN(state, token) {
@@ -23,6 +30,11 @@ export function createStore(currentToken, currentUser) {
         state.token = '';
         state.user = {};
         axios.defaults.headers.common = {};
+      },
+      ADD_REQUEST(state,newRequest){
+
+          state.newTimeOffRequest.push(newRequest);
+
       }
     },
   });
