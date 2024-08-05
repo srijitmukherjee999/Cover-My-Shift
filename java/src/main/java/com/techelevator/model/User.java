@@ -10,6 +10,7 @@ public class User {
 
    private int id;
    private String username;
+   private String fullName;
    @JsonIgnore
    private String password;
    @JsonIgnore
@@ -40,6 +41,14 @@ public class User {
 
    public void setUsername(String username) {
       this.username = username;
+   }
+
+   public String getFullName() {
+      return fullName;
+   }
+
+   public void setFullName(String fullName) {
+      this.fullName = fullName;
    }
 
    public String getPassword() {
