@@ -1,5 +1,4 @@
 <template>
-    <!-- <div class="hello"> -->
      <body>
         
    
@@ -8,33 +7,19 @@
         <h1>Hours Worked: 40</h1>
  
   
+    
     </div>
-
-  <nav>
-    <router-link v-bind:to="{name: 'employee'}">MY HOME</router-link>
-    &nbsp; | &nbsp;
-    <router-link v-bind:to="{name: 'timeoff'}">REQUEST TIME OFF</router-link>
-    &nbsp; | &nbsp;
-    <router-link v-bind:to="{name: 'pickupshift'}">PICK UP SHIFT</router-link>
+  <nav class="navigation">
+    <ul>
+        <li><router-link v-bind:to="{name: 'employee'}">MY HOME</router-link></li>
+    
+        <li><router-link v-bind:to="{name: 'timeoff'}">REQUEST TIME OFF</router-link></li>
+    
+        <li><router-link v-bind:to="{name: 'pickupshift'}">PICK UP SHIFT</router-link></li>
+    </ul>
   </nav>
   
-  <div class="yes"></div>
-  
- 
-
-
-
-
-
-
-
-
-    
-
-
-
-
-</body>   
+  </body>   
 </template>
 
 <script>
@@ -51,19 +36,40 @@ export default {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-evenly;
-    flex-grow: 100%;
+    padding: 10px;
+    background-color: white;
 }
 
-nav {
+.navigation {
+    /* border: 2px solid white; */
+    padding: 10px;
+    margin: 20px;
+    border-radius: 5px; 
+    /* background-color: white; */
+}
+
+.navigation ul {
+    list-style: none;
+    padding: 0;
+    margin: center;
     text-align: center;
-  
+
+}
+
+.navigation li {
+    display: inline;
+    margin-right: 15px;
+
+    font-size: larger;
+    
 }
 
 body{
 
     background-image: url( "../assets/AdobeStock_440299419_Preview.jpeg");
     background-size: cover;
-    height: 100%;
+    background-position: center;
+    background-repeat: no-repeat;
 }
 
 </style>
