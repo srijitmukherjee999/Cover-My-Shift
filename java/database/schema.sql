@@ -15,12 +15,13 @@ CREATE TABLE users (
 
 CREATE TABLE shift (
 	shift_id serial NOT NULL,
-	requester int NOT NULL,
+	assigned int NOT NULL,
 	start_date_time TIMESTAMP NOT NULL,
 	duration int NOT NULL,
     status int NOT NULL,
     emergency boolean NOT NULL,
     coverer int,
+    description varchar(500) NOT NULL,
 	CONSTRAINT PK_shift PRIMARY KEY (shift_id),
 	CONSTRAINT FK_shift_requester FOREIGN KEY (requester) REFERENCES users (user_id) ON DELETE CASCADE
 );
