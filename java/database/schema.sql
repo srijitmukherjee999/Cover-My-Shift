@@ -15,7 +15,7 @@ CREATE TABLE users (
 
 CREATE TABLE shift (
 	shift_id serial NOT NULL,
-	requester int NOT NULL,
+	assigned int NOT NULL,
 	start_date_time TIMESTAMP NOT NULL,
 	duration int NOT NULL,
     status int NOT NULL,
