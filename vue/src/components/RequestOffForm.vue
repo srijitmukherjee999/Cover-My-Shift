@@ -1,9 +1,11 @@
 <template>
-  <form class="request-off-form" v-on:submit.prevent="addNewRequest" v-show="showForm">
+  <form class="request-off-form" v-on:submit.prevent="addNewRequest" v-if="showForm">
       <input type="date" class="start-date-input" placeholder="Date" v-model="newRequest.startdate">
       <input type="date" class="end-date-input" placeholder="Date" v-model="newRequest.enddate">
       <button type="submit">Submit Request</button>
     </form>
+    <button v-else @click="toggleForm">Request Time Off</button>
+    
 </template>
 
 <script>
@@ -23,11 +25,14 @@ methods:{
 
     addNewRequest(){
         this.$store.commit("ADD_REQUEST",this.newRequest);
-       this.clearForm();
+         this.clearForm();
     },
     clearForm(){
         this.newRequest = {}
         this.showForm = false;
+    },
+    toggleForm(){
+        this.showForm = !this.showForm;
     }
     
 
