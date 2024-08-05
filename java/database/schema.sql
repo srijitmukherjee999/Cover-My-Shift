@@ -23,7 +23,7 @@ CREATE TABLE shift (
     coverer int,
     description varchar(500) NOT NULL,
 	CONSTRAINT PK_shift PRIMARY KEY (shift_id),
-	CONSTRAINT FK_shift_requester FOREIGN KEY (requester) REFERENCES users (user_id) ON DELETE CASCADE
+	CONSTRAINT FK_shift_assigned FOREIGN KEY (assigned) REFERENCES users (user_id) ON DELETE CASCADE
 );
 
 CREATE TABLE hours(
