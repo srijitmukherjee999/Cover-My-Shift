@@ -6,6 +6,8 @@ public class Hours {
     private int weekYear;
     private int hoursWorked;
 
+    public Hours(){}
+
     public Hours(int hours_id, int employee, int weekYear, int hoursWorked) {
         this.hours_id = hours_id;
         this.employee = employee;
