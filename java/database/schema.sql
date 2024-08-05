@@ -7,8 +7,7 @@ CREATE TABLE users (
 	user_id serial NOT NULL,
 	username varchar(50) NOT NULL UNIQUE,
 	password_hash varchar(200) NOT NULL,
-	first_name varchar(100) NOT NULL,
-	last_name varchar(100) NOT NULL,
+	full_name varchar(200) NOT NULL,
 	role varchar(50) NOT NULL,
 	active boolean,
 	CONSTRAINT PK_user PRIMARY KEY (user_id)
@@ -29,8 +28,7 @@ CREATE TABLE shift (
 CREATE TABLE hours(
 	hours_id serial NOT NULL,
     employee int NOT NULL,
-	start_of_week DATE NOT NULL,
-    year int NOT NULL,
+	week_year int NOT NULL,
     hours_worked int NOT NULL,
 	CONSTRAINT PK_hours PRIMARY KEY (hours_id),
     CONSTRAINT FK_hours_employee FOREIGN KEY (employee) REFERENCES users (user_id) ON DELETE CASCADE
