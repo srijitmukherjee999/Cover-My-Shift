@@ -1,7 +1,7 @@
 
 BEGIN TRANSACTION;
 
-DROP TABLE IF EXISTS user_shift, users, shift, hours CASCADE;
+DROP TABLE IF EXISTS user_shift, users, shift, hours, vacation CASCADE;
 
 CREATE TABLE users (
 	user_id serial NOT NULL,
@@ -45,7 +45,7 @@ CREATE TABLE vacation(
     CONSTRAINT FK_vacation_employee FOREIGN KEY (employee) REFERENCES users (user_id) ON DELETE CASCADE
 );
 
-CREATE TABLE user_shift (
+CREATE TABLE users_shift (
 	shift_id int NOT NULL,
 	coverer_id int NOT NULL,
 	CONSTRAINT PK_user_shift PRIMARY KEY (shift_id, coverer_id),
