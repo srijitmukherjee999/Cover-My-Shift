@@ -35,6 +35,16 @@ CREATE TABLE hours(
     CONSTRAINT FK_hours_employee FOREIGN KEY (employee) REFERENCES users (user_id) ON DELETE CASCADE
 );
 
+CREATE TABLE vacation(
+    vacation_id serial NOT NULL,
+    employee int NOT NULL,
+    start_date date NOT NULL,
+    end_date date NOT NULL,
+    status int NOT NULL,
+    CONSTRAINT PK_vacation PRIMARY KEY (vacation_id),
+    CONSTRAINT FK_vacation_employee FOREIGN KEY (employee) REFERENCES users (user_id) ON DELETE CASCADE
+);
+
 CREATE TABLE user_shift (
 	shift_id int NOT NULL,
 	coverer_id int NOT NULL,
