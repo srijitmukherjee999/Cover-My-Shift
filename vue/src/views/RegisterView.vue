@@ -34,6 +34,7 @@ export default {
         password: '',
         confirmPassword: '',
         role: 'user',
+        fullName: ''
       },
       registrationErrors: false,
       registrationErrorMsg: 'There were problems registering this user.',
