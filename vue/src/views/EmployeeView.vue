@@ -1,35 +1,25 @@
 <template>
-    <div>
-  <h1>Hello User</h1>
-  <h1>Hours Worked: 40</h1>
-</div>
-
-  <nav>
-    <router-link v-bind:to="{name: 'employee'}">MY HOME</router-link>
-    &nbsp; | &nbsp;
-    <router-link v-bind:to="{name: 'timeoff'}">REQUEST TIME OFF</router-link>
-    &nbsp; | &nbsp;
-    <router-link v-bind:to="{name: 'pickupshift'}">PICK UP SHIFT</router-link>
-  </nav>
-
-  <table>
-    <thead>
-        <td>date</td>
-        <td>day</td>
-        <td>start time</td>
-        <td>end time</td>
-    </thead>
-        <tr>
-            <td>1</td>
-            <td>2</td>
-            <td>3</td>
-            <td>4</td>
-        </tr>
+     <body>
+        
+   
+    <div class="yes">
+         <h1>Hello User</h1>
+        <h1>Hours Worked: 40</h1>
+ 
+  
     
-
-
-
-  </table>
+    </div>
+  <nav class="navigation">
+    <ul>
+        <li><router-link v-bind:to="{name: 'employee'}">MY HOME</router-link></li>
+    
+        <li><router-link v-bind:to="{name: 'timeoff'}">REQUEST TIME OFF</router-link></li>
+    
+        <li><router-link v-bind:to="{name: 'pickupshift'}">PICK UP SHIFT</router-link></li>
+    </ul>
+  </nav>
+  
+  </body>   
 </template>
 
 <script>
@@ -42,15 +32,44 @@ export default {
 
 <style scoped>
 
-div {
+.yes{
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-around;
+    justify-content: space-evenly;
+    padding: 10px;
+    background-color: white;
 }
 
-nav {
+.navigation {
+    /* border: 2px solid white; */
+    padding: 10px;
+    margin: 20px;
+    border-radius: 5px; 
+    /* background-color: white; */
+}
+
+.navigation ul {
+    list-style: none;
+    padding: 0;
+    margin: center;
     text-align: center;
+
 }
 
+.navigation li {
+    display: inline;
+    margin-right: 15px;
+
+    font-size: larger;
+    
+}
+
+body{
+
+    background-image: url( "../assets/AdobeStock_440299419_Preview.jpeg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
 
 </style>
