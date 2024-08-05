@@ -21,6 +21,7 @@ CREATE TABLE shift (
     status int NOT NULL,
     emergency boolean NOT NULL,
     coverer int,
+    description varchar(500) NOT NULL,
 	CONSTRAINT PK_shift PRIMARY KEY (shift_id),
 	CONSTRAINT FK_shift_requester FOREIGN KEY (requester) REFERENCES users (user_id) ON DELETE CASCADE
 );
