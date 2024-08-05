@@ -23,7 +23,7 @@ CREATE TABLE shift (
     emergency boolean NOT NULL,
     coverer int,
 	CONSTRAINT PK_shift PRIMARY KEY (shift_id),
-	CONSTRAINT FK_shift_requester FOREIGN KEY (requester) REFERENCES user (user_id) ON DELETE CASCADE
+	CONSTRAINT FK_shift_requester FOREIGN KEY (requester) REFERENCES users (user_id) ON DELETE CASCADE
 );
 
 CREATE TABLE hours(
@@ -33,14 +33,14 @@ CREATE TABLE hours(
     year int NOT NULL,
     hours_worked int NOT NULL,
 	CONSTRAINT PK_hours PRIMARY KEY (hours_id),
-    CONSTRAINT FK_hours_employee FOREIGN KEY (employee) REFERENCES user (user_id) ON DELETE CASCADE
+    CONSTRAINT FK_hours_employee FOREIGN KEY (employee) REFERENCES users (user_id) ON DELETE CASCADE
 );
 
 CREATE TABLE user_shift (
 	shift_id int NOT NULL,
 	coverer_id int NOT NULL,
 	CONSTRAINT PK_user_shift PRIMARY KEY (shift_id, coverer_id),
-	CONSTRAINT FK_coverer_id FOREIGN KEY (coverer_id) REFERENCES user (user_id) ON DELETE CASCADE,
+	CONSTRAINT FK_coverer_id FOREIGN KEY (coverer_id) REFERENCES users (user_id) ON DELETE CASCADE,
 	CONSTRAINT FK_shift_id FOREIGN KEY (shift_id) REFERENCES shift (shift_id) ON DELETE CASCADE
 );
 
