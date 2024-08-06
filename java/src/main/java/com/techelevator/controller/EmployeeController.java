@@ -95,5 +95,10 @@ public class EmployeeController {
         userShiftDao.deleteUserShift(id, userDao.getUserByUsername(principal.getName()).getId());
     }
 
+    @GetMapping(path = "/shifts/username")
+    public String getUserFullName(Principal principal){
+       return  userDao.getUserByUsername(principal.getName()).getFullName();
+    }
+
 
 }

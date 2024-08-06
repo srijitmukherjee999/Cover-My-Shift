@@ -2,7 +2,7 @@
      <body>
         
     <div class="yes">
-         <h1>Hello User</h1>
+         <h1>Hello {{ name }}</h1>
         <h1>Hours Worked: 40</h1>
  
   
@@ -36,8 +36,6 @@
 <script>
 import ShiftService from '../services/ShiftService';
 
-
-
 export default {
 
     data(){
@@ -58,7 +56,7 @@ export default {
                     
                 }
             ],
-            name: []
+            name: ''
         }
     }
     ,
@@ -69,6 +67,16 @@ export default {
                this.listOfShifts = response.data;
               
             })
+        },
+        getFullName(){
+
+        ShiftService.getUserFullName().then( response => {
+
+                 this.name = response.data;
+
+                this.$store.commit("ADD_NAME", this.name);
+        })
+
         },
 
       
@@ -90,6 +98,7 @@ export default {
     },
     created(){
         this.getAllShifts();
+        this.getFullName();
     }
 
 }
@@ -128,5 +137,17 @@ export default {
     font-size: larger;
     
 }
+
+p{
+    display: flex;
+    display: inline-block;
+}
+div{
+    display: flex;
+    justify-content: center;
+}
+
+
+
 
 </style>
