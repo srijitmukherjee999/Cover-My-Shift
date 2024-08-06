@@ -1,7 +1,11 @@
 <template>
   
   <h1>Hello {{ name }}</h1>
-    <div></div>
+    <div>
+
+        <button>Uncover</button>
+
+    </div>
 
 </template>
 
@@ -26,6 +30,17 @@ export default {
 })
 
 },
+
+updateShiftStatus(status){
+
+ShiftService.updateUserShiftStatus(status).then(response => {
+    if(response.status === 200){
+        alert("You have updated");
+    }
+})
+
+}
+
     },
     created(){
         this.getFullName();
