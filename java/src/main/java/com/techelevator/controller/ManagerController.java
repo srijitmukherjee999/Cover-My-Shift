@@ -24,7 +24,7 @@ public class ManagerController {
     private final VacationDao vacationDao;
 
 
-    public ManagerController(JdbcUserDao userDao, JdbcShiftDao shiftDao, JdbcUserShiftDao userShiftDao, VacationDao vacationDao) {
+    public ManagerController(JdbcUserDao userDao, JdbcShiftDao shiftDao, JdbcUserShiftDao userShiftDao, JdbcVacationDao vacationDao) {
         this.userDao = userDao;
         this.shiftDao = shiftDao;
         this.userShiftDao = userShiftDao;

@@ -9,4 +9,5 @@ public interface VacationDao {
     List<Vacation> getListsOfVacation();
     Vacation createVacation(Vacation vacation);
     Vacation updateVacation(Vacation vacation);
+    void deleteVacation(int id);
 }

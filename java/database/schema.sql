@@ -41,6 +41,7 @@ CREATE TABLE vacation(
     start_date date NOT NULL,
     end_date date NOT NULL,
     status int NOT NULL,
+    description varchar(500) NOT NULL,
     CONSTRAINT PK_vacation PRIMARY KEY (vacation_id),
     CONSTRAINT FK_vacation_employee FOREIGN KEY (employee) REFERENCES users (user_id) ON DELETE CASCADE
 );

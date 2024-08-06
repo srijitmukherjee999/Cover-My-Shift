@@ -24,7 +24,7 @@ public class EmployeeController {
     private final VacationDao vacationDao;
 
 
-    public EmployeeController(JdbcUserDao userDao, JdbcShiftDao shiftDao, JdbcUserShiftDao userShiftDao, VacationDao vacationDao) {
+    public EmployeeController(JdbcUserDao userDao, JdbcShiftDao shiftDao, JdbcUserShiftDao userShiftDao, JdbcVacationDao vacationDao) {
         this.userDao = userDao;
         this.shiftDao = shiftDao;
         this.userShiftDao = userShiftDao;
@@ -97,7 +97,6 @@ public class EmployeeController {
     public void deleteUserShift(@PathVariable int id, Principal principal){
         userShiftDao.deleteUserShift(id, userDao.getUserByUsername(principal.getName()).getId());
     }
-
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(path = "/vacation")
