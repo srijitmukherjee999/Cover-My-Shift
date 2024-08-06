@@ -80,9 +80,11 @@ public class EmployeeController {
 
         if(status == 2 && (shift.getStatus() == 1 || shift.getStatus() == 3)){
             shift.setStatus(2);
+            shift.setCoverer(0);
         }
         else if(status == 3 && (shift.getStatus() == 1 || shift.getStatus() == 3)) {
             shift.setStatus(3);
+            shift.setCoverer(user.getId());
         }
         else {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Illegal status change.");

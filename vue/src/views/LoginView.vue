@@ -1,5 +1,10 @@
 <template>
-  <div id="login">
+  <body>
+    <div id="main" style="">
+      <span style="display: inline-block; margin-top: 18%;width: 500px;margin-left: 40%;">
+    <h1 style="margin-bottom;:22 %;margin-left:5% ;">Cover My Shift</h1>
+  </span>
+    <div style="margin-left: 42%; border: 1px solid bal;" id="login">
     <form v-on:submit.prevent="login">
       <h1 >Please Sign In</h1>
       <div role="alert" v-if="invalidCredentials">
@@ -21,6 +26,8 @@
       <router-link v-bind:to="{ name: 'register' }">Need an account? Sign up.</router-link></p>
     </form>
   </div>
+</div>
+  </body>
 </template>
 
 <script>
@@ -61,10 +68,42 @@ export default {
 </script>
 
 <style scoped>
+
+#main{
+  background-image: url( "../assets/AdobeStock_440299419_Preview.jpeg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  min-height: 100vh;
+
+}
 .form-input-group {
   margin-bottom: 1rem;
 }
 label {
   margin-right: 0.5rem;
 }
+
+h1 {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+
+}
+
+#login {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  width: 100%;
+  height: 100%;
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px;
+  width: 100%;
+  max-width: 400px;
+}
+
+
 </style>
