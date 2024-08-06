@@ -16,6 +16,11 @@ public class JdbcShiftDao implements ShiftDao{
 
     private final JdbcTemplate jdbcTemplate;
 
+    private final String SQL_SELECT_TEMPLATE = "SELECT shift_id, assigned, assign.full_name AS assigned_name, start_date_time, duration, status, emergency, coverer, cover.full_name AS coverer_name, description" +
+            " FROM shift" +
+            " JOIN users assign ON assign.user_id = shift.assigned" +
+            " LEFT OUTER JOIN users cover ON cover.user_id = shift.coverer";
+
     public JdbcShiftDao(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
@@ -23,8 +28,7 @@ public class JdbcShiftDao implements ShiftDao{
     public Shift getShiftById(int shiftId) {
 
         Shift shift = null;
-        String sql = "SELECT * FROM shift" +
-                " WHERE shift_id = ?;";
+        String sql = SQL_SELECT_TEMPLATE + " WHERE shift_id = ?";
         try{
             SqlRowSet result = jdbcTemplate.queryForRowSet(sql,shiftId);
             if(result.next()){
@@ -41,7 +45,7 @@ public class JdbcShiftDao implements ShiftDao{
     public List<Shift> getAllShift() {
 
         List<Shift> shiftList = new ArrayList<>();
-        String sql = "SELECT * FROM shift;";
+        String sql = SQL_SELECT_TEMPLATE;
         try{
             SqlRowSet results = jdbcTemplate.queryForRowSet(sql);
             while (results.next()){
@@ -59,7 +63,7 @@ public class JdbcShiftDao implements ShiftDao{
     public List<Shift> getShiftsByUser(int userId) {
 
         List<Shift> shifts = new ArrayList<>();
-        String sql = "SELECT * FROM shift" +
+        String sql = SQL_SELECT_TEMPLATE +
                 " WHERE assigned = ?;";
         try{
             SqlRowSet result = jdbcTemplate.queryForRowSet(sql,userId);
@@ -75,29 +79,10 @@ public class JdbcShiftDao implements ShiftDao{
     }
 
     @Override
-    public Shift getShiftByEmergency(boolean emergency) {
-
-        Shift shift = new Shift();
-        String sql = "SELECT * FROM shift" +
-                " WHERE emergency = ?;";
-        try{
-            SqlRowSet result = jdbcTemplate.queryForRowSet(sql,emergency);
-            if(result.next()){
-                shift = mapRowToShift(result);
-            }
-        }
-        catch (CannotGetJdbcConnectionException e) {
-            throw new DaoException("Unable to connect to server or database", e);
-        }
-        return shift;
-
-    }
-
-    @Override
     public Shift updateShift(Shift shift) {
         String sql = "UPDATE shift SET assigned = ?, start_date_time = ?, duration = ?, status = ?, emergency = ?, coverer = ?, description = ? WHERE shift_id = ?";
         try {
-            int numberOfRows = jdbcTemplate.update(sql, shift.getAssigned(), shift.getStartDateTime(), shift.getDuration(), shift.getStatus(), shift.isEmergency(), shift.getCoverer(), shift.getDescription(), shift.getShiftId());
+            int numberOfRows = jdbcTemplate.update(sql, shift.getAssignedId(), shift.getStartDateTime(), shift.getDuration(), shift.getStatus(), shift.isEmergency(), (shift.getCovererId() > 0 ? shift.getCovererId() : null), shift.getDescription(), shift.getShiftId());
 
             if (numberOfRows == 0) {
                 throw new DaoException("Zero rows affected, expected at least one");
@@ -117,7 +102,7 @@ public class JdbcShiftDao implements ShiftDao{
         String insertUserSql = "INSERT INTO shift (assigned, start_date_time, duration, status, emergency, coverer, description) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
         try {
-            jdbcTemplate.update(insertUserSql,shift.getAssigned(), shift.getStartDateTime(), shift.getDuration(), shift.getStatus(), shift.getCoverer(), shift.getDescription());
+            jdbcTemplate.update(insertUserSql,shift.getAssignedId(), shift.getStartDateTime(), shift.getDuration(), shift.getStatus(), shift.getCovererId(), shift.getDescription());
         } catch (CannotGetJdbcConnectionException e) {
             throw new DaoException("Unable to connect to server or database", e);
         } catch (DataIntegrityViolationException e) {
@@ -133,12 +118,14 @@ public class JdbcShiftDao implements ShiftDao{
 
         Shift shift = new Shift();
         shift.setShiftId(rowSet.getInt("shift_id"));
-        shift.setAssigned(rowSet.getInt("assigned"));
+        shift.setAssignedId(rowSet.getInt("assigned"));
+        shift.setAssignedName(rowSet.getString("assigned_name"));
         shift.setStartDateTime(rowSet.getTimestamp("start_date_time").toLocalDateTime());
         shift.setDuration(rowSet.getInt("duration"));
         shift.setStatus(rowSet.getInt("status"));
         shift.setEmergency(rowSet.getBoolean("emergency"));
-        shift.setCoverer(rowSet.getInt("coverer"));
+        shift.setCovererId(rowSet.getInt("coverer"));
+        shift.setCovererName(rowSet.getString("coverer_name"));
         shift.setDescription(rowSet.getString("description"));
 
         return shift;
