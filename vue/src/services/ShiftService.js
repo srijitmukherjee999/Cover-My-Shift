@@ -19,7 +19,7 @@ export default {
 
    getShiftByStatus(status){
 
-      return axios.get(`/shifts/status=${status}`);
+      return axios.get(`/shifts?status=${status}`);
    }
 
 

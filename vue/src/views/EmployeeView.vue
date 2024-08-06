@@ -20,11 +20,11 @@
 
   <div id="data" v-for="shift in listOfShifts" v-bind:key="shift">
     
-    <p>Name{{ shift.assignedName }}</p> 
-    <p>Start Time {{ shift.startDateTime}}</p>
-    <p>Duration {{ shift.duration }} hours</p>
-    <p>Status {{ convertStatus(shift.status) }}</p>
-    <p>Emergency {{ shift.emergency }}</p>
+    <p>Name {{ shift.assignedName }}</p> &nbsp;
+    <p>Start Time {{ shift.startDateTime}}</p>&nbsp;
+    <p>Duration {{ shift.duration }} hours</p>&nbsp;
+    <p>Status {{ convertStatus(shift.status) }} </p>&nbsp;
+    <p> Emergency {{ shift.emergency }}</p>
    
 
 
