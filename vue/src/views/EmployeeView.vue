@@ -24,7 +24,7 @@
     <p>Start Time {{ shift.startDateTime}}</p>&nbsp;
     <p>Duration {{ shift.duration }} hours</p>&nbsp;
     <p>Status {{ convertStatus(shift.status) }} </p>&nbsp;
-    <p> Emergency {{ shift.emergency }}</p>
+    <p>Emergency {{ shift.emergency }}</p>
    
 
 
