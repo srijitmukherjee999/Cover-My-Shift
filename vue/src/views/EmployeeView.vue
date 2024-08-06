@@ -1,5 +1,4 @@
 <template>
-     <body>
         
     <div class="yes">
          <h1>Hello {{ name }}</h1>
@@ -20,17 +19,13 @@
 
   <div id="data" v-for="shift in listOfShifts" v-bind:key="shift">
     
-    <p>Name {{ shift.assignedName }}</p> &nbsp;
-    <p>Start Time {{ shift.startDateTime}}</p>&nbsp;
-    <p>Duration {{ shift.duration }} hours</p>&nbsp;
-    <p>Status {{ convertStatus(shift.status) }} </p>&nbsp;
-    <p>Emergency {{ shift.emergency }}</p>
-   
+    <div><p>Name</p><br> {{ shift.assignedName }}</div>
+    <div><p>Start Time</p><br> {{ shift.startDateTime}}</div>
+    <div><p>Duration</p><br> {{ shift.duration }} hours</div>
+    <div><p>Status</p><br> {{ convertStatus(shift.status) }} </div>
+    <div><p>Emergency</p><br> {{ shift.emergency }}</div>
 
-
-  </div>
-  
-  </body>   
+    </div>  
 </template>
 
 <script>
@@ -134,18 +129,41 @@ export default {
     display: inline;
     margin-right: 15px;
 
-    font-size: larger;
-    
+    font-size: larger;    
 }
 
-p{
+
+
+#data {
+    background-color: blue;
+    color: white;
+    min-width: 20%;
+    min-height: 30vh;
+    gap: 20px;
     display: flex;
-    display: inline-block;
+    justify-content: space-evenly;
+    align-items: center;
+    border-radius: 50%;
+
 }
-div{
-    display: flex;
-    justify-content: center;
+
+
+@media (min-width: 600px) {
+  #data {
+    width: 100px; 
+    height: 100px;
+    font-size: 1rem; 
+  }
 }
+
+@media (min-width: 900px) {
+  #data {
+    width: 150px; 
+    height: 150px; 
+    font-size: 1.2rem;
+  }
+}
+
 
 
 
