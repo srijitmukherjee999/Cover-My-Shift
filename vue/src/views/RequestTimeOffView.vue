@@ -31,6 +31,7 @@ RequestOffFormv {
 
 nav {
     text-align: center;
+    font-size: larger;
 }
 
 </style>

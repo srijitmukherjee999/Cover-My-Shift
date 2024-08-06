@@ -20,7 +20,7 @@ public class JdbcUserShiftDao implements UserShiftDao {
     @Override
     public void createUserShift(int coverer, int shift_id) {
 
-        String insertUserSql = "INSERT INTO users_shift (shift_id, coverer) values (?, ?)";
+        String insertUserSql = "INSERT INTO users_shift (shift_id, coverer_id) values (?, ?)";
 
         try {
             jdbcTemplate.update(insertUserSql, shift_id, coverer);
@@ -32,11 +32,11 @@ public class JdbcUserShiftDao implements UserShiftDao {
     }
 
     @Override
-    public void deleteUserShiftBySh(int shift_id){
-        String insertUserSql = "DELETE FROM users_shift WHERE shift_id = ?";
+    public void deleteUserShift(int shift_id, int employee_id){
+        String insertUserSql = "DELETE FROM users_shift WHERE shift_id = ? AND coverer_id = ?";
 
         try {
-            jdbcTemplate.update(insertUserSql, shift_id);
+            jdbcTemplate.update(insertUserSql, shift_id, employee_id);
         } catch (CannotGetJdbcConnectionException e) {
             throw new DaoException("Unable to connect to server or database", e);
         } catch (DataIntegrityViolationException e) {

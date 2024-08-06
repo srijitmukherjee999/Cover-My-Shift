@@ -11,5 +11,5 @@ public interface ShiftDao {
     List<Shift> getShiftsByUser(int userId);
     Shift getShiftByEmergency(boolean emergency);
 
-
+    Shift updateShift(Shift shift);
 }

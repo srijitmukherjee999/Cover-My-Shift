@@ -8,6 +8,13 @@ export default {
 
    getUserByUserId(id){
     return axios.get(`/user/${id}`);
+   },
+
+
+   sendTimeOffRequest(){
+
+    
+
    }
 
 
