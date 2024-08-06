@@ -48,9 +48,10 @@ public class JdbcShiftDao implements ShiftDao{
                 Shift shifts = mapRowToShift(results);
                 shiftList.add(shifts);
             }
-        }
-        catch (CannotGetJdbcConnectionException e) {
+        } catch (CannotGetJdbcConnectionException e) {
             throw new DaoException("Unable to connect to server or database", e);
+        } catch (DataIntegrityViolationException e) {
+            throw new DaoException("Data integrity violation", e);
         }
         return shiftList;
     }
@@ -67,9 +68,10 @@ public class JdbcShiftDao implements ShiftDao{
                 shifts.add(mapRowToShift(result));
             }
 
-        }
-        catch (CannotGetJdbcConnectionException e) {
+        } catch (CannotGetJdbcConnectionException e) {
             throw new DaoException("Unable to connect to server or database", e);
+        } catch (DataIntegrityViolationException e) {
+            throw new DaoException("Data integrity violation", e);
         }
         return shifts;
     }
@@ -85,9 +87,11 @@ public class JdbcShiftDao implements ShiftDao{
             if(result.next()){
                 shift = mapRowToShift(result);
             }
-        }
-        catch (CannotGetJdbcConnectionException e) {
-            throw new DaoException("Unable to connect to server or database", e);
+
+        } catch (CannotGetJdbcConnectionException e) {
+        throw new DaoException("Unable to connect to server or database", e);
+        } catch (DataIntegrityViolationException e) {
+        throw new DaoException("Data integrity violation", e);
         }
         return shift;
 

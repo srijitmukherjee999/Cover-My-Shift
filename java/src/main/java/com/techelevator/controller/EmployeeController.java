@@ -28,7 +28,6 @@ public class EmployeeController {
         this.userShiftDao = userShiftDao;
 
     }
-
     @GetMapping(path = "/shifts")
     public List<Shift> getShifts(@RequestParam(required=false, defaultValue = "false") boolean mine, @RequestParam(required=false, defaultValue = "false") boolean emergency, @RequestParam(required = false, defaultValue = "0") int status, Principal principal){
         User user = userDao.getUserByUsername(principal.getName());
@@ -44,7 +43,6 @@ public class EmployeeController {
         }
         return shifts;
     }
-
     @GetMapping(path = "/shift/{id}")
     public Shift getShift(@PathVariable int id){
         return shiftDao.getShiftById(id);
