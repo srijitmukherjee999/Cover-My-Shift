@@ -8,15 +8,17 @@ public class Vacation {
     private LocalDate startDate;
     private LocalDate endDate;
     private int status;
+    private String description;
 
     public Vacation (){}
 
-    public Vacation(int vacationId, int employeeId, LocalDate startDate, LocalDate endDate, int status) {
+    public Vacation(int vacationId, int employeeId, LocalDate startDate, LocalDate endDate, int status, String description) {
         this.vacationId = vacationId;
         this.employeeId = employeeId;
         this.startDate = startDate;
         this.endDate = endDate;
         this.status = status;
+        this.description = description;
     }
 
     public int getVacationId() {
@@ -57,5 +59,13 @@ public class Vacation {
 
     public void setStatus(int status) {
         this.status = status;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

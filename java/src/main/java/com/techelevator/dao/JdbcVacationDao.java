@@ -34,7 +34,6 @@ public class JdbcVacationDao implements VacationDao{
         catch (CannotGetJdbcConnectionException e) {
             throw new DaoException("Unable to connect to server or database", e);
         }
-
         return vacation;
     }
 
@@ -59,7 +58,6 @@ public class JdbcVacationDao implements VacationDao{
     public Vacation createVacation(Vacation vacation) {
         String sql = "INSERT INTO vacation (employee, start_date, end_date, status)" +
                 " VALUES (?, ?, ?, ?) RETURNING vacation_id = ?;";
-
         try {
 
             int newVacationId = jdbcTemplate.queryForObject(sql, int.class, vacation.getEmployeeId(),
@@ -94,6 +92,21 @@ public class JdbcVacationDao implements VacationDao{
         }
     }
 
+    @Override
+    public void deleteVacation(int id) {
+
+        String deleteVacation = "DELETE FROM vacation WHERE vacation_id = ?;";
+
+        try {
+            jdbcTemplate.update(deleteVacation, id);
+        } catch (CannotGetJdbcConnectionException e) {
+            throw new DaoException("Unable to connect to server or database", e);
+        } catch (DataIntegrityViolationException e) {
+            throw new DaoException("Data integrity violation", e);
+        }
+
+    }
+
     public Vacation mapRowToVacation(SqlRowSet rowSet){
         Vacation vacation = new Vacation();
         vacation.setVacationId(rowSet.getInt("vacation_id"));
@@ -101,6 +114,7 @@ public class JdbcVacationDao implements VacationDao{
         vacation.setStartDate(rowSet.getDate("start_date").toLocalDate());
         vacation.setEndDate(rowSet.getDate("end_date").toLocalDate());
         vacation.setStatus(rowSet.getInt("status"));
+        vacation.setDescription(rowSet.getString("description"));
 
         return vacation;
     }
