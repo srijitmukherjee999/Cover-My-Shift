@@ -24,6 +24,12 @@ export default {
 
    getUserFullName(){
       return axios.get(`/shifts/username`);
+   },
+
+   updateUserShiftStatus(status){
+
+      return axios.put(`/shift/:id?status=${status}`);
+
    }
 
 

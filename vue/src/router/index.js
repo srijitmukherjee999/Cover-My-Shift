@@ -65,7 +65,7 @@ const routes = [
     name: "timeoff",
     component: RequestTimeOffView,
     meta: {
-      requiresAuth: false
+      requiresAuth: true
     }
   },
   {
@@ -73,13 +73,16 @@ const routes = [
     name: "pickupshift",
     component: PickUpShiftView,
     meta: {
-      requiresAuth: false
+      requiresAuth:  true
     }
   },
   {
     path: "/shiftdetails/:id",
     name: "shiftdetails",
-    component: ShiftDetailView
+    component: ShiftDetailView,
+    meta: {
+      requiresAuth:  true
+    }
   }
 ];
 
