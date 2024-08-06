@@ -1,7 +1,6 @@
 <template>
      <body>
         
-   
     <div class="yes">
          <h1>Hello User</h1>
         <h1>Hours Worked: 40</h1>
@@ -18,14 +17,80 @@
         <li><router-link v-bind:to="{name: 'pickupshift'}">PICK UP SHIFT</router-link></li>
     </ul>
   </nav>
+
+  <div id="data" v-for="shift in listOfShifts" v-bind:key="shift">
+    
+    <p>Name {{ shift.assignedName }}</p> &nbsp;
+    <p>Start Time {{ shift.startDateTime}}</p>&nbsp;
+    <p>Duration {{ shift.duration }} hours</p>&nbsp;
+    <p>Status {{ convertStatus(shift.status) }} </p>&nbsp;
+    <p> Emergency {{ shift.emergency }}</p>
+   
+
+
+  </div>
   
   </body>   
 </template>
 
 <script>
+import ShiftService from '../services/ShiftService';
+
 
 
 export default {
+
+    data(){
+        
+        return{
+            listOfShifts : [
+                {
+                    assignedName : '',
+                    shiftId: 0,
+                    assigned: 0,
+                    startDateTime: '',
+                    duration: 0,
+                    status: 0,
+                    emergency: false,
+                    coverer: 0,
+                    covererName: '',
+                    description: ''
+                    
+                }
+            ],
+            name: []
+        }
+    }
+    ,
+
+    methods:{
+        getAllShifts(){
+            ShiftService.getShifts().then(response => {
+               this.listOfShifts = response.data;
+              
+            })
+        },
+
+      
+       
+
+        
+        convertStatus(status){
+            
+            if(status == 1)
+                return "assigned"
+            if(status == 2)
+            return "accepted"
+                if(status === 3)
+                return "uncovered"
+            if(status == 4)
+            return "covered"
+
+        }
+    },
+    created(){
+        this.getAllShifts();
+    }
 
 }
 </script>

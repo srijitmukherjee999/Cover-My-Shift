@@ -15,6 +15,11 @@ export default {
 
     
 
+   },
+
+   getShiftByStatus(status){
+
+      return axios.get(`/shifts?status=${status}`);
    }
 
 
