@@ -123,12 +123,6 @@ export default {
 }
 
 body{
-
-    background-image: url( "../assets/AdobeStock_440299419_Preview.jpeg");
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    min-height: 100vh;
 }
 #data{
     text-align: center;
