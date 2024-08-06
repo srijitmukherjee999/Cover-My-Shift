@@ -19,12 +19,14 @@
   </nav>
 
   <div id="data" v-for="shift in listOfShifts" v-bind:key="shift">
+    <router-link v-bind:to="{name: 'shiftdetails', params: {id: shift.shiftId}}">
     
     <p>Name {{ shift.assignedName }}</p> &nbsp;
     <p>Start Time {{ shift.startDateTime}}</p>&nbsp;
     <p>Duration {{ shift.duration }} hours</p>&nbsp;
     <p>Status {{ convertStatus(shift.status) }} </p>&nbsp;
     <p>Emergency {{ shift.emergency }}</p>
+    </router-link>
    
 
 
@@ -99,6 +101,12 @@ export default {
     created(){
         this.getAllShifts();
         this.getFullName();
+    },
+    computed: {
+        shift(){
+            const shiftId = this.$route.params.id;
+            return this.listOfShifts.find( e => e.shiftId === shiftId);
+        }
     }
 
 }
