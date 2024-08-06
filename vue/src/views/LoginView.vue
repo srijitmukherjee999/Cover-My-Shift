@@ -100,8 +100,8 @@ label {
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 0 10px;
-  width: 45%;
-  margin-top: 3%;
+  width: 40%;
+  margin-top: 2%;
   font-size: 800%;
   }
 
@@ -114,9 +114,9 @@ label {
   background-color: white;
   box-shadow: 0 0 10px;
   border-radius: 8px;
-  width: 30%;
-  margin-top: 50px;
-  min-height: 50vh;
+  width: 20%;
+  margin-top: 150px;
+  min-height: 30vh;
 }
 
 
