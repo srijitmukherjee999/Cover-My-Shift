@@ -98,10 +98,17 @@ public class EmployeeController {
         userShiftDao.deleteUserShift(id, userDao.getUserByUsername(principal.getName()).getId());
     }
 
+
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(path = "/vacation")
     public Vacation createVacationRequest(@Valid @RequestBody Vacation vacation){
          return vacationDao.createVacation(vacation);
     }
+
+//    @GetMapping(path = "/user/fullName")
+//    public User getFullNameFromLoggedInUser(Principal principal) {
+//        return userDao.getUserByUsername(principal.getName());
+//    }
+
 
 }
