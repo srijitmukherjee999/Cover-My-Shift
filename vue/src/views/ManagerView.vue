@@ -15,14 +15,14 @@ export default {
         return{
             listOfShifts : [
                 {
-                    fullName : '',
-                    id : 0,
-                    userId: 0,
+                    name : '',
+                    shiftId : 0,
+                    assigned: 0,
                     startDateTime: '',
                     duration: 0,
                     status: 0,
                     emergency:false,
-                    covererId: 0,
+                    coverer: 0,
                     description: ''
                     
                 }
@@ -36,7 +36,7 @@ export default {
         getAllShifts(){
             ShiftService.getShifts().then(response => {
                this.listOfShifts = response.data;
-               this.getAllShifts();
+               this.getNameByShift();
             })
         },
 
@@ -48,10 +48,13 @@ export default {
         getNameByShift(){
 
             this.listOfShifts.forEach(e => {
-              this.name = this.getUser(e.userId).fullName;
+              this.name = this.getUser(e.id).name;
             })
 
         }
+    },
+    created(){
+        this.getAllShifts();
     }
 
 
