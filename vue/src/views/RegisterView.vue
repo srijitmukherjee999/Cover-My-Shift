@@ -1,6 +1,9 @@
 <template>
   <body>
-    <h1> </h1>
+    <div id="main" style="">
+      <span style="display: flex; justify-content: space-evenly; align-content: center;">
+    <h1 id="company" style="margin-bottom: 35%; margin-left: 29%;">Cover My Shift</h1>
+  </span>
   <div id="register" class="text-center">
     <form v-on:submit.prevent="register">
       <h1>Create Account</h1>
@@ -30,6 +33,7 @@
       <button type="submit">Create Account</button>
       <p><router-link v-bind:to="{ name: 'login' }">Already have an account? Log in.</router-link></p>
     </form>
+  </div>
   </div>
   </body>
 </template>
@@ -86,6 +90,19 @@ export default {
 </script>
 
 <style scoped>
+
+#main{
+  background-image: url( "../assets/AdobeStock_440299419_Preview.jpeg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  min-height: 100vh;
+}
+
+body {
+  height: 100%;
+  margin: 0;
+}
 .form-input-group {
   margin-bottom: 1rem;
 }
@@ -93,33 +110,31 @@ label {
   margin-right: 0.5rem;
 }
 
-.text-center {
+#company {
   display: flex;
   justify-content: center;
-  
   align-content: center;
-  
-  width: 100%;
-  height: 100%;
   background-color: white;
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 0 10px;
-  width: 100%;
-  max-width: 400px;
-}
+  width: 45%;
+  margin-top: 3%;
+  font-size: 800%;
+  }
 
-
-body{
+.text-center {
   display: flex;
+  align-content: center;
   justify-content: center;
- 
-  background-image: url( "../assets/AdobeStock_440299419_Preview.jpeg");
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  min-height: 100vh;
+  background-color: white;
+  box-shadow: 0 0 10px;
+  border-radius: 8px;
+  width: 30%;
+  padding: 20px;
+  
 }
+
 
 
 </style>

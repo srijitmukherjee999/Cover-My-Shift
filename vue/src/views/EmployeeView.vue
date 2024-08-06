@@ -23,7 +23,7 @@
 </template>
 
 <script>
-import RequestTimeOffView from './RequestTimeOffView.vue';
+
 
 export default {
 
@@ -62,9 +62,6 @@ export default {
 
     font-size: larger;
     
-}
-
-body{
 }
 
 </style>
