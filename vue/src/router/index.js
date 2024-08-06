@@ -57,7 +57,7 @@ const routes = [
     name: "employee",
     component: EmployeeView,
     meta: {
-      requiresAuth: false
+      requiresAuth: true
     }
   },
   {
