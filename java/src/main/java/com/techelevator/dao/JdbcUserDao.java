@@ -91,7 +91,7 @@ public class JdbcUserDao implements UserDao {
 
     @Override
     public User updateUser(User user) {
-        String sql = "UPDATE users SET (username = ?, full_name = ?, active = ?) WHERE user_id = ?";
+        String sql = "UPDATE users SET username = ?, full_name = ?, active = ? WHERE user_id = ?";
         try {
             int numberOfRows = jdbcTemplate.update(sql, user.getUsername(), user.getFullName(), user.isActivated(), user.getId());
 

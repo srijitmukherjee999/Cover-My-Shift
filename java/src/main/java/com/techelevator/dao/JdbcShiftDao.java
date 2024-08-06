@@ -2,6 +2,7 @@ package com.techelevator.dao;
 
 import com.techelevator.exception.DaoException;
 import com.techelevator.model.Shift;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.jdbc.CannotGetJdbcConnectionException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
@@ -21,7 +22,7 @@ public class JdbcShiftDao implements ShiftDao{
     @Override
     public Shift getShiftById(int shiftId) {
 
-        Shift shift = new Shift();
+        Shift shift = null;
         String sql = "SELECT * FROM shift" +
                 " WHERE shift_id = ?;";
         try{
@@ -40,12 +41,12 @@ public class JdbcShiftDao implements ShiftDao{
     public List<Shift> getAllShift() {
 
         List<Shift> shiftList = new ArrayList<>();
-        String sql ="SELECT * FROM shift;";
+        String sql = "SELECT * FROM shift;";
         try{
             SqlRowSet results = jdbcTemplate.queryForRowSet(sql);
             while (results.next()){
-            Shift shifts = mapRowToShift(results);
-            shiftList.add(shifts);
+                Shift shifts = mapRowToShift(results);
+                shiftList.add(shifts);
             }
         }
         catch (CannotGetJdbcConnectionException e) {
@@ -90,6 +91,24 @@ public class JdbcShiftDao implements ShiftDao{
         }
         return shift;
 
+    }
+
+    @Override
+    public Shift updateShift(Shift shift) {
+        String sql = "UPDATE shift SET assigned = ?, start_date_time = ?, duration = ?, status = ?, emergency = ?, coverer = ?, description = ? WHERE shift_id = ?";
+        try {
+            int numberOfRows = jdbcTemplate.update(sql, shift.getAssigned(), shift.getStartDateTime(), shift.getDuration(), shift.getStatus(), shift.isEmergency(), shift.getCoverer(), shift.getDescription(), shift.getShiftId());
+
+            if (numberOfRows == 0) {
+                throw new DaoException("Zero rows affected, expected at least one");
+            } else {
+                return getShiftById(shift.getShiftId());
+            }
+        } catch (CannotGetJdbcConnectionException e) {
+            throw new DaoException("Unable to connect to server or database", e);
+        } catch (DataIntegrityViolationException e) {
+            throw new DaoException("Data integrity violation", e);
+        }
     }
 
     /*if(rowSet.getDate("start_date_time") !=null) {
