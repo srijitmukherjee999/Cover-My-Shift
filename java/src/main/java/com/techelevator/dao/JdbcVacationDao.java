@@ -56,13 +56,13 @@ public class JdbcVacationDao implements VacationDao{
 
     @Override
     public Vacation createVacation(Vacation vacation) {
-        String sql = "INSERT INTO vacation (employee, start_date, end_date, status)" +
-                " VALUES (?, ?, ?, ?) RETURNING vacation_id = ?;";
+        String sql = "INSERT INTO vacation (employee, start_date, end_date, status,description)" +
+                " VALUES (?, ?, ?, ?,?) RETURNING vacation_id ;";
         try {
 
             int newVacationId = jdbcTemplate.queryForObject(sql, int.class, vacation.getEmployeeId(),
-                    vacation.getStartDate(), vacation.getEndDate(), vacation.getStatus(), vacation.getVacationId());
-            return getVacationById(newVacationId);
+                    vacation.getStartDate(), vacation.getEndDate(), vacation.getStatus(),vacation.getDescription());
+            return getVacationByVacationId(newVacationId);
 
         } catch (CannotGetJdbcConnectionException e) {
             throw new DaoException("Unable to connect to server or database", e);
@@ -105,6 +105,18 @@ public class JdbcVacationDao implements VacationDao{
             throw new DaoException("Data integrity violation", e);
         }
 
+    }
+
+    @Override
+    public Vacation getVacationByVacationId(int vacationID) {
+        String sql = "SELECT * FROM vacation WHERE vacation_id = ?;" ;
+        Vacation vac = null;
+
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sql,vacationID);
+        while(results.next()){
+            vac = mapRowToVacation(results);
+        }
+        return vac;
     }
 
     public Vacation mapRowToVacation(SqlRowSet rowSet){

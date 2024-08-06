@@ -10,4 +10,6 @@ public interface VacationDao {
     Vacation createVacation(Vacation vacation);
     Vacation updateVacation(Vacation vacation);
     void deleteVacation(int id);
+
+    Vacation getVacationByVacationId( int vacationID);
 }
