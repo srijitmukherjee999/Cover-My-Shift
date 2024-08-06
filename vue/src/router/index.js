@@ -9,6 +9,7 @@ import RegisterView from '../views/RegisterView.vue';
 import EmployeeView from '../views/EmployeeView.vue';
 import RequestTimeOffView from '../views/RequestTimeOffView.vue';
 import PickUpShiftView from '../views/PickUpShiftView.vue';
+import ShiftDetailView from '../views/ShiftDetailView.vue';
 
 /**
  * The Vue Router is used to "direct" the browser to render a specific view component
@@ -56,7 +57,7 @@ const routes = [
     name: "employee",
     component: EmployeeView,
     meta: {
-      requiresAuth: false
+      requiresAuth: true
     }
   },
   {
@@ -74,6 +75,11 @@ const routes = [
     meta: {
       requiresAuth: false
     }
+  },
+  {
+    path: "/shiftdetails/:id",
+    name: "shiftdetails",
+    component: ShiftDetailView
   }
 ];
 

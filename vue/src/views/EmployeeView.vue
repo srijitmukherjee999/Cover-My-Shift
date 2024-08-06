@@ -17,15 +17,30 @@
     </ul>
   </nav>
 
-  <div id="data" v-for="shift in listOfShifts" v-bind:key="shift">
-    
-    <div><p>Name</p><br> {{ shift.assignedName }}</div>
-    <div><p>Start Time</p><br> {{ shift.startDateTime}}</div>
-    <div><p>Duration</p><br> {{ shift.duration }} hours</div>
-    <div><p>Status</p><br> {{ convertStatus(shift.status) }} </div>
-    <div><p>Emergency</p><br> {{ shift.emergency }}</div>
-
-    </div>  
+  <div id="data" v-for="shift in listOfShifts" :key="shift.shiftId">
+    <router-link :to="{ name: 'shiftdetails', params: { id: shift.shiftId }} ">
+      <div class="bubble" :class="{emergency : shift.emergency}">
+        <p class="bubble-title">Name</p>
+        <p>{{ shift.assignedName }}</p>
+      
+      
+        <p class="bubble-title">Start Time</p>
+        <p>{{ shift.startDateTime }}</p>
+      
+      
+        <p class="bubble-title">Duration</p>
+        <p>{{ shift.duration }} <span>hours</span></p>
+      
+      
+        <p class="bubble-title">Status</p>
+        <p>{{ convertStatus(shift.status) }}</p>
+      
+      
+        <p class="bubble-title">Emergency</p>
+        <p>{{ shift.emergency }}</p>
+      </div>
+    </router-link>
+  </div>  
 </template>
 
 <script>
@@ -94,6 +109,12 @@ export default {
     created(){
         this.getAllShifts();
         this.getFullName();
+    },
+    computed: {
+        shift(){
+            const shiftId = this.$route.params.id;
+            return this.listOfShifts.find( e => e.shiftId === shiftId);
+        }
     }
 
 }
@@ -110,11 +131,11 @@ export default {
 }
 
 .navigation {
-    /* border: 2px solid white; */
+    
     padding: 10px;
     margin: 20px;
     border-radius: 5px; 
-    /* background-color: white; */
+    
 }
 
 .navigation ul {
@@ -132,40 +153,48 @@ export default {
     font-size: larger;    
 }
 
-
-
 #data {
-    background-color: blue;
-    color: white;
-    min-width: 20%;
-    min-height: 30vh;
-    gap: 20px;
-    display: flex;
-    justify-content: space-evenly;
-    align-items: center;
-    border-radius: 50%;
-
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;  
+  padding: 20px;
 }
 
-
-@media (min-width: 600px) {
-  #data {
-    width: 100px; 
-    height: 100px;
-    font-size: 1rem; 
-  }
+.bubble {
+  background-color: #4a90e2; 
+  color: white;
+  border-radius: 50px; 
+  padding: 20px; 
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+  width: 100%; 
+  display: flex;
+  flex-wrap: wrap; 
+  align-items: center;
+  text-align: left;
+  box-sizing: border-box;
+  transition: transform 0.3s, box-shadow 0.3s;
 }
 
-@media (min-width: 900px) {
-  #data {
-    width: 150px; 
-    height: 150px; 
-    font-size: 1.2rem;
-  }
+.bubble:hover {
+  transform: scale(1.05); 
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
 }
 
+.bubble-title {
+  font-weight: bold; 
+  margin-bottom: 10px; 
+}
 
+.bubble p {
+    margin: 0;
+    padding: 0;
+    margin-right: 20px;
+}
 
-
+.emergency{
+    background-color: red;
+    text-decoration: underline;
+}
 
 </style>
