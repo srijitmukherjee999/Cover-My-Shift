@@ -3,11 +3,13 @@ package com.techelevator.controller;
 import com.techelevator.dao.*;
 import com.techelevator.model.Shift;
 import com.techelevator.model.User;
+import com.techelevator.model.Vacation;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.validation.Valid;
 import java.security.Principal;
 import java.util.List;
 
@@ -19,13 +21,14 @@ public class EmployeeController {
     private final UserDao userDao;
     private final ShiftDao shiftDao;
     private final UserShiftDao userShiftDao;
+    private final VacationDao vacationDao;
 
 
-    public EmployeeController(JdbcUserDao userDao, JdbcShiftDao shiftDao,JdbcUserShiftDao userShiftDao) {
+    public EmployeeController(JdbcUserDao userDao, JdbcShiftDao shiftDao, JdbcUserShiftDao userShiftDao, VacationDao vacationDao) {
         this.userDao = userDao;
         this.shiftDao = shiftDao;
         this.userShiftDao = userShiftDao;
-
+        this.vacationDao = vacationDao;
     }
     @GetMapping(path = "/shifts")
     public List<Shift> getShifts(@RequestParam(required=false, defaultValue = "false") boolean mine, @RequestParam(required=false, defaultValue = "false") boolean emergency, @RequestParam(required = false, defaultValue = "0") int status, Principal principal){
@@ -94,6 +97,23 @@ public class EmployeeController {
     public void deleteUserShift(@PathVariable int id, Principal principal){
         userShiftDao.deleteUserShift(id, userDao.getUserByUsername(principal.getName()).getId());
     }
+
+    @GetMapping(path = "/shifts/username")
+    public String getUserFullName(Principal principal){
+       return  userDao.getUserByUsername(principal.getName()).getFullName();
+    }
+
+
+    @ResponseStatus(HttpStatus.CREATED)
+    @PostMapping(path = "/vacation")
+    public Vacation createVacationRequest(@Valid @RequestBody Vacation vacation){
+         return vacationDao.createVacation(vacation);
+    }
+
+//    @GetMapping(path = "/user/fullName")
+//    public User getFullNameFromLoggedInUser(Principal principal) {
+//        return userDao.getUserByUsername(principal.getName());
+//    }
 
 
 }

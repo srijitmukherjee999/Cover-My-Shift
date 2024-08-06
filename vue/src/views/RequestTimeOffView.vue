@@ -1,5 +1,5 @@
 <template>
-  <h1>Hi CJ</h1>
+  <h1>Hello {{ this.$store.state.name }}</h1>
   <nav>
     <router-link v-bind:to="{name: 'employee'}">MY HOME</router-link>
     &nbsp; | &nbsp;
