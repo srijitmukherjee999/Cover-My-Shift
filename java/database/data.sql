@@ -21,7 +21,7 @@ INSERT INTO hours (employee, week_year, hours_worked) VALUES
 ((SELECT user_id FROM users WHERE username = 'klee'), 202432, 45),
 ((SELECT user_id FROM users WHERE username = 'pwhite'), 202432, 38);
 
-INSERT INTO vacation (employee, start_date, end_date, status) VALUES
+INSERT INTO vacation (employee, start_date, end_date, status, description) VALUES
 ((SELECT user_id FROM users WHERE username = 'jdoe'), '2024-08-01', '2024-08-05', 1, 'Description1'),
 ((SELECT user_id FROM users WHERE username = 'asmith'), '2024-08-10', '2024-08-20', 2,'Description2'),
 ((SELECT user_id FROM users WHERE username = 'mjones'), '2024-08-15', '2024-08-25', 1,'Description3'),
