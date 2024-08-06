@@ -1,5 +1,4 @@
 <template>
-     <body>
         
     <div class="yes">
          <h1>Hello {{ name }}</h1>
@@ -18,21 +17,30 @@
     </ul>
   </nav>
 
-  <div id="data" v-for="shift in listOfShifts" v-bind:key="shift">
-    <router-link v-bind:to="{name: 'shiftdetails', params: {id: shift.shiftId}}">
-    
-    <p>Name {{ shift.assignedName }}</p> &nbsp;
-    <p>Start Time {{ shift.startDateTime}}</p>&nbsp;
-    <p>Duration {{ shift.duration }} hours</p>&nbsp;
-    <p>Status {{ convertStatus(shift.status) }} </p>&nbsp;
-    <p>Emergency {{ shift.emergency }}</p>
+  <div id="data" v-for="shift in listOfShifts" :key="shift.shiftId">
+    <router-link :to="{ name: 'shiftdetails', params: { id: shift.shiftId }} ">
+      <div class="bubble" :class="{emergency : shift.emergency}">
+        <p class="bubble-title">Name</p>
+        <p>{{ shift.assignedName }}</p>
+      
+      
+        <p class="bubble-title">Start Time</p>
+        <p>{{ shift.startDateTime }}</p>
+      
+      
+        <p class="bubble-title">Duration</p>
+        <p>{{ shift.duration }} <span>hours</span></p>
+      
+      
+        <p class="bubble-title">Status</p>
+        <p>{{ convertStatus(shift.status) }}</p>
+      
+      
+        <p class="bubble-title">Emergency</p>
+        <p>{{ shift.emergency }}</p>
+      </div>
     </router-link>
-   
-
-
-  </div>
-  
-  </body>   
+  </div>  
 </template>
 
 <script>
@@ -123,11 +131,11 @@ export default {
 }
 
 .navigation {
-    /* border: 2px solid white; */
+    
     padding: 10px;
     margin: 20px;
     border-radius: 5px; 
-    /* background-color: white; */
+    
 }
 
 .navigation ul {
@@ -142,20 +150,51 @@ export default {
     display: inline;
     margin-right: 15px;
 
-    font-size: larger;
-    
+    font-size: larger;    
 }
 
-p{
-    display: flex;
-    display: inline-block;
+#data {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;  
+  padding: 20px;
 }
-div{
-    display: flex;
-    justify-content: center;
+
+.bubble {
+  background-color: #4a90e2; 
+  color: white;
+  border-radius: 50px; 
+  padding: 20px; 
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+  width: 100%; 
+  display: flex;
+  flex-wrap: wrap; 
+  align-items: center;
+  text-align: left;
+  box-sizing: border-box;
+  transition: transform 0.3s, box-shadow 0.3s;
 }
 
+.bubble:hover {
+  transform: scale(1.05); 
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
 
+.bubble-title {
+  font-weight: bold; 
+  margin-bottom: 10px; 
+}
 
+.bubble p {
+    margin: 0;
+    padding: 0;
+    margin-right: 20px;
+}
+
+.emergency{
+    background-color: red;
+    text-decoration: underline;
+}
 
 </style>
