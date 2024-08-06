@@ -75,7 +75,6 @@ export default {
   background-position: center;
   background-repeat: no-repeat;
   min-height: 100vh;
-
 }
 .form-input-group {
   margin-bottom: 1rem;
@@ -88,22 +87,6 @@ h1 {
   display: flex;
   justify-content: center;
   align-content: center;
-
 }
-
-#login {
-  display: flex;
-  justify-content: center;
-  align-content: center;
-  width: 100%;
-  height: 100%;
-  background-color: white;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 0 10px;
-  width: 100%;
-  max-width: 400px;
-}
-
 
 </style>

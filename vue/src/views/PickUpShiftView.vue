@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import ShiftService from '../services/ShiftService';
+
 export default {
 
 
@@ -75,23 +75,6 @@ export default {
 }
 </script>
 
-<style scoped >
-
-
-
-p{
-    display: inline-block;
-    display: flex;
-    justify-content: center;
-}
-nav{
-  display: flex;
-  justify-content: center;
-}
-
-h1{
-  display: flex;
-  justify-content: center;
-}
+<style scoped>
 
 </style>

@@ -52,9 +52,10 @@ public class JdbcShiftDao implements ShiftDao{
                 Shift shifts = mapRowToShift(results);
                 shiftList.add(shifts);
             }
-        }
-        catch (CannotGetJdbcConnectionException e) {
+        } catch (CannotGetJdbcConnectionException e) {
             throw new DaoException("Unable to connect to server or database", e);
+        } catch (DataIntegrityViolationException e) {
+            throw new DaoException("Data integrity violation", e);
         }
         return shiftList;
     }
@@ -71,9 +72,10 @@ public class JdbcShiftDao implements ShiftDao{
                 shifts.add(mapRowToShift(result));
             }
 
-        }
-        catch (CannotGetJdbcConnectionException e) {
+        } catch (CannotGetJdbcConnectionException e) {
             throw new DaoException("Unable to connect to server or database", e);
+        } catch (DataIntegrityViolationException e) {
+            throw new DaoException("Data integrity violation", e);
         }
         return shifts;
     }
@@ -89,6 +91,20 @@ public class JdbcShiftDao implements ShiftDao{
             } else {
                 return getShiftById(shift.getShiftId());
             }
+        } catch (CannotGetJdbcConnectionException e) {
+            throw new DaoException("Unable to connect to server or database", e);
+        } catch (DataIntegrityViolationException e) {
+            throw new DaoException("Data integrity violation", e);
+        }
+    }
+
+    @Override
+    public void createShift(Shift shift) {
+
+        String insertUserSql = "INSERT INTO shift (assigned, start_date_time, duration, status, emergency, coverer, description) VALUES (?, ?, ?, ?, ?, ?, ?)";
+
+        try {
+            jdbcTemplate.update(insertUserSql,shift.getAssignedId(), shift.getStartDateTime(), shift.getDuration(), shift.getStatus(), shift.getCovererId(), shift.getDescription());
         } catch (CannotGetJdbcConnectionException e) {
             throw new DaoException("Unable to connect to server or database", e);
         } catch (DataIntegrityViolationException e) {

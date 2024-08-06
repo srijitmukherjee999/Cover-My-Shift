@@ -34,8 +34,8 @@
 </template>
 
 <script>
-import ShiftService from '../services/ShiftService';
-import RequestTimeOffView from './RequestTimeOffView.vue';
+
+
 
 
 export default {
@@ -76,10 +76,7 @@ export default {
 
         
         convertStatus(status){
-            // this.listOfShifts.forEach(e => {
-            //     if(e.status === 0)
-            //     return true;
-            // })
+            
             if(status == 1)
                 return "assigned"
             if(status == 2)
@@ -130,15 +127,6 @@ export default {
 
     font-size: larger;
     
-}
-
-
-#data{
-    text-align: center;
-    
-}
-p{
-    display: inline-block;
 }
 
 </style>

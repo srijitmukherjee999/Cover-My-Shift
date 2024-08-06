@@ -106,4 +106,6 @@ public class Shift {
     public void setCovererName(String covererName) {
         this.covererName = covererName;
     }
+
+
 }
