@@ -1,33 +1,31 @@
 <template>
-  <body>
-    <div id="main" style="">
-      <span style="display: inline-block; margin-top: 18%;width: 500px;margin-left: 40%;">
-    <h1 style="margin-bottom;:22 %;margin-left:5% ;">Cover My Shift</h1>
-  </span>
-    <div style="margin-left: 42%; border: 1px solid bal;" id="login">
-    <form v-on:submit.prevent="login">
-      <h1 >Please Sign In</h1>
-      <div role="alert" v-if="invalidCredentials">
-        Invalid username and password!
+    <div id="main">
+      <div>
+         <h1 id="company">Cover My Shift</h1>
       </div>
-      <div role="alert" v-if="this.$route.query.registration">
-        Thank you for registering, please sign in.
+      
+      <div id="login" class="text-center">
+        <form v-on:submit.prevent="login">
+          <h1 >Please Sign In</h1>
+            <div role="alert" v-if="invalidCredentials">
+              <p>Invalid username and password!</p>
+            </div>
+            <div role="alert" v-if="this.$route.query.registration">
+              Thank you for registering, please sign in.
+            </div>
+            <div class="form-input-group">
+              <label for="username">Username</label>
+              <input type="text" id="username" v-model="user.username" required autofocus />
+            </div>
+            <div class="form-input-group">
+              <label for="password">Password</label>
+              <input type="password" id="password" v-model="user.password" required />
+            </div>
+              <button type="submit">Sign in</button>
+            <p><router-link v-bind:to="{ name: 'register' }">Need an account? Sign up.</router-link></p>
+        </form>
       </div>
-      <div class="form-input-group">
-        <label for="username">Username</label>
-        <input type="text" id="username" v-model="user.username" required autofocus />
-      </div>
-      <div class="form-input-group">
-        <label for="password">Password</label>
-        <input type="password" id="password" v-model="user.password" required />
-      </div>
-      <button type="submit">Sign in</button>
-      <p>
-      <router-link v-bind:to="{ name: 'register' }">Need an account? Sign up.</router-link></p>
-    </form>
-  </div>
-</div>
-  </body>
+    </div>
 </template>
 
 <script>
@@ -69,6 +67,11 @@ export default {
 
 <style scoped>
 
+*{
+  padding: 0;
+  margin: 0;
+}
+
 #main{
   background-image: url( "../assets/AdobeStock_440299419_Preview.jpeg");
   background-size: cover;
@@ -77,16 +80,45 @@ export default {
   min-height: 100vh;
 }
 .form-input-group {
+  display: flex;
+  flex-direction: column;
+  display: block;
+  align-items: center;
   margin-bottom: 1rem;
 }
 label {
-  margin-right: 0.5rem;
+  margin-right: 1rem;
 }
 
-h1 {
+#company {
   display: flex;
+  flex-direction: column;
   justify-content: center;
-  align-content: center;
+  align-items: center;
+  margin: auto;
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px;
+  width: 45%;
+  margin-top: 3%;
+  font-size: 800%;
+  }
+
+  .text-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: auto;
+  background-color: white;
+  box-shadow: 0 0 10px;
+  border-radius: 8px;
+  width: 30%;
+  margin-top: 50px;
+  min-height: 50vh;
 }
+
+
 
 </style>

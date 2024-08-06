@@ -1,5 +1,5 @@
 <template>
-  <h1>Hi CJ</h1>
+  <h1>Hello {{ name }}</h1>
   <nav>
     <router-link v-bind:to="{name: 'employee'}">MY HOME</router-link>
     &nbsp; | &nbsp;
@@ -12,9 +12,31 @@
 
 <script>
 import RequestOffForm from '../components/RequestOffForm.vue'
+import ShiftService from '../services/ShiftService';
 export default {
+  data(){
+    return {
+      name: ''
+    }
+    
+  },
     components: {
         RequestOffForm
+    },
+    methods: {
+      getFullName(){
+
+  ShiftService.getUserFullName().then( response => {
+
+         this.name = response.data;
+
+        this.$store.commit("ADD_NAME", this.name);
+})
+
+},
+    },
+    created(){
+      this.getFullName();
     }
 
 }

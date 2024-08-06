@@ -20,6 +20,10 @@ export default {
    getShiftByStatus(status){
 
       return axios.get(`/shifts?status=${status}`);
+   },
+
+   getUserFullName(){
+      return axios.get(`/shifts/username`);
    }
 
 

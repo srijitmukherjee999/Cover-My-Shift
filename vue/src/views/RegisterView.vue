@@ -1,41 +1,39 @@
 <template>
-  <body>
-    <div id="main" style="">
-      <span style="display: flex; justify-content: space-evenly; align-content: center;">
-    <h1 id="company" style="margin-bottom: 35%; margin-left: 29%;">Cover My Shift</h1>
-  </span>
-  <div id="register" class="text-center">
-    <form v-on:submit.prevent="register">
-      <h1>Create Account</h1>
-      <div role="alert" v-if="registrationErrors">
-        {{ registrationErrorMsg }}
+  <div id="main">
+      <div>
+        <h1 id="company">Cover My Shift</h1>
       </div>
-      <div class="form-input-group">
-        <label for="username">Username</label>
-        <input type="text" id="username" v-model="user.username" required autofocus />
-      </div>
-      <div class="form-input-group">
-        <label for="fullName">Full Name</label>
-        <input type="text" id="fullName" v-model="user.name" required autofocus />
-      </div>
-      <div class="form-input-group">
-        <label for="password">Password</label>
-        <input type="password" id="password" v-model="user.password" required />
-      </div>
-      <div class="form-input-group">
-        <label for="confirmPassword">Confirm Password</label>
-        <input type="password" id="confirmPassword" v-model="user.confirmPassword" required />
-      </div>
-      <div class="form-input-group">
-        <label for="role">Manager</label>
-        <input type="text" id="role" v-model="user.role" required />
-      </div>
-      <button type="submit">Create Account</button>
-      <p><router-link v-bind:to="{ name: 'login' }">Already have an account? Log in.</router-link></p>
-    </form>
+      <div id="register" class="text-center">
+        <form v-on:submit.prevent="register">
+          <h1 id="title-create">Create Account</h1>
+          <div role="alert" v-if="registrationErrors">
+            {{ registrationErrorMsg }}
+          </div>
+          <div class="form-input-group">
+            <label for="username">Username</label>
+            <input type="text" id="username" v-model="user.username" required autofocus />
+          </div>
+          <div class="form-input-group">
+            <label for="fullName">Full Name</label>
+            <input type="text" id="fullName" v-model="user.name" required autofocus />
+          </div>
+          <div class="form-input-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" v-model="user.password" required />
+          </div>
+          <div class="form-input-group">
+            <label for="confirmPassword">Confirm Password</label>
+            <input type="password" id="confirmPassword" v-model="user.confirmPassword" required />
+          </div>
+          <div class="form-input-group">
+            <label for="role">Manager</label>
+            <input type="text" id="role" v-model="user.role" required />
+          </div>
+          <button type="submit">Create Account</button>
+          <p><router-link v-bind:to="{ name: 'login' }">Already have an account? Log in.</router-link></p>
+        </form>
+    </div>
   </div>
-  </div>
-  </body>
 </template>
 
 <script>
@@ -90,7 +88,10 @@ export default {
 </script>
 
 <style scoped>
-
+*{
+  padding: 0;
+  margin: 0;
+}
 #main{
   background-image: url( "../assets/AdobeStock_440299419_Preview.jpeg");
   background-size: cover;
@@ -98,22 +99,26 @@ export default {
   background-repeat: no-repeat;
   min-height: 100vh;
 }
-
-body {
-  height: 100%;
-  margin: 0;
+#title-create{
+  font-size: 40px;
 }
 .form-input-group {
+  display: flex;
+  flex-direction: column;
+  display: block;
+  align-items: center;
   margin-bottom: 1rem;
 }
 label {
-  margin-right: 0.5rem;
+  margin-right: 1rem;
 }
 
 #company {
   display: flex;
+  flex-direction: column;
   justify-content: center;
-  align-content: center;
+  align-items: center;
+  margin: auto;
   background-color: white;
   padding: 20px;
   border-radius: 8px;
@@ -125,14 +130,16 @@ label {
 
 .text-center {
   display: flex;
-  align-content: center;
+  flex-direction: column;
+  align-items: center;
   justify-content: center;
+  margin: auto;
   background-color: white;
   box-shadow: 0 0 10px;
   border-radius: 8px;
   width: 30%;
-  padding: 20px;
-  
+  margin-top: 50px;
+  min-height: 50vh;
 }
 
 
