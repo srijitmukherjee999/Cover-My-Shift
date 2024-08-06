@@ -2,7 +2,7 @@
      <body>
         
     <div class="yes">
-         <h1>Hello User</h1>
+         <h1>Hello {{ name }}</h1>
         <h1>Hours Worked: 40</h1>
  
   
@@ -19,12 +19,14 @@
   </nav>
 
   <div id="data" v-for="shift in listOfShifts" v-bind:key="shift">
+    <router-link v-bind:to="{name: 'shiftdetails', params: {id: shift.shiftId}}">
     
     <p>Name {{ shift.assignedName }}</p> &nbsp;
     <p>Start Time {{ shift.startDateTime}}</p>&nbsp;
     <p>Duration {{ shift.duration }} hours</p>&nbsp;
     <p>Status {{ convertStatus(shift.status) }} </p>&nbsp;
-    <p> Emergency {{ shift.emergency }}</p>
+    <p>Emergency {{ shift.emergency }}</p>
+    </router-link>
    
 
 
@@ -35,8 +37,6 @@
 
 <script>
 import ShiftService from '../services/ShiftService';
-
-
 
 export default {
 
@@ -58,7 +58,7 @@ export default {
                     
                 }
             ],
-            name: []
+            name: ''
         }
     }
     ,
@@ -69,6 +69,16 @@ export default {
                this.listOfShifts = response.data;
               
             })
+        },
+        getFullName(){
+
+        ShiftService.getUserFullName().then( response => {
+
+                 this.name = response.data;
+
+                this.$store.commit("ADD_NAME", this.name);
+        })
+
         },
 
       
@@ -90,6 +100,13 @@ export default {
     },
     created(){
         this.getAllShifts();
+        this.getFullName();
+    },
+    computed: {
+        shift(){
+            const shiftId = this.$route.params.id;
+            return this.listOfShifts.find( e => e.shiftId === shiftId);
+        }
     }
 
 }
@@ -128,5 +145,17 @@ export default {
     font-size: larger;
     
 }
+
+p{
+    display: flex;
+    display: inline-block;
+}
+div{
+    display: flex;
+    justify-content: center;
+}
+
+
+
 
 </style>

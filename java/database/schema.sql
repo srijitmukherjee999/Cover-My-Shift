@@ -55,3 +55,5 @@ CREATE TABLE users_shift (
 );
 
 COMMIT;
+
+SELECT * FROM users

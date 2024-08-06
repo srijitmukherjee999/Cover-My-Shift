@@ -1,5 +1,5 @@
 <template>
-  <h1>Hello {{ this.$store.user}}</h1>
+  <h1>Hello {{name}}</h1>
   <nav>
     <router-link v-bind:to="{name: 'employee'}">MY HOME</router-link>
     &nbsp; | &nbsp;
@@ -41,7 +41,8 @@ export default {
                     coverer: 0,
                     covererName: '',
                     description: ''
-      }]
+      }],
+      name:''
     }
     
   },
@@ -65,11 +66,22 @@ export default {
             if(status == 4)
             return "covered"
 
-        }
+        },
+        getFullName(){
+
+    ShiftService.getUserFullName().then( response => {
+
+       this.name = response.data;
+
+      this.$store.commit("ADD_NAME", this.name);
+})
+
+},
 
   }, 
   created(){
     this.getShifts(3);
+    this.getFullName();
   }
 
 
@@ -77,5 +89,20 @@ export default {
 </script>
 
 <style scoped>
+
+p{
+  display: flex;
+  justify-content: center ;
+  
+}
+
+nav{
+  display: flex;
+  justify-content: center;
+}
+h1{
+  display: flex;
+  justify-content: center;
+}
 
 </style>

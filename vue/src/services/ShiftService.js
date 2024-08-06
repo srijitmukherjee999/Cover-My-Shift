@@ -11,15 +11,19 @@ export default {
    },
 
 
-   sendTimeOffRequest(){
+   sendTimeOffRequest(vacation){
 
-    
+    return axios.post('/vacation', vacation);
 
    },
 
    getShiftByStatus(status){
 
       return axios.get(`/shifts?status=${status}`);
+   },
+
+   getUserFullName(){
+      return axios.get(`/shifts/username`);
    }
 
 

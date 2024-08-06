@@ -1,5 +1,6 @@
 package com.techelevator.dao;
 
+import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -121,6 +122,9 @@ public class JdbcUserDao implements UserDao {
         }
         return users;
     }
+
+
+
 
     private User mapRowToUser(SqlRowSet rs) {
         User user = new User();
