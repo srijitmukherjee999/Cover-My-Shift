@@ -21,6 +21,7 @@
   </div>
 </template>
 
+
 <script>
 import ShiftService from '../services/ShiftService';
 export default {
