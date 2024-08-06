@@ -10,6 +10,7 @@ public interface ShiftDao {
     List<Shift> getAllShift();
     List<Shift> getShiftsByUser(int userId);
     Shift getShiftByEmergency(boolean emergency);
-
+    void createShift(Shift shift);
     Shift updateShift(Shift shift);
+
 }
