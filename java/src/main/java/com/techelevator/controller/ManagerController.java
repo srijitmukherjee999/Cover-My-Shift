@@ -2,6 +2,7 @@ package com.techelevator.controller;
 
 import com.techelevator.dao.*;
 import com.techelevator.exception.DaoException;
+import com.techelevator.model.ApprovalDto;
 import com.techelevator.model.Shift;
 import com.techelevator.model.User;
 import com.techelevator.model.Vacation;
@@ -24,7 +25,7 @@ public class ManagerController {
     private final VacationDao vacationDao;
 
 
-    public ManagerController(JdbcUserDao userDao, JdbcShiftDao shiftDao, JdbcUserShiftDao userShiftDao, VacationDao vacationDao) {
+    public ManagerController(JdbcUserDao userDao, JdbcShiftDao shiftDao, JdbcUserShiftDao userShiftDao, JdbcVacationDao vacationDao) {
         this.userDao = userDao;
         this.shiftDao = shiftDao;
         this.userShiftDao = userShiftDao;
@@ -66,4 +67,15 @@ public class ManagerController {
         }
     }
 
+    // TODO: make this check if a shift request actually exits before approving, probably needs DAO changes
+
+    @PutMapping(path = "/manage/shifts")
+    public Shift approveOrDenyCoverRequest(@Valid @RequestBody ApprovalDto approval){
+        Shift shift = shiftDao.getShiftById(approval.getShiftId());
+        shift.setCovererId(approval.getEmployeeId());
+        shift.setStatus(4);
+        shift = shiftDao.updateShift(shift);
+        userShiftDao.deleteUserShift(approval.getShiftId(), approval.getEmployeeId());
+        return shift;
+    }
 }

@@ -1,23 +1,29 @@
 <template>
   <form class="request-off-form" v-on:submit.prevent="addNewRequest" v-if="showForm">
-      <input type="date" class="start-date-input" placeholder="Date" v-model="newRequest.startdate">
-      <input type="date" class="end-date-input" placeholder="Date" v-model="newRequest.enddate">
+      <input type="date" class="start-date-input" placeholder="Date" v-model="newRequest.startDate">
+      <input type="date" class="end-date-input" placeholder="Date" v-model="newRequest.endDate">
       <input type="text" class="description-input" placeholder="description" v-model="newRequest.description">
-      <button type="submit">Submit Request</button>
+      <button type="submit" @click="">Submit Request</button>
     </form>
     <button v-else @click="toggleForm">Request Time Off</button>
     
 </template>
 
 <script>
+
+import ShiftService from '../services/ShiftService';
+
 export default {
     data() {
         return {
         showForm: true,
         newRequest: {
-            fullName : this.$store.state.user.fullName,
-        
+            startDate: '',
+            endDate: '',
+            description: '',
+            status: 1
         },
+
     };
 
 },
@@ -25,7 +31,11 @@ export default {
 methods:{
 
     addNewRequest(){
-        this.$store.commit("ADD_REQUEST",this.newRequest);
+        ShiftService.sendTimeOffRequest(this.newRequest).then(response => {
+            if(response.status === 201){
+                alert("Pending Management ")
+            }
+        });
          this.clearForm();
          
     },

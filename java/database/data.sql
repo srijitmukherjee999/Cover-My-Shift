@@ -21,12 +21,12 @@ INSERT INTO hours (employee, week_year, hours_worked) VALUES
 ((SELECT user_id FROM users WHERE username = 'klee'), 202432, 45),
 ((SELECT user_id FROM users WHERE username = 'pwhite'), 202432, 38);
 
-INSERT INTO vacation (employee, start_date, end_date, status) VALUES
-((SELECT user_id FROM users WHERE username = 'jdoe'), '2024-08-01', '2024-08-05', 1),
-((SELECT user_id FROM users WHERE username = 'asmith'), '2024-08-10', '2024-08-20', 2),
-((SELECT user_id FROM users WHERE username = 'mjones'), '2024-08-15', '2024-08-25', 1),
-((SELECT user_id FROM users WHERE username = 'klee'), '2024-09-01', '2024-09-10', 3),
-((SELECT user_id FROM users WHERE username = 'pwhite'), '2024-08-05', '2024-08-15', 2);
+INSERT INTO vacation (employee, start_date, end_date, status, description) VALUES
+((SELECT user_id FROM users WHERE username = 'jdoe'), '2024-08-01', '2024-08-05', 1, 'Description1'),
+((SELECT user_id FROM users WHERE username = 'asmith'), '2024-08-10', '2024-08-20', 2,'Description2'),
+((SELECT user_id FROM users WHERE username = 'mjones'), '2024-08-15', '2024-08-25', 1,'Description3'),
+((SELECT user_id FROM users WHERE username = 'klee'), '2024-09-01', '2024-09-10', 3,'Description4'),
+((SELECT user_id FROM users WHERE username = 'pwhite'), '2024-08-05', '2024-08-15', 2,'Description5');
 
 INSERT INTO users_shift (shift_id, coverer_id) VALUES
 ((SELECT shift_id FROM shift WHERE assigned = (SELECT user_id FROM users WHERE username = 'klee')),(SELECT user_id FROM users WHERE username = 'asmith')),

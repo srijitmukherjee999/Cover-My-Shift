@@ -11,9 +11,9 @@ export default {
    },
 
 
-   sendTimeOffRequest(){
+   sendTimeOffRequest(vacation){
 
-    
+    return axios.post('/vacation', vacation);
 
    },
 
