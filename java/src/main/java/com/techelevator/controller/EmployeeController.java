@@ -3,7 +3,6 @@ package com.techelevator.controller;
 import com.techelevator.dao.*;
 import com.techelevator.model.Shift;
 import com.techelevator.model.User;
-import com.techelevator.model.UserShift;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -28,13 +27,12 @@ public class EmployeeController {
         this.userShiftDao = userShiftDao;
 
     }
-
     @GetMapping(path = "/shifts")
     public List<Shift> getShifts(@RequestParam(required=false, defaultValue = "false") boolean mine, @RequestParam(required=false, defaultValue = "false") boolean emergency, @RequestParam(required = false, defaultValue = "0") int status, Principal principal){
         User user = userDao.getUserByUsername(principal.getName());
         List<Shift> shifts = shiftDao.getAllShift();
         if(mine) { // if filtering by mine...
-            shifts.removeIf(s -> s.getCoverer() != user.getId()); // if coverer is not me, remove
+            shifts.removeIf(s -> s.getCovererId() != user.getId()); // if coverer is not me, remove
         }
         if(emergency) { // if filtering by emergency...
             shifts.removeIf(s -> !s.isEmergency()); // if shift is not emergency, remove
@@ -44,7 +42,6 @@ public class EmployeeController {
         }
         return shifts;
     }
-
     @GetMapping(path = "/shift/{id}")
     public Shift getShift(@PathVariable int id){
         return shiftDao.getShiftById(id);
@@ -74,15 +71,17 @@ public class EmployeeController {
         if (shift == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Shift not found.");
         }
-        if (shift.getAssigned() != user.getId()){
+        if (shift.getAssignedId() != user.getId()){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "You are not assigned to this shift.");
         }
 
         if(status == 2 && (shift.getStatus() == 1 || shift.getStatus() == 3)){
             shift.setStatus(2);
+            shift.setCovererId(0);
         }
         else if(status == 3 && (shift.getStatus() == 1 || shift.getStatus() == 3)) {
             shift.setStatus(3);
+            shift.setCovererId(user.getId());
         }
         else {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Illegal status change.");
