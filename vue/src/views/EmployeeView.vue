@@ -17,6 +17,16 @@
         <li><router-link v-bind:to="{name: 'pickupshift'}">PICK UP SHIFT</router-link></li>
     </ul>
   </nav>
+
+  <div id="data" v-for="shift in listOfShifts" v-bind:key="shift">
+    
+    <p>{{ shift.name }}</p> 
+    <p>{{ shift.startDateTime}}</p>
+    <p>{{ shift.duration }}</p>
+   
+
+
+  </div>
   
   </body>   
 </template>
@@ -34,13 +44,13 @@ export default {
             listOfShifts : [
                 {
                     name : '',
-                    assigned : 0,
-                    userId: 0,
+                    shiftId: 0,
+                    assigned: 0,
                     startDateTime: '',
                     duration: 0,
                     status: 0,
-                    emergency:false,
-                    covererId: 0,
+                    emergency: false,
+                    coverer: 0,
                     description: ''
                     
                 }
@@ -54,7 +64,7 @@ export default {
         getAllShifts(){
             ShiftService.getShifts().then(response => {
                this.listOfShifts = response.data;
-               this.getAllShifts();
+              this.getNameByShift();
             })
         },
 
@@ -66,10 +76,13 @@ export default {
         getNameByShift(){
 
             this.listOfShifts.forEach(e => {
-              this.name = this.getUser(e.Id).name;
+              e.name = this.getUser(e.id).name;
             })
 
         }
+    },
+    created(){
+        this.getAllShifts();
     }
 
 }
@@ -115,7 +128,11 @@ body{
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    min-height:100vh;
+    min-height: 100vh;
+}
+#data{
+    text-align: center;
+    display: inline-block;
 }
 
 </style>

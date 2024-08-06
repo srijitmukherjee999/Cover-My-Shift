@@ -1,4 +1,6 @@
 <template>
+  <body>
+    <h1> </h1>
   <div id="register" class="text-center">
     <form v-on:submit.prevent="register">
       <h1>Create Account</h1>
@@ -10,6 +12,10 @@
         <input type="text" id="username" v-model="user.username" required autofocus />
       </div>
       <div class="form-input-group">
+        <label for="fullName">Full Name</label>
+        <input type="text" id="fullName" v-model="user.name" required autofocus />
+      </div>
+      <div class="form-input-group">
         <label for="password">Password</label>
         <input type="password" id="password" v-model="user.password" required />
       </div>
@@ -17,10 +23,15 @@
         <label for="confirmPassword">Confirm Password</label>
         <input type="password" id="confirmPassword" v-model="user.confirmPassword" required />
       </div>
+      <div class="form-input-group">
+        <label for="role">Manager</label>
+        <input type="text" id="role" v-model="user.role" required />
+      </div>
       <button type="submit">Create Account</button>
       <p><router-link v-bind:to="{ name: 'login' }">Already have an account? Log in.</router-link></p>
     </form>
   </div>
+  </body>
 </template>
 
 <script>
@@ -34,7 +45,8 @@ export default {
         password: '',
         confirmPassword: '',
         role: 'user',
-        fullName: ''
+        name: '',
+        active: true
       },
       registrationErrors: false,
       registrationErrorMsg: 'There were problems registering this user.',
@@ -80,4 +92,34 @@ export default {
 label {
   margin-right: 0.5rem;
 }
+
+.text-center {
+  display: flex;
+  justify-content: center;
+  
+  align-content: center;
+  
+  width: 100%;
+  height: 100%;
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px;
+  width: 100%;
+  max-width: 400px;
+}
+
+
+body{
+  display: flex;
+  justify-content: center;
+ 
+  background-image: url( "../assets/AdobeStock_440299419_Preview.jpeg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  min-height: 100vh;
+}
+
+
 </style>
