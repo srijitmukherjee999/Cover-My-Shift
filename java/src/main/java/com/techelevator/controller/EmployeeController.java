@@ -1,9 +1,9 @@
 package com.techelevator.controller;
 
-import com.techelevator.dao.ShiftDao;
-import com.techelevator.dao.UserDao;
+import com.techelevator.dao.*;
 import com.techelevator.model.Shift;
 import com.techelevator.model.User;
+import com.techelevator.model.UserShift;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,11 +17,14 @@ public class EmployeeController {
 
     private final UserDao userDao;
     private final ShiftDao shiftDao;
+    private final UserShiftDao userShiftDao;
 
 
-    public EmployeeController(UserDao userDao, ShiftDao shiftDao) {
+    public EmployeeController(JdbcUserDao userDao, JdbcShiftDao shiftDao,JdbcUserShiftDao userShiftDao) {
         this.userDao = userDao;
         this.shiftDao = shiftDao;
+        this.userShiftDao = userShiftDao;
+
     }
 
     @GetMapping(path = "/shifts")
@@ -44,4 +47,35 @@ public class EmployeeController {
     public Shift getShift(@PathVariable int id){
         return shiftDao.getShiftById(id);
     }
+
+    @PostMapping(path = "shift/{id}")
+    public void createShift(@PathVariable int shiftId, Principal principal){
+        int userId  = userDao.getUserByUsername(principal.getName()).getId();
+        List<Shift> shifts = shiftDao.getAllShift();
+        for(Shift shift : shifts) {
+            if(shift.getStatus() == 3) {
+                userShiftDao.createUserShift(userId, shiftId);
+            }
+        }
+    }
+
+    @PutMapping(path = "shift/{id}")
+    public void updateShiftStatus(@RequestParam(required = true, defaultValue = "0") int status, @PathVariable int shiftId){
+        Shift shift = shiftDao.getShiftById(shiftId);
+        if(shift.getStatus() == 1 || shift.getStatus() == 3){
+            shift.setStatus(2);
+        }
+        if(shift.getStatus() == 2) {
+            shift.setStatus(3);
+        }
+    }
+
+    @DeleteMapping(path = "shift/{id}")
+    public void deleteUserShift(@PathVariable int shiftId){
+        //confused
+
+
+    }
+
+
 }

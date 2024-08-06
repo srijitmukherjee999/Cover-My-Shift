@@ -6,9 +6,10 @@ import com.techelevator.model.User;
 import org.springframework.jdbc.CannotGetJdbcConnectionException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
+import org.springframework.stereotype.Component;
 
 import java.util.Objects;
-
+@Component
 public class JdbcHoursDao implements HoursDao {
 
     private final JdbcTemplate jdbcTemplate;
