@@ -20,9 +20,11 @@
 
   <div id="data" v-for="shift in listOfShifts" v-bind:key="shift">
     
-    <p>{{ shift.name }}</p> 
-    <p>{{ shift.startDateTime}}</p>
-    <p>{{ shift.duration }}</p>
+    <p>Name{{ shift.assignedName }}</p> 
+    <p>Start Time {{ shift.startDateTime}}</p>
+    <p>Duration {{ shift.duration }} hours</p>
+    <p>Status {{ convertStatus(shift.status) }}</p>
+    <p>Emergency {{ shift.emergency }}</p>
    
 
 
@@ -43,7 +45,7 @@ export default {
         return{
             listOfShifts : [
                 {
-                    name : '',
+                    assignedName : '',
                     shiftId: 0,
                     assigned: 0,
                     startDateTime: '',
@@ -51,6 +53,7 @@ export default {
                     status: 0,
                     emergency: false,
                     coverer: 0,
+                    covererName: '',
                     description: ''
                     
                 }
@@ -64,20 +67,27 @@ export default {
         getAllShifts(){
             ShiftService.getShifts().then(response => {
                this.listOfShifts = response.data;
-              this.getNameByShift();
+              
             })
         },
 
-        getUser(id){
-            ShiftService.getUserByUserId(id).then(response => {
-              this.$store.state.user = response.data;
-            })
-        },
-        getNameByShift(){
+      
+       
 
-            this.listOfShifts.forEach(e => {
-              e.name = this.getUser(e.id).name;
-            })
+        
+        convertStatus(status){
+            // this.listOfShifts.forEach(e => {
+            //     if(e.status === 0)
+            //     return true;
+            // })
+            if(status == 1)
+                return "assigned"
+            if(status == 2)
+            return "accepted"
+                if(status === 3)
+                return "uncovered"
+            if(status == 4)
+            return "covered"
 
         }
     },
@@ -122,10 +132,12 @@ export default {
     
 }
 
-body{
-}
+
 #data{
     text-align: center;
+    
+}
+p{
     display: inline-block;
 }
 
