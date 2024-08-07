@@ -25,10 +25,23 @@
             <label for="confirmPassword">Confirm Password</label>
             <input type="password" id="confirmPassword" v-model="user.confirmPassword" required />
           </div>
-          <div class="form-input-group">
-            <label for="role">Manager</label>
+          <!-- <div class="form-input-group">
+            <label for="role">Profile</label>
             <input type="text" id="role" v-model="user.role" required />
+          </div> -->
+
+          <div class="form-input-group">
+          <label>Profile</label>
+          <div>
+            <label>
+              <input type="radio" value="Manager" v-model="user.role" /> Manager
+            </label>
+            <label>
+              <input type="radio" value="Employee" v-model="user.role" /> Employee
+            </label>
           </div>
+        </div>
+
           <button type="submit">Create Account</button>
           <p><router-link v-bind:to="{ name: 'login' }">Already have an account? Log in.</router-link></p>
         </form>
@@ -45,7 +58,7 @@ export default {
         username: '',
         password: '',
         confirmPassword: '',
-        role: 'user',
+        role: '', 
         name: '',
         active: true
       },
@@ -55,6 +68,9 @@ export default {
   },
   methods: {
     register() {
+
+     // this.user.role = this.determineRole(this.user.username); /// this to determine role
+
       if (this.user.password != this.user.confirmPassword) {
         this.registrationErrors = true;
         this.registrationErrorMsg = 'Password & Confirm Password do not match.';
@@ -78,6 +94,16 @@ export default {
           });
       }
     },
+
+
+    // determineRole(username) {   // method to determine role
+    //   if(username.role.includes('admin')){
+    //     return 'manager';
+    //   }
+    //   return 'employee';
+    // },
+
+
     clearErrors() {
       this.registrationErrors = false;
       this.registrationErrorMsg = 'There were problems registering this user.';

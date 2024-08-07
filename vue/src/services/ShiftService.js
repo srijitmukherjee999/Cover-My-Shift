@@ -42,18 +42,12 @@ export default {
    deleteUserShift(id){
       return axios.delete(`/shift/${id}`)
    },
-
-
-
    
-
    getEmergencyShifts(emergency,status){
 
       return axios.get(`/shifts?emergency=${emergency}&status=${status}`);
    }
 }
 
-
-
   
-  
+

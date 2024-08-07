@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import ShiftService from '../services/ShiftService';
+import ShiftService from '../services/ShiftService.js';
 
 
 
