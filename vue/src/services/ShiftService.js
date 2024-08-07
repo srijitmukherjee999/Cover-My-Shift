@@ -34,6 +34,18 @@ export default {
       return axios.post(`/shift`, shift);
    },
 
+   getMyShifts(mine){
+
+      return axios.get(`/shifts?mine=${mine}`);
+
+   },
+
+   getEmergencyShifts(emergency,status){
+
+      return axios.get(`/shifts?emergency=${emergency}&status=${status}`);
+   }
+
+
 
   
   }
