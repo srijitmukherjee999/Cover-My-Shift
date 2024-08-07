@@ -51,9 +51,16 @@ export default {
             this.$store.commit("SET_AUTH_TOKEN", response.data.token);
             this.$store.commit("SET_USER", response.data.user);
            
-            this.$router.push("/employee");
-            
+
+            const userRole = response.data.user.role;
+            if (userRole == 'admin') {
+              this.$router.push("/manager");
+            } else {
+              this.$router.push("/employee");
+            }
+            //this.$router.push("/employee"); 
           }
+
         })
         .catch(error => {
           const response = error.response;
@@ -119,7 +126,5 @@ label {
   margin-top: 150px;
   min-height: 30vh;
 }
-
-
 
 </style>

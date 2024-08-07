@@ -59,7 +59,7 @@ const routes = [
     name: "employee",
     component: EmployeeView,
     meta: {
-      requiresAuth: true
+      requiresAuth: true,
     }
   },
   {
@@ -91,7 +91,7 @@ const routes = [
     name:'manager',
     component: ManagerView,
     meta: {
-      requiresAuth: false
+      requiresAuth: false,
     }
   }
   
