@@ -1,4 +1,5 @@
 <template>
+    <body>
         
     <div class="yes">
          <h1>Hello {{ name }}</h1>
@@ -15,19 +16,18 @@
     </ul>
   </nav>
   </div>
-
+  <div id="search-shifts">
   <div class="filter">
-    <input type="text" id="assignedNameFilter" placeholder="Name" v-model="filter.assignedName" />&nbsp;&nbsp;
-
-    <input type="date" id="startDateTime" v-model="filter.startDateTime"  />&nbsp;&nbsp;
-    <input type="text" id="duration" v-model="filter.duration" placeholder="Duration">&nbsp;&nbsp;
+    <input type="text" id="assignedNameFilter" placeholder="Name" v-model="filter.assignedName" />
+    <input type="date" id="startDateTime" v-model="filter.startDateTime"  />
+    <input type="text" id="duration" v-model="filter.duration" placeholder="Duration">
     <select id = "myList" v-model="filter.status" >
-    <option  id="">--None--</option>
+    <option  id="status">--None--</option>
     <option value="accepted">Accepted</option>
     <option value="covered">Covered</option>
     <option value="uncovered">Uncovered</option>
     <option value="assigned">Assigned</option>
-    </select>&nbsp;&nbsp;
+    </select>
 
     
     <select id = "myList" v-model="filter.emergency" >Emergency
@@ -35,6 +35,7 @@
     <option value="true">true</option>
     <option value="false">false</option>
     </select>
+  </div>
   </div>
 
   <div id="data" v-for="shift in filteredList" :key="shift.shiftId">
@@ -60,7 +61,8 @@
         <p>{{ shift.emergency }}</p>
       </div>
     </router-link>
-  </div>  
+  </div>
+</body>  
 </template>
 
 <script>
@@ -296,8 +298,57 @@ export default {
     text-decoration: underline;
 }
 
-.filter{
-    display: flex;
-    justify-content: center;
+#search-shifts {
+margin: 0 auto;
+  width: 80%;
+  max-width: fit-content;
+  padding: 20px;
 }
+
+.filter {
+    background-color: orange; 
+  color: white;
+  border-radius: 50px; 
+  padding: 20px; 
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);  
+  display: flex;
+  flex-wrap: wrap; 
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  box-sizing: border-box;
+  transition: transform 0.3s, box-shadow 0.3s;
+  gap: 20px;
+}
+
+input[type="text"] {
+  width: 200px;         
+  height: 50px;         
+  padding: 10px;        
+  font-size: 18px;      
+  border: 2px solid #000; 
+  border-radius: 5px; 
+  text-align: center; 
+}
+
+input[type="date"] {
+  width: 200px;         
+  height: 50px;         
+  padding: 10px;        
+  font-size: 18px;      
+  border: 2px solid #000; 
+  border-radius: 5px;
+  text-align: center;  
+}
+
+#myList {
+    width: 200px;         
+  height: 50px;         
+  padding: 10px;        
+  font-size: 18px;      
+  border: 2px solid #000; 
+  border-radius: 5px;
+  text-align: center;  
+}
+
 </style>

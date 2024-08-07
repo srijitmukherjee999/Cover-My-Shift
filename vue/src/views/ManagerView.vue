@@ -1,8 +1,9 @@
 <template>
-  
+  <body>
   <div>
 
   </div>
+  </body>
 </template>
 
 
@@ -61,6 +62,12 @@ export default {
 }
 </script>
 
-<style>
-
+<style scoped>
+body, html {
+      height: 100%;
+      margin: 0;
+      display: flex;
+      justify-content: center; 
+      align-items: center;     
+    }
 </style>

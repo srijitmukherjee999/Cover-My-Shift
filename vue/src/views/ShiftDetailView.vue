@@ -1,6 +1,9 @@
 <template>
   
-  <h1>Hello {{ name }}</h1>
+  <div class="yes">
+         <h1>Hello {{ name }}</h1>
+        <h1>Hours Worked: 40</h1>
+ </div>
 
     <div class ="uncover">
 
@@ -62,6 +65,22 @@ export default {
 </script>
 
 <style scoped>
+
+body, html {
+      height: 100%;
+      margin: 0;
+      display: flex;
+      justify-content: center; 
+      align-items: center;     
+    }
+.yes{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    padding: 10px;
+    background-color: white;
+}
+
 
 .uncover{
     display: flex;
