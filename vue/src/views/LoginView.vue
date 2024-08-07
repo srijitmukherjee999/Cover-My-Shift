@@ -145,4 +145,15 @@ label {
   min-height: 30vh;
 }
 
+
+.text-center h1 {
+  font-size: 4rem;
+  padding: 20px; 
+}
+
+[role='alert'] {
+  font-size: 1.5rem;
+  margin: 10px; 
+}
+
 </style>

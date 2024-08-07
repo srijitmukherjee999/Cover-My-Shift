@@ -42,10 +42,6 @@ export default {
    deleteUserShift(id){
       return axios.delete(`/shift/${id}`)
    },
-
-   getMyShifts(mine){
-      return axios.get(`/shifts?mine=${mine}`);
-   },
    
    getEmergencyShifts(emergency,status){
 
@@ -53,4 +49,5 @@ export default {
    }
 }
 
+  
 

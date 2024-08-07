@@ -13,8 +13,9 @@
 </template>
 
 <script>
+import ShiftService from '../services/ShiftService.js';
 
-import ShiftService from '../services/ShiftService';
+
 
 export default {
     data() {
