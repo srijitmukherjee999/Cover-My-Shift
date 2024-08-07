@@ -60,7 +60,7 @@ public class JdbcVacationDao implements VacationDao{
     @Override
     public Vacation createVacation(Vacation vacation, Principal principal) {
         int id = userDao.getUserByUsername(principal.getName()).getId();
-        
+
 
         String sql = "INSERT INTO vacation (employee, start_date, end_date, status, description)" +
                 " VALUES (?, ?, ?, ?, ?) RETURNING vacation_id ;";

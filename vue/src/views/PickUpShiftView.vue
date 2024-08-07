@@ -15,13 +15,16 @@
   </nav>
   </div>
   <div class="emergencyButton">
-    <button @click="getShiftsByEmergency">EMERGENCY SHIFTS</button>
+    <button v-if="showButton" @click="getShiftsByEmergency">EMERGENCY SHIFTS</button>
+    <button v-else @click="toggleButton" >Clear</button>
     <div v-for="emergency in emergencyShifts" v-bind:key="emergency.shiftId">
       <p>{{ emergency.assignedName}}</p>
       <p>{{ emergency.startDateTime }}</p>
       <p>{{ emergency.duration }}</p>
+        <p>{{ convertStatus(emergency.status) }}</p>
       <p>{{ emergency.emergency }}</p>
     </div>
+
 
   </div>
 
@@ -60,6 +63,7 @@ export default {
 
   data(){
     return{
+      showButton: true,
       listOfShiftsByStatus: [ {
 
                     assignedName : '',
@@ -122,10 +126,11 @@ export default {
 
 },
   getShiftsByEmergency(){
-    console.log("hello");
+    
     ShiftService.getEmergencyShifts(true,3).then(response => {
         console.log(response.data);
       this.emergencyShifts = response.data;
+      this.showButton = false;
       
       
     })
@@ -144,6 +149,10 @@ export default {
         .catch(error => {
             console.error('Error deleting this shift:', error);
         });
+      },
+      toggleButton(){
+        this.showButton = !this.showButton;
+        this.emergencyShifts = [];
       }
 },
       
@@ -152,14 +161,11 @@ export default {
   created(){
     this.getShifts(3);
     this.getFullName();
-<<<<<<< HEAD
   },
-=======
   }
->>>>>>> 356b62b6e53663f0ba39692594c1b1e9869df32c
 
 
-}
+
 </script>
 
 <style scoped>
@@ -260,11 +266,8 @@ export default {
   display:flex;
   justify-content: center;
 }
-<<<<<<< HEAD
-=======
 
 
->>>>>>> 356b62b6e53663f0ba39692594c1b1e9869df32c
 
 
 

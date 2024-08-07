@@ -7,7 +7,7 @@
       <input type="text" class="description-input" placeholder="description" v-model="newRequest.description">
 
       <button type="submit" >Submit Request</button>
-======
+
 
     </form>
     <button v-else @click="toggleForm">Request Time Off</button>
