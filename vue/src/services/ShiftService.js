@@ -28,21 +28,20 @@ export default {
    updateUserShiftStatus(id,status){
 
       return axios.put(`/shift/${id}?status=${status}`);
-
    },
 
+   createShift(shift){
+      return axios.post(`/shift`, shift);
+   },
 
    getMyShifts(mine){
 
       return axios.get(`/shifts?mine=${mine}`);
-
    },
-
-   getEmergencyShifts(emergency,status){
-
-      return axios.get(`/shifts?emergency=${emergency}&status=${status}`);
+   
+   deleteUserShift(id){
+      return axios.delete(`/shift/${id}`)
    }
 
 
-  
   }

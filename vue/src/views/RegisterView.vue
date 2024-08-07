@@ -1,5 +1,5 @@
 <template>
-  <div id="main">
+  
       <div>
         <h1 id="company">Cover My Shift</h1>
       </div>
@@ -33,7 +33,6 @@
           <p><router-link v-bind:to="{ name: 'login' }">Already have an account? Log in.</router-link></p>
         </form>
     </div>
-  </div>
 </template>
 
 <script>
@@ -88,17 +87,20 @@ export default {
 </script>
 
 <style scoped>
+
+body, html {
+      height: 100%;
+      margin: 0;
+      display: flex;
+      justify-content: center; 
+      align-items: center;     
+    }
+
 *{
   padding: 0;
   margin: 0;
 }
-#main{
-  background-image: url( "../assets/AdobeStock_440299419_Preview.jpeg");
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  min-height: 100vh;
-}
+
 #title-create{
   font-size: 40px;
   margin-bottom: 20px;
@@ -121,15 +123,38 @@ label {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin: auto;
-  background-color: white;
   padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 0 10px;
-  width: 40%;
-  margin-top: 2%;
-  font-size: 800%;
+  color: #4a90e2;
+  width: 80%; 
+  max-width: 1200px;
+  margin: 2% auto; 
+  font-size: 9rem; 
+  box-sizing: border-box;
+  background-color: white; 
+}
+
+@media (max-width: 1024px) {
+  #company {
+    width: 85%; 
+    font-size: 1.75rem;
+    padding: 20px; 
   }
+}
+
+
+@media (max-width: 768px) {
+  #company {
+    font-size: 1.5rem; 
+    padding: 15px; 
+  }
+}
+
+@media (max-width: 480px) {
+  #company {
+    font-size: 1rem; 
+    padding: 10px; 
+  }
+}
 
 .text-center {
   display: flex;
@@ -137,12 +162,26 @@ label {
   align-items: center;
   justify-content: center;
   margin: auto;
-  background-color: white;
+  background-color: #4a90e2;
   box-shadow: 0 0 10px;
   border-radius: 8px;
   width: 20%;
-  margin-top: 150px;
+  margin-top: 150px auto;
   min-height: 30vh;
+}
+
+@media (max-width: 768px) {
+  .text-center {
+    font-size: 1.5rem; 
+    padding: 15px; 
+  }
+}
+
+@media (max-width: 480px) {
+  .text-center {
+    font-size: 1rem; 
+    padding: 10px; 
+  }
 }
 
 </style>
