@@ -60,11 +60,9 @@ export default {
 }
 
 .navigation {
-    
     padding: 10px;
     margin: 20px;
-    border-radius: 5px; 
-    
+    border-radius: 5px;   
 }
 
 .navigation a {

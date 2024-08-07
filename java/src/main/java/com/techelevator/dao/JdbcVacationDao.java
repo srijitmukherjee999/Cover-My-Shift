@@ -61,12 +61,12 @@ public class JdbcVacationDao implements VacationDao{
     public Vacation createVacation(Vacation vacation, Principal principal) {
         int id = userDao.getUserByUsername(principal.getName()).getId();
 
-        String sql = "INSERT INTO vacation (employee, start_date, end_date, status,description)" +
-                " VALUES (?, ?, ?, ?,?) RETURNING vacation_id ;";
+        String sql = "INSERT INTO vacation (employee, start_date, end_date, status, description)" +
+                " VALUES (?, ?, ?, ?, ?) RETURNING vacation_id ;";
         try {
 
             int newVacationId = jdbcTemplate.queryForObject(sql, int.class, id,
-                    vacation.getStartDate(), vacation.getEndDate(), 1,vacation.getDescription());
+                    vacation.getStartDate(), vacation.getEndDate(), 1 ,vacation.getDescription());
             return getVacationByVacationId(newVacationId);
 
         } catch (CannotGetJdbcConnectionException e) {
