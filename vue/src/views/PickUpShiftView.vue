@@ -14,6 +14,16 @@
     </ul>
   </nav>
   </div>
+  <div class="emergencyButton">
+    <button @click="getShiftsByEmergency">EMERGENCY SHIFTS</button>
+    <div v-for="emergency in emergencyShifts" v-bind:key="emergency.shiftId">
+      <p>{{ emergency.assignedName}}</p>
+      <p>{{ emergency.startDateTime }}</p>
+      <p>{{ emergency.duration }}</p>
+      <p>{{ emergency.emergency }}</p>
+    </div>
+
+  </div>
 
   <div id="data" v-for="shift in listOfShiftsByStatus" v-bind:key="shift">
     <router-link :to="{ name: 'shiftdetails', params: { id: shift.shiftId }} ">
@@ -34,6 +44,8 @@
     <p>{{ shift.emergency }}</p>
    </div>
   </router-link>
+
+
 
   </div>
 </template>
@@ -59,7 +71,19 @@ export default {
                     covererName: '',
                     description: ''
       }],
-      name:''
+      name:'',
+      emergencyShifts: [ {
+                    assignedName : '',
+                    shiftId: 0,
+                    assigned: 0,
+                    startDateTime: '',
+                    duration: '',
+                    status: 0,
+                    emergency: '',
+                    coverer: 0,
+                    covererName: '',
+                    description: ''
+      }]
     }
     
   },
@@ -69,6 +93,7 @@ export default {
       
       ShiftService.getShiftByStatus(status).then(response => {
          this.listOfShiftsByStatus = response.data;
+         
       })
 
     },
@@ -94,11 +119,23 @@ export default {
 })
 
 },
+  getShiftsByEmergency(){
+    console.log("hello");
+    ShiftService.getEmergencyShifts(true,3).then(response => {
+        console.log(response.data);
+      this.emergencyShifts = response.data;
+      
+      
+    })
+  }
 
   }, 
   created(){
     this.getShifts(3);
     this.getFullName();
+    
+    
+  
   }
 
 
@@ -197,6 +234,11 @@ export default {
 .emergency{
     background-color: red;
     text-decoration: underline;
+}
+
+.emergencyButton{
+  display:flex;
+  justify-content: center;
 }
 
 

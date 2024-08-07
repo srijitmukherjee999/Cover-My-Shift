@@ -10,7 +10,6 @@ export default {
     return axios.get(`/user/${id}`);
    },
 
-
    sendTimeOffRequest(vacation){
 
     return axios.post('/vacation', vacation);
@@ -30,6 +29,18 @@ export default {
 
       return axios.put(`/shift/${id}?status=${status}`);
 
+   },
+
+
+   getMyShifts(mine){
+
+      return axios.get(`/shifts?mine=${mine}`);
+
+   },
+
+   getEmergencyShifts(emergency,status){
+
+      return axios.get(`/shifts?emergency=${emergency}&status=${status}`);
    }
 
 
