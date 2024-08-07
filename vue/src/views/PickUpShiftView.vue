@@ -129,7 +129,7 @@ export default {
       
       
     })
-  }
+  },
 
  /** <button @click="deleteShift(shift.shiftId)">Delete Shift</button>*/
    deleteShift(shiftId) {
@@ -152,14 +152,7 @@ export default {
   created(){
     this.getShifts(3);
     this.getFullName();
-<<<<<<< HEAD
-  },
-=======
-    
-    
-  
   }
->>>>>>> 82ff2f79ca3f3a0c854fc557102b6e5ac9d39d0b
 
 
 }
@@ -263,9 +256,7 @@ export default {
   display:flex;
   justify-content: center;
 }
-#data{
-  
-}
+
 
 
 
