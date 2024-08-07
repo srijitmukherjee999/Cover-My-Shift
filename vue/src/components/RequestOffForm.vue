@@ -4,6 +4,7 @@
       <input type="date" class="end-date-input" placeholder="Date" v-model="newRequest.endDate">
       <input type="text" class="description-input" placeholder="description" v-model="newRequest.description">
       <button type="submit" >Submit Request</button>
+      <button type="submit">Submit Request</button>
     </form>
     <button v-else @click="toggleForm">Request Time Off</button>
     
@@ -21,7 +22,7 @@ export default {
             startDate: '',
             endDate: '',
             description: '',
-            status: 1
+            status: 1,
         },
 
     };
@@ -33,7 +34,7 @@ methods:{
     addNewRequest(){
         ShiftService.sendTimeOffRequest(this.newRequest).then(response => {
             if(response.status === 201){
-                alert("Pending Management ")
+                alert("Pending Management Review")
             }
         });
          this.clearForm();
