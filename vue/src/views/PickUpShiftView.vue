@@ -17,8 +17,10 @@
     <p> Emergency {{ shift.emergency }}</p>
    
 
+   
 
   </div>
+  
 </template>
 
 
@@ -78,11 +80,28 @@ export default {
 
 },
 
-  }, 
+ /** <button @click="deleteShift(shift.shiftId)">Delete Shift</button>*/
+   deleteShift(shiftId) {
+    ShiftService.deleteUserShift(shiftId)
+        .then(response => {
+            if (response.status === 200) {
+                this.listOfShiftsByStatus = this.listOfShiftsByStatus.filter(shift => shift.shiftId !== shiftId);
+            } else {
+                console.error('Unexpected response status:', response.status);
+            }
+        })
+        .catch(error => {
+            console.error('Error deleting this shift:', error);
+        });
+      }
+},
+      
+        
+
   created(){
     this.getShifts(3);
     this.getFullName();
-  }
+  },
 
 
 }
@@ -108,6 +127,9 @@ div{
   display: flex;
   justify-content: center;
 
+}
+#data{
+  
 }
 
 </style>

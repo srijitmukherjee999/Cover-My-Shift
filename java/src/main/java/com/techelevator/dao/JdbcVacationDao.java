@@ -62,7 +62,7 @@ public class JdbcVacationDao implements VacationDao{
         int id = userDao.getUserByUsername(principal.getName()).getId();
 
         String sql = "INSERT INTO vacation (employee, start_date, end_date, status,description)" +
-                " VALUES (?, ?, ?, ?,?) RETURNING vacation_id ;";
+                " VALUES (?, ?, ?, ?, ?) RETURNING vacation_id ;";
         try {
 
             int newVacationId = jdbcTemplate.queryForObject(sql, int.class, id,

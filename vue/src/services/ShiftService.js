@@ -30,8 +30,11 @@ export default {
 
       return axios.put(`/shift/${id}?status=${status}`);
 
+   },
+   
+   deleteUserShift(id){
+      return axios.delete(`/shift/${id}`)
    }
 
 
-  
   }
