@@ -5,14 +5,7 @@
       <input type="date" class="start-date-input" placeholder="Date" v-model="newRequest.startDate">
       <input type="date" class="end-date-input" placeholder="Date" v-model="newRequest.endDate">
       <input type="text" class="description-input" placeholder="description" v-model="newRequest.description">
-<<<<<<< HEAD
-      <button type="submit">Submit Request</button>
-=======
-
       <button type="submit" >Submit Request</button>
-
-
->>>>>>> 62fcd0b50c026555c40ae8a2311f363556863f1e
     </form>
     <button v-else @click="toggleForm">Request Time Off</button>
 </div>

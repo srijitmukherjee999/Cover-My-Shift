@@ -162,13 +162,7 @@ export default {
     this.getShifts(3);
     this.getFullName();
   },
-<<<<<<< HEAD
-    
-    
-  
-=======
->>>>>>> 62fcd0b50c026555c40ae8a2311f363556863f1e
-  }
+}
 
 
 
