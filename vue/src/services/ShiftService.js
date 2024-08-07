@@ -30,6 +30,18 @@ export default {
 
       return axios.put(`/shift/${id}?status=${status}`);
 
+   },
+
+
+   getMyShifts(mine){
+
+      return axios.get(`/shifts?mine=${mine}`);
+
+   },
+
+   getEmergencyShifts(emergency,status){
+
+      return axios.get(`/shifts?emergency=${emergency}&status=${status}`);
    }
 
 

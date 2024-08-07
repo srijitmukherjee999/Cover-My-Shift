@@ -91,7 +91,7 @@ const routes = [
     name:'manager',
     component: ManagerView,
     meta: {
-      requiresAuth:true
+      requiresAuth: false
     }
   }
   
