@@ -182,9 +182,14 @@ export default {
             this.convertStatus(shift.status) == (this.filter.status.toLowerCase())
         );
       }
-      if(this.filter.emergency != "--None--"){
+      if( this.filter.emergency == true){
         filteredUsers = filteredUsers.filter(shift => {
-          shift.emergency == true;
+          shift.emergency == true
+        })
+      }
+      if(this.filter.emergency == false){
+        filteredUsers = filteredUsers.filter( shift => {
+           shift.emergency == false
         })
       }
 

@@ -4,7 +4,7 @@
 
     <div class ="uncover">
 
-    <button @click="updateShiftStatusToUncovered">Uncover</button>
+    <button @click="updateShiftStatusToUncovered">Uncover Shift</button>
         </div>
         <div class="accept">
         <button @click="updateShiftStatusToAssigned">Accept</button>
