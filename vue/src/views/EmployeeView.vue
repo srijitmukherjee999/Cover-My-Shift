@@ -23,7 +23,7 @@
     <input type="text" id="duration" v-model="filter.duration" placeholder="Duration">&nbsp;&nbsp;
     <select id = "myList" v-model="filter.status" >
     <option  id="">--None--</option>
-    <option value="accepted">Accepted</option>
+    <option value="uncovered request">Uncovered Request</option>
     <option value="covered">Covered</option>
     <option value="uncovered">Uncovered</option>
     <option value="assigned">Assigned</option>
@@ -39,7 +39,7 @@
 
   <div id="data" v-for="shift in filteredList" :key="shift.shiftId">
     <router-link :to="{ name: 'shiftdetails', params: { id: shift.shiftId }} ">
-      <div class="bubble" :class="{emergency : shift.emergency}">
+      <div class="bubble" :class="{emergency : shift.emergency && shift.status == 3, green: shift.status == 4 || shift.status == 1}" >
         <p class="bubble-title">Name</p>
         <p>{{ shift.assignedName }}</p>
       
@@ -70,7 +70,7 @@
     <input type="text" id="duration" v-model="myFilter.duration" placeholder="Duration">&nbsp;&nbsp;
     <select id = "myList" v-model="myFilter.status" >
     <option  id="">--None--</option>
-    <option value="accepted">Accepted</option>
+    <option value="uncovered request">Uncovered Request</option>
     <option value="covered">Covered</option>
     <option value="uncovered">Uncovered</option>
     <option value="assigned">Assigned</option>
@@ -199,7 +199,7 @@ export default {
             if(status == 1)
                 return "assigned"
             if(status == 2)
-            return "accepted"
+            return "uncovered request"
                 if(status === 3)
                 return "uncovered"
             if(status == 4)
@@ -210,7 +210,7 @@ export default {
         convertStatusToNumber(status){
             if(status.toLowerCase().includes("assigned"))
             return 1
-            if(status.includes("accepted"))
+            if(status.includes("uncovered request"))
             return 2
         if(status.includes("uncovered"))
         return 3
@@ -412,6 +412,10 @@ export default {
 .emergency{
     background-color: red;
     text-decoration: underline;
+}
+.green{
+  background-color: green;
+  text-decoration: green;
 }
 
 .filter{
