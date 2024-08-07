@@ -10,6 +10,8 @@ import EmployeeView from '../views/EmployeeView.vue';
 import RequestTimeOffView from '../views/RequestTimeOffView.vue';
 import PickUpShiftView from '../views/PickUpShiftView.vue';
 import ShiftDetailView from '../views/ShiftDetailView.vue';
+import ManagerView from '../views/ManagerView.vue'
+
 
 /**
  * The Vue Router is used to "direct" the browser to render a specific view component
@@ -83,7 +85,16 @@ const routes = [
     meta: {
       requiresAuth:  true
     }
+  },
+  {
+    path:'/manager',
+    name:'manager',
+    component: ManagerView,
+    meta: {
+      requiresAuth:true
+    }
   }
+  
 ];
 
 // Create the router
