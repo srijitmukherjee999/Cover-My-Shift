@@ -226,14 +226,32 @@ export default {
     padding: 0;
     margin: center;
     text-align: center;
-
 }
 
 .navigation li {
     display: inline;
     margin-right: 15px;
+    font-size: larger;
+    background-color: white;
+    color: black;
+    border-radius: 50px;
+    padding: 20px;
+    box-shadow: 0 4px 8px;
+    width: 100%; 
+    transition: transform 0.3s, box-shadow 0.3s;
+    color: inherit;
+    text-decoration: none;   
+}
 
-    font-size: larger;    
+li router-link {
+    color: inherit;
+    text-decoration: none;
+}
+
+.navigation li:hover {
+    transform: scale(1.05); 
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+    background-color: green;
 }
 
 #data {
