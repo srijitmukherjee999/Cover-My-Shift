@@ -46,8 +46,10 @@
   </router-link>
 
 
+   
 
   </div>
+  
 </template>
 
 
@@ -129,14 +131,35 @@ export default {
     })
   }
 
-  }, 
+ /** <button @click="deleteShift(shift.shiftId)">Delete Shift</button>*/
+   deleteShift(shiftId) {
+    ShiftService.deleteUserShift(shiftId)
+        .then(response => {
+            if (response.status === 200) {
+                this.listOfShiftsByStatus = this.listOfShiftsByStatus.filter(shift => shift.shiftId !== shiftId);
+            } else {
+                console.error('Unexpected response status:', response.status);
+            }
+        })
+        .catch(error => {
+            console.error('Error deleting this shift:', error);
+        });
+      }
+},
+      
+        
+
   created(){
     this.getShifts(3);
     this.getFullName();
+<<<<<<< HEAD
+  },
+=======
     
     
   
   }
+>>>>>>> 82ff2f79ca3f3a0c854fc557102b6e5ac9d39d0b
 
 
 }
@@ -239,6 +262,9 @@ export default {
 .emergencyButton{
   display:flex;
   justify-content: center;
+}
+#data{
+  
 }
 
 
