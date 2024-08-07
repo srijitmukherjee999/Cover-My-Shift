@@ -10,7 +10,6 @@ export default {
     return axios.get(`/user/${id}`);
    },
 
-
    sendTimeOffRequest(vacation){
 
     return axios.post('/vacation', vacation);
@@ -29,7 +28,15 @@ export default {
    updateUserShiftStatus(id,status){
 
       return axios.put(`/shift/${id}?status=${status}`);
+   },
 
+   createShift(shift){
+      return axios.post(`/shift`, shift);
+   },
+
+   getMyShifts(mine){
+
+<<<<<<< HEAD
    },
    
    deleteUserShift(id){
@@ -37,4 +44,18 @@ export default {
    }
 
 
+=======
+      return axios.get(`/shifts?mine=${mine}`);
+
+   },
+
+   getEmergencyShifts(emergency,status){
+
+      return axios.get(`/shifts?emergency=${emergency}&status=${status}`);
+   }
+
+
+
+  
+>>>>>>> 82ff2f79ca3f3a0c854fc557102b6e5ac9d39d0b
   }

@@ -1,66 +1,189 @@
 <template>
+    <div id="data">
+      <div v-for="user in listOfUsers" :key="user.id" class="bubble">
+        <div class="bubble-title">{{ user.fullName }}</div>
+        <button class="add-shift-button" @click="toggleShiftForm(user.id)">Add Shift</button>
+        <div v-if="user.showShiftForm" class="shift-form">
+          <input type="datetime-local" v-model="newShift.startDateTime" placeholder="Start Date and Time" />
+          <input type="number" v-model="newShift.duration" placeholder="Duration (hours)" />
+          <input type="text" v-model="newShift.description" placeholder="Description" />
+          <button @click="addShift(user.id)">Submit</button>
+        </div>
+      </div>
+    </div>
+  </template>
   
-  <div>
-
-  </div>
-</template>
-
-
-
-<script>
-import ShiftService from '../services/ShiftService';
-export default {
-
-    data(){
-        return{
-            listOfShifts : [
-                {
-                    name : '',
-                    shiftId : 0,
-                    assigned: 0,
-                    startDateTime: '',
-                    duration: 0,
-                    status: 0,
-                    emergency:false,
-                    coverer: 0,
-                    description: ''
-                    
-                }
+  <script>
+  import ShiftService from '../services/ShiftService';
+  import AuthService from '../services/AuthService';
+  
+  export default {
+    data() {
+      return {
+        listOfShifts: [
+          {
+            name: '',
+            shiftId: 0,
+            assigned: 0,
+            startDateTime: '',
+            duration: 0,
+            status: 0,
+            emergency: false,
+            coverer: 0,
+            description: ''
+          }
+        ],
+        listOfUsers: [
+          {
+            id: 0,
+            username: "",
+            fullName: "",
+            authorities: [
+              {
+                name: ""
+              }
             ],
-            name: []
+            showShiftForm: false // Track form visibility per user
+          }
+        ],
+        newShift: {
+          shiftId: 0,
+          assignedId: null,
+          startDateTime: '',
+          duration: 0,
+          status: 0,
+          emergency: false,
+          covererId: null,
+          description: ''
         }
+      }
     },
-
-
-    methods:{
-        getAllShifts(){
-            ShiftService.getShifts().then(response => {
-               this.listOfShifts = response.data;
-               this.getNameByShift();
-            })
-        },
-
-        getUser(id){
-            ShiftService.getUserByUserId(id).then(response => {
-              this.$store.state.user = response.data;
-            })
-        },
-        getNameByShift(){
-
-            this.listOfShifts.forEach(e => {
-              this.name = this.getUser(e.id).name;
-            })
-
-        }
+  
+    methods: {
+      getAllShifts() {
+        ShiftService.getShifts().then(response => {
+          this.listOfShifts = response.data;
+          this.getNameByShift();
+        });
+      },
+  
+      getUser(id) {
+        ShiftService.getUserByUserId(id).then(response => {
+          this.$store.state.user = response.data;
+        });
+      },
+  
+      getNameByShift() {
+        this.listOfShifts.forEach(e => {
+          this.name = this.getUser(e.id).name;
+        });
+      },
+  
+      getAllUsers() {
+        AuthService.getUsers().then(response => {
+          this.listOfUsers = response.data.map(user => ({
+            ...user,
+            showShiftForm: false
+          }));
+        });
+      },
+  
+      toggleShiftForm(userId) {
+        this.listOfUsers = this.listOfUsers.map(user =>
+          user.id === userId ? { ...user, showShiftForm: !user.showShiftForm } : user
+        );
+      },
+  
+      addShift(userId) {
+        this.newShift.assignedId = userId;
+        ShiftService.createShift(this.newShift).then(response => {
+          if(response.status === 201){
+            alert('Shift has been added to employee');
+            this.toggleShiftForm(userId); // Close the form after adding the shift
+          }
+        });
+      }
     },
-    created(){
-        this.getAllShifts();
+  
+    created() {
+      this.getAllShifts();
+      this.getAllUsers();
     }
-
-
-}
-</script>
-
-<style>
-
-</style>
+  };
+  </script>
+  
+  <style>
+  #data {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;  
+    padding: 20px;
+  }
+  
+  .bubble {
+    background-color: #4a90e2; 
+    color: white;
+    border-radius: 50px; 
+    padding: 20px; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+    width: 100%; 
+    display: flex;
+    flex-wrap: wrap; 
+    align-items: center;
+    text-align: left;
+    box-sizing: border-box;
+    transition: transform 0.3s, box-shadow 0.3s;
+    position: relative;
+  }
+  
+  .bubble-title {
+    font-weight: bold; 
+    margin-bottom: 10px; 
+    flex-grow: 1;
+  }
+  
+  .add-shift-button {
+    background-color: #5cb85c;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: background-color 0.3s, box-shadow 0.3s;
+    margin-left: auto;
+  }
+  
+  .add-shift-button:hover {
+    background-color: #4cae4c;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  .shift-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    animation: fadeIn 0.3s;
+    z-index: 1;
+  }
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  </style>
+  
+  
+  
