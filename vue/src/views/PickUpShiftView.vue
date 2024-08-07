@@ -16,14 +16,24 @@
   </div>
 
   <div id="data" v-for="shift in listOfShiftsByStatus" v-bind:key="shift">
-    
-    <p>Name {{ shift.assignedName }}</p> &nbsp;
-    <p>Start Time {{ shift.startDateTime}}</p>&nbsp;
-    <p>Duration {{ shift.duration }} hours</p>&nbsp;
-    <p>Status {{ convertStatus(shift.status) }} </p>&nbsp;
-    <p> Emergency {{ shift.emergency }}</p>
-   
+    <router-link :to="{ name: 'shiftdetails', params: { id: shift.shiftId }} ">
+    <div class="bubble" :class="{emergency : shift.emergency}">
+    <p class="bubble-title">Name</p>
+    <p>{{ shift.assignedName }}</p>
 
+    <p class="bubble-title">Start Time</p> 
+    <p>{{ shift.startDateTime}}</p>
+
+    <p class="bubble-title">Duration</p> 
+    <p>{{ shift.duration }} hours</p>
+
+    <p class="bubble-title">Status</p>
+    <p>{{ convertStatus(shift.status) }}</p>
+
+    <p class="bubble-title">Emergency</p> 
+    <p>{{ shift.emergency }}</p>
+   </div>
+  </router-link>
 
   </div>
 </template>
@@ -145,20 +155,51 @@ export default {
     background-color: lightgray;
 }
 
-p{
+#data {
   display: flex;
-  justify-content: center ;
-  
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;  
+  padding: 20px;
 }
 
-h1{
+.bubble {
+  background-color: #4a90e2; 
+  color: white;
+  border-radius: 50px; 
+  padding: 20px; 
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+  width: 100%; 
   display: flex;
-  justify-content: center;
+  flex-wrap: wrap; 
+  align-items: center;
+  text-align: left;
+  box-sizing: border-box;
+  transition: transform 0.3s, box-shadow 0.3s;
 }
-div{
-  display: flex;
-  justify-content: center;
 
+.bubble:hover {
+  transform: scale(1.05); 
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
 }
+
+.bubble-title {
+  font-weight: bold; 
+  margin-bottom: 10px; 
+}
+
+.bubble p {
+    margin: 0;
+    padding: 0;
+    margin-right: 20px;
+}
+
+.emergency{
+    background-color: red;
+    text-decoration: underline;
+}
+
+
+
 
 </style>
