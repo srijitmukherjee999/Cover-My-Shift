@@ -8,6 +8,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,9 +16,11 @@ import java.util.List;
 public class JdbcVacationDao implements VacationDao{
 
     private final JdbcTemplate jdbcTemplate;
+    private final UserDao userDao;
 
-    public JdbcVacationDao(JdbcTemplate jdbcTemplate) {
+    public JdbcVacationDao(JdbcTemplate jdbcTemplate, UserDao userDao) {
         this.jdbcTemplate = jdbcTemplate;
+        this.userDao = userDao;
     }
 
     @Override
@@ -55,13 +58,15 @@ public class JdbcVacationDao implements VacationDao{
     }
 
     @Override
-    public Vacation createVacation(Vacation vacation) {
+    public Vacation createVacation(Vacation vacation, Principal principal) {
+        int id = userDao.getUserByUsername(principal.getName()).getId();
+
         String sql = "INSERT INTO vacation (employee, start_date, end_date, status,description)" +
                 " VALUES (?, ?, ?, ?,?) RETURNING vacation_id ;";
         try {
 
-            int newVacationId = jdbcTemplate.queryForObject(sql, int.class, vacation.getEmployeeId(),
-                    vacation.getStartDate(), vacation.getEndDate(), vacation.getStatus(),vacation.getDescription());
+            int newVacationId = jdbcTemplate.queryForObject(sql, int.class, id,
+                    vacation.getStartDate(), vacation.getEndDate(), 1,vacation.getDescription());
             return getVacationByVacationId(newVacationId);
 
         } catch (CannotGetJdbcConnectionException e) {

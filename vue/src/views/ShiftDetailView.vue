@@ -1,9 +1,13 @@
 <template>
   
   <h1>Hello {{ name }}</h1>
-    <div>
 
-        <button>Uncover</button>
+    <div class ="uncover">
+
+    <button @click="updateShiftStatusToUncovered">Uncover</button>
+        </div>
+        <div class="accept">
+        <button @click="updateShiftStatusToAssigned">Accept</button>
 
     </div>
 
@@ -31,15 +35,23 @@ export default {
 
 },
 
-updateShiftStatus(status){
+    updateShiftStatusToUncovered(){
 
-ShiftService.updateUserShiftStatus(status).then(response => {
+    ShiftService.updateUserShiftStatus(this.$route.params.id,3).then(response => {
     if(response.status === 200){
         alert("You have updated");
     }
 })
 
-}
+},
+    updateShiftStatusToAssigned(){
+        ShiftService.updateUserShiftStatus(this.$route.params.id,2).then(response => {
+            if(response.status === 200){
+                alert("You have updated");
+            }
+        })
+    }
+
 
     },
     created(){
@@ -49,6 +61,19 @@ ShiftService.updateUserShiftStatus(status).then(response => {
 }
 </script>
 
-<style>
+<style scoped>
 
+.uncover{
+    display: flex;
+    justify-content: center;
+}
+.accept{
+    display: flex;
+    justify-content: center;
+}
+
+h1{
+    display: flex;
+    justify-content: center;
+}
 </style>

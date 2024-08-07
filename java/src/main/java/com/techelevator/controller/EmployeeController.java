@@ -52,7 +52,7 @@ public class EmployeeController {
     }
 
     @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping(path = "shift/{id}")
+    @PostMapping(path = "/shift/{id}")
     public void createShiftRequest(@PathVariable int id, Principal principal){
         int userId  = userDao.getUserByUsername(principal.getName()).getId();
         Shift shift = shiftDao.getShiftById(id);
@@ -122,8 +122,8 @@ public class EmployeeController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(path = "/vacation")
-    public Vacation createVacationRequest(@Valid @RequestBody Vacation vacation){
-         return vacationDao.createVacation(vacation);
+    public Vacation createVacationRequest(@Valid @RequestBody Vacation vacation, Principal principal){
+         return vacationDao.createVacation(vacation, principal);
     }
 
 //    @GetMapping(path = "/user/fullName")
