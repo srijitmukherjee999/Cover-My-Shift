@@ -17,7 +17,28 @@
     </ul>
   </nav>
 
-  <div id="data" v-for="shift in listOfShifts" :key="shift.shiftId">
+  <div class="filter">
+    <input type="text" id="assignedNameFilter" placeholder="Name" v-model="filter.assignedName" />&nbsp;&nbsp;
+
+    <input type="date" id="startDateTime" v-model="filter.startDateTime"  />&nbsp;&nbsp;
+    <input type="text" id="duration" v-model="filter.duration" placeholder="Duration">&nbsp;&nbsp;
+    <select id = "myList" v-model="filter.status" >
+    <option  id="">--None--</option>
+    <option value="accepted">Accepted</option>
+    <option value="covered">Covered</option>
+    <option value="uncovered">Uncovered</option>
+    <option value="assigned">Assigned</option>
+    </select>&nbsp;&nbsp;
+
+    
+    <select id = "myList" v-model="filter.emergency" >Emergency
+    <option  id="emergency">--None--</option>
+    <option value="true">true</option>
+    <option value="false">false</option>
+    </select>
+  </div>
+
+  <div id="data" v-for="shift in filteredList" :key="shift.shiftId">
     <router-link :to="{ name: 'shiftdetails', params: { id: shift.shiftId }} ">
       <div class="bubble" :class="{emergency : shift.emergency}">
         <p class="bubble-title">Name</p>
@@ -66,7 +87,15 @@ export default {
                     
                 }
             ],
-            name: ''
+            name: '',
+            filter: {
+                    assignedName : '',          
+                    startDateTime: '',
+                    duration: '',
+                    status: '--None--',
+                    emergency: '--None--',
+                    
+            }
         }
     }
     ,
@@ -88,10 +117,7 @@ export default {
         })
 
         },
-
-      
-       
-
+        
         
         convertStatus(status){
             
@@ -104,17 +130,69 @@ export default {
             if(status == 4)
             return "covered"
 
+        },
+        
+        convertStatusToNumber(status){
+            if(status.toLowerCase().includes("assigned"))
+            return 1
+            if(status.includes("accepted"))
+            return 2
+        if(status.includes("uncovered"))
+        return 3
+    if(status.includes("covered"))
+    return 4
+    
         }
+
+    
+   
+
+
     },
     created(){
+        
         this.getAllShifts();
         this.getFullName();
+        
+        
     },
     computed: {
-        shift(){
+        shiftDetails(){
             const shiftId = this.$route.params.id;
             return this.listOfShifts.find( e => e.shiftId === shiftId);
-        }
+        },
+        filteredList() {
+      let filteredUsers = this.listOfShifts;
+      if (this.filter.name != "") {
+        filteredUsers = filteredUsers.filter((shift) =>
+          shift.assignedName.toLowerCase().includes(this.filter.assignedName.toLowerCase())      
+        );
+      }
+      if (this.filter.startDateTime != "") {
+        filteredUsers = filteredUsers.filter((shift) =>
+          shift.startDateTime.includes(this.filter.startDateTime)
+        );
+      }
+      if (this.filter.duration != 0) {
+        filteredUsers = filteredUsers.filter(( shift) =>
+          shift.duration == (this.filter.duration)
+        );
+      }
+      if ((this.filter.status != "--None--")) {
+        filteredUsers = filteredUsers.filter((shift) =>
+            this.convertStatus(shift.status) == (this.filter.status.toLowerCase())
+        );
+      }
+      if(this.filter.emergency != "--None--"){
+        filteredUsers = filteredUsers.filter(shift => {
+          shift.emergency == true;
+        })
+      }
+
+      
+      return filteredUsers;
+    }
+        
     }
 
 }
@@ -197,4 +275,8 @@ export default {
     text-decoration: underline;
 }
 
+.filter{
+    display: flex;
+    justify-content: center;
+}
 </style>

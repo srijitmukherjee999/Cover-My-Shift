@@ -26,9 +26,9 @@ export default {
       return axios.get(`/shifts/username`);
    },
 
-   updateUserShiftStatus(status){
+   updateUserShiftStatus(id,status){
 
-      return axios.put(`/shift/:id?status=${status}`);
+      return axios.put(`/shift/${id}?status=${status}`);
 
    }
 

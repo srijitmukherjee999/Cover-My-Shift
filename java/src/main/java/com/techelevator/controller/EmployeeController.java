@@ -52,7 +52,7 @@ public class EmployeeController {
     }
 
     @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping(path = "shift/{id}")
+    @PostMapping(path = "/shift/{id}")
     public void createShiftRequest(@PathVariable int id, Principal principal){
         int userId  = userDao.getUserByUsername(principal.getName()).getId();
         Shift shift = shiftDao.getShiftById(id);
