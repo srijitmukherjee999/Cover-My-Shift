@@ -152,7 +152,11 @@ export default {
   created(){
     this.getShifts(3);
     this.getFullName();
+<<<<<<< HEAD
   },
+=======
+  }
+>>>>>>> 356b62b6e53663f0ba39692594c1b1e9869df32c
 
 
 }
@@ -256,6 +260,11 @@ export default {
   display:flex;
   justify-content: center;
 }
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> 356b62b6e53663f0ba39692594c1b1e9869df32c
 
 
 
