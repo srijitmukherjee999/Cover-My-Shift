@@ -28,8 +28,11 @@ export default {
    updateUserShiftStatus(id,status){
 
       return axios.put(`/shift/${id}?status=${status}`);
+   },
 
-   }
+   createShift(shift){
+      return axios.post(`/shift`, shift);
+   },
 
 
   
