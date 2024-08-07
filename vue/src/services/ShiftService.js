@@ -36,15 +36,6 @@ export default {
 
    getMyShifts(mine){
 
-<<<<<<< HEAD
-   },
-   
-   deleteUserShift(id){
-      return axios.delete(`/shift/${id}`)
-   }
-
-
-=======
       return axios.get(`/shifts?mine=${mine}`);
 
    },
@@ -57,5 +48,4 @@ export default {
 
 
   
->>>>>>> 82ff2f79ca3f3a0c854fc557102b6e5ac9d39d0b
   }

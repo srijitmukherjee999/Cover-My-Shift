@@ -139,7 +139,8 @@ label {
 }
 
 .text-center h1 {
-  font-size: 4rem; 
+  font-size: 4rem;
+  padding: 20px; 
 }
 
 [role='alert'] {

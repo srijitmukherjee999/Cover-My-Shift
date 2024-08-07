@@ -129,7 +129,7 @@ export default {
       
       
     })
-  }
+  },
 
  /** <button @click="deleteShift(shift.shiftId)">Delete Shift</button>*/
    deleteShift(shiftId) {
@@ -152,14 +152,10 @@ export default {
   created(){
     this.getShifts(3);
     this.getFullName();
-<<<<<<< HEAD
-  },
-=======
     
     
   
   }
->>>>>>> 82ff2f79ca3f3a0c854fc557102b6e5ac9d39d0b
 
 
 }
@@ -176,11 +172,9 @@ export default {
 }
 
 .navigation {
-    
     padding: 10px;
     margin: 20px;
     border-radius: 5px; 
-    
 }
 
 .navigation a {
@@ -191,7 +185,7 @@ export default {
 .navigation ul {
     list-style: none;
     padding: 0;
-    margin: center;
+    margin: 0;
     text-align: center;
 }
 
@@ -213,6 +207,26 @@ export default {
     transform: scale(1.05); 
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
     background-color: lightgray;
+}
+
+@media (max-width: 768px) {
+    .navigation li {
+        font-size: medium; 
+        padding: 15px; 
+    }
+}
+
+@media (max-width: 480px) {
+    .navigation li {
+        font-size: small; 
+        padding: 10px; 
+    }
+
+    .navigation ul {
+        display: flex;
+        flex-direction: column;
+        flex-wrap: wrap; 
+    }
 }
 
 #data {
@@ -254,6 +268,8 @@ export default {
     margin-right: 20px;
 }
 
+
+
 .emergency{
     background-color: red;
     text-decoration: underline;
@@ -263,9 +279,7 @@ export default {
   display:flex;
   justify-content: center;
 }
-#data{
-  
-}
+
 
 
 
