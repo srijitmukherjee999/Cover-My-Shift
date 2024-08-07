@@ -15,8 +15,11 @@
     <div id="data">
       <div v-for="user in listOfUsers" :key="user.id" class="bubble">
         <div class="bubble-title">{{ user.fullName }}</div>
-        <button class="add-shift-button" @click="toggleShiftForm(user.id)">
-          {{ user.showShiftForm ? "Cancel" : "Add Shift" }}
+        <button
+          :class="['add-shift-button', user.showShiftForm ? 'cancel-button' : 'add-button']"
+          @click="toggleShiftForm(user.id)"
+        >
+          {{ user.showShiftForm ? 'Cancel' : 'Add Shift' }}
         </button>
         <div v-if="user.showShiftForm" class="shift-form">
           <input
@@ -40,6 +43,7 @@
     </div>
   
   </template>
+  
   
   <script>
   import ShiftService from "../services/ShiftService";
@@ -228,8 +232,6 @@
   }
   
   .add-shift-button {
-    background-color: #d9534f;
-    color: white;
     border: none;
     border-radius: 20px;
     padding: 10px 20px;
@@ -238,9 +240,20 @@
     margin-left: auto;
   }
   
-  .add-shift-button:hover {
-    background-color: #c9302c;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  .add-button {
+    background-color: #5cb85c; /* Green */
+  }
+  
+  .add-button:hover {
+    background-color: #4cae4c; /* Darker green */
+  }
+  
+  .cancel-button {
+    background-color: #d9534f; /* Red */
+  }
+  
+  .cancel-button:hover {
+    background-color: #c9302c; /* Darker red */
   }
   
   .shift-form {
@@ -268,8 +281,4 @@
     }
   }
   </style>
-  
-  
-  
-  
   
