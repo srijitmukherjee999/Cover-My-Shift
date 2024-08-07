@@ -46,7 +46,7 @@ public class ManagerController {
     public List<User> getCoverRequestByShiftId(@PathVariable int id){
         return userDao.getCoverRequestsByShift(id);
     }
-
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(path = "/shift")
     public void addShiftToList(@Valid @RequestBody Shift shift){
         shiftDao.createShift(shift);
