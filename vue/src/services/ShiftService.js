@@ -34,26 +34,44 @@ export default {
       return axios.post(`/shift`, shift);
    },
 
+<<<<<<< HEAD
   
+=======
+   getMyShifts(mine){
+
+      return axios.get(`/shifts?mine=${mine}`);
+   },
+>>>>>>> 62fcd0b50c026555c40ae8a2311f363556863f1e
    
    deleteUserShift(id){
       return axios.delete(`/shift/${id}`)
    },
+<<<<<<< HEAD
 
+=======
+>>>>>>> 62fcd0b50c026555c40ae8a2311f363556863f1e
 
       getMyShifts(mine){
 
+<<<<<<< HEAD
       return axios.get(`/shifts?mine=${mine}`);
+=======
+>>>>>>> 62fcd0b50c026555c40ae8a2311f363556863f1e
 
-   },
+   
 
    getEmergencyShifts(emergency,status){
 
       return axios.get(`/shifts?emergency=${emergency}&status=${status}`);
    }
+}
 
 
 
   
+<<<<<<< HEAD
 
   }
+=======
+  
+>>>>>>> 62fcd0b50c026555c40ae8a2311f363556863f1e

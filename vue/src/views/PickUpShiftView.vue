@@ -15,19 +15,22 @@
   </nav>
   </div>
   <div class="emergencyButton">
-    <button @click="getShiftsByEmergency">EMERGENCY SHIFTS</button>
+    <button v-if="showButton" @click="getShiftsByEmergency">EMERGENCY SHIFTS</button>
+    <button v-else @click="toggleButton" >Clear</button>
     <div v-for="emergency in emergencyShifts" v-bind:key="emergency.shiftId">
       <p>{{ emergency.assignedName}}</p>
       <p>{{ emergency.startDateTime }}</p>
       <p>{{ emergency.duration }}</p>
+        <p>{{ convertStatus(emergency.status) }}</p>
       <p>{{ emergency.emergency }}</p>
     </div>
+
 
   </div>
 
   <div id="data" v-for="shift in listOfShiftsByStatus" v-bind:key="shift">
     <router-link :to="{ name: 'shiftdetails', params: { id: shift.shiftId }} ">
-    <div class="bubble" :class="{emergency : shift.emergency}">
+    <div class="bubble" :class="{emergency : shift.emergency && shift.status == 3}">
     <p class="bubble-title">Name</p>
     <p>{{ shift.assignedName }}</p>
 
@@ -60,6 +63,7 @@ export default {
 
   data(){
     return{
+      showButton: true,
       listOfShiftsByStatus: [ {
 
                     assignedName : '',
@@ -104,7 +108,7 @@ export default {
             if(status == 1)
                 return "assigned"
             if(status == 2)
-            return "accepted"
+            return "uncovered request"
                 if(status === 3)
                 return "uncovered"
             if(status == 4)
@@ -122,10 +126,11 @@ export default {
 
 },
   getShiftsByEmergency(){
-    console.log("hello");
+    
     ShiftService.getEmergencyShifts(true,3).then(response => {
         console.log(response.data);
       this.emergencyShifts = response.data;
+      this.showButton = false;
       
       
     })
@@ -144,6 +149,10 @@ export default {
         .catch(error => {
             console.error('Error deleting this shift:', error);
         });
+      },
+      toggleButton(){
+        this.showButton = !this.showButton;
+        this.emergencyShifts = [];
       }
 },
       
@@ -153,9 +162,12 @@ export default {
     this.getShifts(3);
     this.getFullName();
   },
+<<<<<<< HEAD
     
     
   
+=======
+>>>>>>> 62fcd0b50c026555c40ae8a2311f363556863f1e
   }
 
 
@@ -260,9 +272,7 @@ export default {
   display:flex;
   justify-content: center;
 }
-#data{
-  
-}
+
 
 
 
