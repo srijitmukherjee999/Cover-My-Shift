@@ -3,11 +3,9 @@
     <div class="yes">
          <h1>Hello {{ name }}</h1>
         <h1>Hours Worked: 40</h1>
- 
-  
-    
-    </div>
-  <nav class="navigation">
+ </div>
+    <div>
+    <nav class="navigation">
     <ul>
         <li><router-link v-bind:to="{name: 'employee'}">MY HOME</router-link></li>
     
@@ -16,6 +14,7 @@
         <li><router-link v-bind:to="{name: 'pickupshift'}">PICK UP SHIFT</router-link></li>
     </ul>
   </nav>
+  </div>
 
   <div class="filter">
     <input type="text" id="assignedNameFilter" placeholder="Name" v-model="filter.assignedName" />&nbsp;&nbsp;
@@ -216,6 +215,11 @@ export default {
     
 }
 
+.navigation a {
+  text-decoration: none;
+  color: #000000;
+}
+
 .navigation ul {
     list-style: none;
     padding: 0;
@@ -234,19 +238,13 @@ export default {
     box-shadow: 0 4px 8px;
     width: 100%; 
     transition: transform 0.3s, box-shadow 0.3s;
-    color: inherit;
-    text-decoration: none;   
-}
-
-li router-link {
-    color: inherit;
-    text-decoration: none;
+    font: bold;
 }
 
 .navigation li:hover {
     transform: scale(1.05); 
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
-    background-color: green;
+    background-color: lightgray;
 }
 
 #data {

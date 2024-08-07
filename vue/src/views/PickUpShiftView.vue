@@ -1,12 +1,19 @@
 <template>
-  <h1>Hello {{name}}</h1>
-  <nav>
-    <router-link v-bind:to="{name: 'employee'}">MY HOME</router-link>
-    &nbsp; | &nbsp;
-    <router-link v-bind:to="{name: 'timeoff'}">REQUEST TIME OFF</router-link>
-    &nbsp; | &nbsp;
-    <router-link v-bind:to="{name: 'pickupshift'}">PICK UP SHIFT</router-link>
+    <div class="yes">
+         <h1>Hello {{ name }}</h1>
+        <h1>Hours Worked: 40</h1>
+ </div>
+  <div>
+    <nav class="navigation">
+    <ul>
+        <li><router-link v-bind:to="{name: 'employee'}">MY HOME</router-link></li>
+    
+        <li><router-link v-bind:to="{name: 'timeoff'}">REQUEST TIME OFF</router-link></li>
+    
+        <li><router-link v-bind:to="{name: 'pickupshift'}">PICK UP SHIFT</router-link></li>
+    </ul>
   </nav>
+  </div>
 
   <div id="data" v-for="shift in listOfShiftsByStatus" v-bind:key="shift">
     
@@ -90,16 +97,60 @@ export default {
 
 <style scoped>
 
+.yes{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    padding: 10px;
+    background-color: white;
+}
+
+.navigation {
+    
+    padding: 10px;
+    margin: 20px;
+    border-radius: 5px; 
+    
+}
+
+.navigation a {
+  text-decoration: none;
+  color: #000000;
+}
+
+.navigation ul {
+    list-style: none;
+    padding: 0;
+    margin: center;
+    text-align: center;
+}
+
+.navigation li {
+    display: inline;
+    margin-right: 15px;
+    font-size: larger;
+    background-color: white;
+    color: black;
+    border-radius: 50px;
+    padding: 20px;
+    box-shadow: 0 4px 8px;
+    width: 100%; 
+    transition: transform 0.3s, box-shadow 0.3s;
+    font: bold;
+}
+
+.navigation li:hover {
+    transform: scale(1.05); 
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+    background-color: lightgray;
+}
+
 p{
   display: flex;
   justify-content: center ;
   
 }
 
-nav{
-  display: flex;
-  justify-content: center;
-}
 h1{
   display: flex;
   justify-content: center;
