@@ -1,5 +1,8 @@
 <template>
   <body>
+    <div class="yes">
+         <h1>Hello {{ name }}</h1>
+ </div>
   <div>
     <div id="data" v-for="user in listOfUsers" :key="user.id">
 
@@ -98,6 +101,15 @@ body, html {
       justify-content: center; 
       align-items: center;     
     }
+
+    .yes{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    padding: 10px;
+    background-color: white;
+}
+
 #data {
   display: flex;
   flex-direction: column;
