@@ -10,7 +10,6 @@ export default {
     return axios.get(`/user/${id}`);
    },
 
-
    sendTimeOffRequest(vacation){
 
     return axios.post('/vacation', vacation);
