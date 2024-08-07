@@ -101,16 +101,28 @@ public class JdbcShiftDao implements ShiftDao{
     @Override
     public void createShift(Shift shift) {
 
-        String insertUserSql = "INSERT INTO shift (assigned, start_date_time, duration, status, emergency, coverer, description) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        String insertShiftSql = "INSERT INTO shift (assigned, start_date_time, duration, status, emergency, coverer, description) VALUES (?, ?, ?, ?, ?, ?, ?) RETURNING shift_id";
 
         try {
-            jdbcTemplate.update(insertUserSql,shift.getAssignedId(), shift.getStartDateTime(), shift.getDuration(), shift.getStatus(), shift.getCovererId(), shift.getDescription());
+            jdbcTemplate.queryForObject(
+                    insertShiftSql,
+                    Integer.class,
+                    shift.getAssignedId(),
+                    shift.getStartDateTime(),
+                    shift.getDuration(),
+                    shift.getStatus(),
+                    shift.isEmergency(),
+                    shift.getCovererId(),
+                    shift.getDescription()
+            );
+
         } catch (CannotGetJdbcConnectionException e) {
             throw new DaoException("Unable to connect to server or database", e);
         } catch (DataIntegrityViolationException e) {
             throw new DaoException("Data integrity violation", e);
         }
     }
+
 
     /*if(rowSet.getDate("start_date_time") !=null) {
         shift.setStartDateTime(rowSet.getTimestamp("start_date_time").toLocalDateTime());

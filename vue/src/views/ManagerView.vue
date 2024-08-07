@@ -37,7 +37,7 @@
             v-model="newShift.description"
             placeholder="Description"
           />
-          <button @click="addShift(user.id)">Submit</button>
+          <button @click.prevent="addShift(user.id)">Submit</button>
         </div>
       </div>
     </div>
@@ -52,6 +52,7 @@
   export default {
     data() {
       return {
+        name: '',
         listOfShifts: [
           {
             name: "",
@@ -75,41 +76,41 @@
                 name: "",
               },
             ],
-            showShiftForm: false, // Track form visibility per user
+            showShiftForm: false, 
           },
         ],
         newShift: {
-          shiftId: 0,
-          assignedId: null,
+          assignedId: 0,
           startDateTime: "",
           duration: 0,
-          status: 0,
+          status: 1,
           emergency: false,
-          covererId: null,
+          covererId: 0,
           description: "",
         },
       };
     },
   
     methods: {
-      getAllShifts() {
-        ShiftService.getShifts().then((response) => {
-          this.listOfShifts = response.data;
-          this.getNameByShift();
-        });
-      },
+    //   getAllShifts() {
+    //     ShiftService.getShifts().then((response) => {
+    //       this.listOfShifts = response.data;
+    //       this.getNameByShift();
+    //     });
+    //   },
   
       getUser(id) {
         ShiftService.getUserByUserId(id).then((response) => {
           this.$store.state.user = response.data;
         });
       },
+ 
   
-      getNameByShift() {
-        this.listOfShifts.forEach((e) => {
-          this.name = this.getUser(e.id).name;
-        });
-      },
+    //   getNameByShift() {
+    //     this.listOfShifts.forEach((e) => {
+    //       this.name = this.getUser(e.id).name;
+    //     });
+    //   },
   
       getAllUsers() {
         AuthService.getUsers().then((response) => {
@@ -121,6 +122,7 @@
       },
   
       toggleShiftForm(userId) {
+        this.currentUserId = userId;
         this.listOfUsers = this.listOfUsers.map((user) =>
           user.id === userId ? { ...user, showShiftForm: !user.showShiftForm } : user
         );
@@ -130,25 +132,25 @@
         this.newShift.assignedId = userId;
         ShiftService.createShift(this.newShift).then((response) => {
           if (response.status === 201) {
-            alert("Shift has been added to employee");
-            this.toggleShiftForm(userId); // Close the form after adding the shift
+            console.log("Hey")
+            alert(`Shift has been added to employee `);
+            this.toggleShiftForm(userId); 
             this.newShift = {
-              shiftId: 0,
-              assignedId: null,
-              startDateTime: "",
-              duration: 0,
-              status: 0,
-              emergency: false,
-              covererId: null,
-              description: "",
-            }; // Reset the form after submission
+                assignedId: 0,
+                startDateTime: "",
+                duration: 0,
+                status: 1,
+                emergency: false,
+                covererId: 0,
+                description: "",
+            }; 
           }
         });
       },
     },
   
     created() {
-      this.getAllShifts();
+    //   this.getAllShifts();
       this.getAllUsers();
     },
   };
