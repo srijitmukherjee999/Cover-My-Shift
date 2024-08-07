@@ -41,12 +41,18 @@
         </div>
       </div>
     </div>
+  
   </template>
   
   
   <script>
+<<<<<<< HEAD
+  import ShiftService from '../services/ShiftService.js';
+  import AuthService from '../services/AuthService';
+=======
   import ShiftService from "../services/ShiftService";
   import AuthService from "../services/AuthService";
+>>>>>>> 356b62b6e53663f0ba39692594c1b1e9869df32c
   
   export default {
     data() {

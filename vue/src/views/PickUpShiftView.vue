@@ -27,7 +27,7 @@
 
   <div id="data" v-for="shift in listOfShiftsByStatus" v-bind:key="shift">
     <router-link :to="{ name: 'shiftdetails', params: { id: shift.shiftId }} ">
-    <div class="bubble" :class="{emergency : shift.emergency}">
+    <div class="bubble" :class="{emergency : shift.emergency && shift.status == 3}">
     <p class="bubble-title">Name</p>
     <p>{{ shift.assignedName }}</p>
 
@@ -104,7 +104,7 @@ export default {
             if(status == 1)
                 return "assigned"
             if(status == 2)
-            return "accepted"
+            return "uncovered request"
                 if(status === 3)
                 return "uncovered"
             if(status == 4)
@@ -152,7 +152,11 @@ export default {
   created(){
     this.getShifts(3);
     this.getFullName();
+<<<<<<< HEAD
+  },
+=======
   }
+>>>>>>> 356b62b6e53663f0ba39692594c1b1e9869df32c
 
 
 }
@@ -256,8 +260,11 @@ export default {
   display:flex;
   justify-content: center;
 }
+<<<<<<< HEAD
+=======
 
 
+>>>>>>> 356b62b6e53663f0ba39692594c1b1e9869df32c
 
 
 
