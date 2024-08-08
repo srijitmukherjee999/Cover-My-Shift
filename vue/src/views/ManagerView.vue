@@ -1,6 +1,8 @@
 <template>
     <company-header/>
     
+
+    <!-- v-if="userRole === 'ROLE_MANAGER'" -->
     <div class="yes">
       <h1>Hello Manager {{ name }}</h1>
     </div>
@@ -8,14 +10,14 @@
     <div>
       <nav class="navigation">
         <ul>
-          <li><router-link v-bind:to="{ name: 'manager' }">MY HOME</router-link></li>
-          <li><router-link v-bind:to="{ name: 'timeoff' }">PENDING REQUESTS</router-link></li>
-          <li><router-link v-bind:to="{ name: 'pickupshift' }">FIRE EMPLOYEE</router-link></li>
+          <li ><router-link v-bind:to="{ name: 'manager' }">MY HOME</router-link></li>
+          <li ><router-link v-bind:to="{ name: 'timeoff' }">PENDING REQUESTS</router-link></li>
+          <li ><router-link v-bind:to="{ name: 'pickupshift' }">FIRE EMPLOYEE</router-link></li>
         </ul>
       </nav>
     </div>
   
-    <div class="shift-inputs">
+    <div class="shift-inputs" >
       <input
         type="date"
         v-model="shiftInputs.startDate"
@@ -41,7 +43,7 @@
     </button>
     </div>
   
-    <div id="data">
+    <div id="data" >
       <div v-for="user in listOfUsers" :key="user.id" class="bubble">
         <div class="bubble-title">{{ user.fullName }}</div>
         <button
@@ -131,14 +133,18 @@
   
         this.selectedUsers = []; 
       },
+
+      // isManager(){
+
+      // },
     },
   
     created() {
       this.getAllUsers();
+      //this.userRole =AuthService.getUsers().authorities[0].name;
     },
   };
 </script>
-
   
   <style>
   .yes {
