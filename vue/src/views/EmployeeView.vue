@@ -1,11 +1,13 @@
 <template>
     <body>
+      <!-- <div class="fixed-header"> -->
       <company-header/>
       <employee-greeting/>
       <div id="backImage">
     <div class="overlay"></div>
     <div class="content">
       <employee-navigation/>
+      
     
 
   <div id="search-shifts">
@@ -30,6 +32,10 @@
   </div>
   </div>
 
+  
+
+  <div class="scrollable-container">
+    <div class="scrollable-content">
   <div id="data" v-for="shift in filteredList" :key="shift.shiftId">
     <router-link :to="{ name: 'shiftdetails', params: { id: shift.shiftId }} ">
       <div class="bubble" :class="{emergency : shift.emergency && shift.status == 3, green: shift.status == 4 || shift.status == 1}" >
@@ -49,8 +55,11 @@
       </div>
     </router-link>
   </div> 
-</div> 
-</div>
+  </div>
+  </div>
+  </div>
+  </div>
+<!-- </div> -->
 </body>
 </template>
 
@@ -201,6 +210,14 @@ export default {
 </script>
 
 <style scoped>
+
+body, html {
+      margin: 0;
+      padding: 0;
+      /* overflow: hidden; Prevent horizontal scroll */
+      height: 100%;
+      background: transparent;
+    }
 
 #data {
   display: flex;
@@ -365,6 +382,37 @@ h1{
   z-index: 1; 
   padding: 20px;
 }
+
+/* .scrollable-container { 
+      position: fixed;
+      top: 50px; 
+      left: 0;
+      right: 0;
+      bottom: 0;
+      overflow: hidden; 
+      
+    }
+
+    
+    .scrollable-content {
+      height: 100%;
+      overflow-y: auto; 
+      padding: 10px;
+      background-color: #f4f4f4;
+    }
+
+    .fixed-header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background-color: #333;
+      color: #fff;
+      padding: 10px;
+      text-align: center;
+      z-index: 1000; 
+    }*/
+
 
 </style>
 
