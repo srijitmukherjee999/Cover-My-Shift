@@ -36,7 +36,7 @@ public class EmployeeController {
         User user = userDao.getUserByUsername(principal.getName());
         List<Shift> shifts = shiftDao.getAllShift();
         if(mine) { // if filtering by mine...
-            shifts.removeIf(s -> s.getAssignedId() != user.getId()); // if coverer is not me, remove
+            shifts.removeIf(s -> s.getCovererId() != user.getId()); // if coverer is not me, remove
         }
         if(emergency) { // if filtering by emergency...
             shifts.removeIf(s -> !s.isEmergency()); // if shift is not emergency, remove
@@ -90,12 +90,12 @@ public class EmployeeController {
             }
         }
         else if(status > 0) {
-            if(status == 2 && (shift.getStatus() == 1 || shift.getStatus() == 3)){
+            if(status == 2 && shift.getStatus() == 1){
                 shift.setStatus(2);
                 shift.setCovererId(0);
             }
-            else if(status == 3 && (shift.getStatus() == 1 || shift.getStatus() == 3)) {
-                shift.setStatus(3);
+            else if(status == 1 && shift.getStatus() == 2) { // TODO: ask tom if approved days off can be canceled
+                shift.setStatus(1);
                 shift.setCovererId(user.getId());
             }
             else {
