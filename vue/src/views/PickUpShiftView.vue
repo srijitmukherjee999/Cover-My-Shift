@@ -155,7 +155,7 @@ export default {
     this.getShifts(3);
     this.getFullName();
   },
-  }
+}
 
 
 
