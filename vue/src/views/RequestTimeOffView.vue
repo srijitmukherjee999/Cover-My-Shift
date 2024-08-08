@@ -4,13 +4,14 @@
   <employee-navigation/>  
   <request-off-form/>
 
+  <h2>Your Pending Requests: </h2>
 
   <div v-for="shift in listOfPendingRequests" v-bind:key="shift.shiftId">
 
     <p>{{ shift.assignedName }}</p>&nbsp;&nbsp;
     <p>{{ shift.startDateTime }}</p>&nbsp;&nbsp;
     <p>{{ shift.duration }}</p>&nbsp;&nbsp;
-    <p>{{ convertStatus(shift.status) }}</p>&nbsp;&nbsp;
+
     <p>{{ shift.emergency }}</p>&nbsp;&nbsp;
 
 
@@ -186,8 +187,19 @@ p{
 
   display: flex;
   display: inline-block;
+  
+}
+div{
+  display: flex;
   justify-content: center;
 }
 
+
+h2{
+
+display: flex;
+justify-content: center;
+
+}
 
 </style>

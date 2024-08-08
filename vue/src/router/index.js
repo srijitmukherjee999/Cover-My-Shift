@@ -12,6 +12,7 @@ import PickUpShiftView from '../views/PickUpShiftView.vue';
 import ShiftDetailView from '../views/ShiftDetailView.vue';
 import ManagerView from '../views/ManagerView.vue'
 import MyShiftView from '../views/MyShiftView.vue'
+import PendingRequestsView from '../views/PendingRequestsView.vue'
 
 
 /**
@@ -105,6 +106,15 @@ const routes = [
     component: MyShiftView,
     meta: {
       requiresAuth: true,
+    }
+  },
+  {
+    path: '/pendingrequests',
+    name: 'pendingrequests',
+    component: PendingRequestsView,
+    meta: {
+      requiresAuth: true,
+      role: 'ROLE_MANAGER',
     }
   }
   
