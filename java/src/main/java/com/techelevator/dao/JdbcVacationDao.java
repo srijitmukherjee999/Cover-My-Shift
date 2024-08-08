@@ -41,7 +41,7 @@ public class JdbcVacationDao implements VacationDao{
     }
 
     @Override
-    public List<Vacation> getListsOfVacation() {
+    public List<Vacation> getVacations() {
         List<Vacation> vacationList = new ArrayList<>();
         String sql = "SELECT * FROM vacation;";
         try{
@@ -58,15 +58,13 @@ public class JdbcVacationDao implements VacationDao{
     }
 
     @Override
-    public Vacation createVacation(Vacation vacation, Principal principal) {
-        int id = userDao.getUserByUsername(principal.getName()).getId();
-
+    public Vacation createVacation(Vacation vacation) {
 
         String sql = "INSERT INTO vacation (employee, start_date, end_date, status, description)" +
                 " VALUES (?, ?, ?, ?, ?) RETURNING vacation_id ;";
         try {
 
-            int newVacationId = jdbcTemplate.queryForObject(sql, int.class, id,
+            int newVacationId = jdbcTemplate.queryForObject(sql, int.class, vacation.getEmployeeId(),
                     vacation.getStartDate(), vacation.getEndDate(), 1 ,vacation.getDescription());
             return getVacationByVacationId(newVacationId);
 

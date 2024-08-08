@@ -1,8 +1,13 @@
 <template>
-  
+   <body>
+    <div id="backImage">
+    <div class="overlay"></div>
+    <div class="content">
+      <div id="main">
       <div>
         <h1 id="company">Cover My Shift</h1>
       </div>
+
       <div id="register" class="text-center">
         <form v-on:submit.prevent="register">
           <h1 id="title-create">Create Account</h1>
@@ -46,6 +51,10 @@
           <p><router-link v-bind:to="{ name: 'login' }">Already have an account? Log in.</router-link></p>
         </form>
     </div>
+    </div>
+    </div>
+    </div>
+    </body>
 </template>
 
 <script>
@@ -114,14 +123,6 @@ export default {
 
 <style scoped>
 
-body, html {
-      height: 100%;
-      margin: 0;
-      display: flex;
-      justify-content: center; 
-      align-items: center;     
-    }
-
 *{
   padding: 0;
   margin: 0;
@@ -155,8 +156,7 @@ label {
   max-width: 1200px;
   margin: 2% auto; 
   font-size: 9rem; 
-  box-sizing: border-box;
-  background-color: white; 
+  box-sizing: border-box; 
 }
 
 @media (max-width: 1024px) {
@@ -208,6 +208,32 @@ label {
     font-size: 1rem; 
     padding: 10px; 
   }
+}
+
+#backImage {
+  position: relative;
+  height: 100vh;
+  background-image: url("..\assets\ben-o-bro-wpU4veNGnHg-unsplash.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8); 
+  z-index: 0; 
+}
+
+.content {
+  position: relative;
+  z-index: 1; 
+  padding: 20px;
 }
 
 </style>

@@ -1,4 +1,8 @@
 <template>
+  <body>
+    <div id="backImage">
+    <div class="overlay"></div>
+    <div class="content">
     <div id="main">
       <div>
          <h1 id="company">Cover My Shift</h1>
@@ -6,7 +10,7 @@
       
       <div id="login" class="text-center">
         <form v-on:submit.prevent="login">
-          <h1 >Please Sign In</h1>
+          <h1 >Sign In</h1>
             <div role="alert" v-if="invalidCredentials">
               <p>Invalid username and password!</p>
             </div>
@@ -26,6 +30,9 @@
         </form>
       </div>
     </div>
+    </div>
+    </div>
+  </body>
 </template>
 
 <script>
@@ -84,6 +91,9 @@ export default {
 
 <style scoped>
 
+body {
+  background: transparent;
+}
 
 *{
   padding: 0;
@@ -113,7 +123,7 @@ label {
   margin: 2% auto; 
   font-size: 9rem; 
   box-sizing: border-box;
-  background-color: white; 
+  text-shadow: 10px; 
 }
 
 @media (max-width: 1024px) {
@@ -162,6 +172,32 @@ label {
 [role='alert'] {
   font-size: 1.5rem;
   margin: 10px; 
+}
+
+#backImage {
+  position: relative;
+  height: 100vh;
+  background-image: url("..\assets\ben-o-bro-wpU4veNGnHg-unsplash.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8); 
+  z-index: 0; 
+}
+
+.content {
+  position: relative;
+  z-index: 1; 
+  padding: 20px;
 }
 
 </style>

@@ -54,9 +54,9 @@ export default {
 
    },
 
-   getMyShiftsByUncoveredRequest(status){
+   getMyShiftsByUncoveredRequest(assigned,status){
 
-      return axios.get(`/shifts?status=${status}`);
+      return axios.get(`/shifts?assigned=${assigned}&status=${status}`);
 
    }
 

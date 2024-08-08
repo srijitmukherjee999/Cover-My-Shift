@@ -1,47 +1,53 @@
 <template>
+  <body>
     <company-header/>
     <employee-greeting/>
+    <div id="backImage">
+    <div class="overlay"></div>
+    <div class="content">
     <employee-navigation/>
   
-  <div class="emergencyButton">
-    <button v-if="showButton" @click="getShiftsByEmergency">EMERGENCY SHIFTS</button>
-    <button v-else @click="toggleButton" >Clear</button>
-    <div v-for="emergency in emergencyShifts" v-bind:key="emergency.shiftId">
-      <p>{{ emergency.assignedName}}</p>
-      <p>{{ emergency.startDateTime }}</p>
-      <p>{{ emergency.duration }}</p>
-        <p>{{ convertStatus(emergency.status) }}</p>
-      <p>{{ emergency.emergency }}</p>
-    </div>
-
-
-  </div>
-
-  <div id="data" v-for="shift in listOfShiftsByStatus" v-bind:key="shift">
-    <router-link :to="{ name: 'shiftdetails', params: { id: shift.shiftId }} ">
-    <div class="bubble" :class="{emergency : shift.emergency && shift.status == 3}">
-    <p class="bubble-title">Name</p>
-    <p>{{ shift.assignedName }}</p>
-
-    <p class="bubble-title">Start Time</p> 
-    <p>{{ shift.startDateTime}}</p>
-
-    <p class="bubble-title">Duration</p> 
-    <p>{{ shift.duration }} hours</p>
-
-    <p class="bubble-title">Status</p>
-    <p>{{ convertStatus(shift.status) }}</p>
-
-    <p class="bubble-title">Emergency</p> 
-    <p>{{ shift.emergency }}</p>
-   </div>
-  </router-link>
-
-
-   
-
-  </div>
   
+    <div id="emergency-button">
+      <div>
+    <button class="emergencyButton" v-if="showButton" @click="getShiftsByEmergency">EMERGENCY SHIFTS</button>
+    <button class="clearButton" v-else @click="toggleButton" >Clear</button>
+  </div>
+    
+    <div id="emergency-button">
+    <div class="together">
+    <div class="emergencybubble" v-for="emergency in emergencyShifts" v-bind:key="emergency.shiftId">
+      <div id="shiftObjects"><p class="bubble-title">Name: {{ emergency.assignedName}}</p></div>
+      <div id="shiftObjects"><p class="bubble-title">Start Time: {{ emergency.startDateTime }}</p></div>
+      <div id="shiftObjects"><p class="bubble-title">Duration: {{ emergency.duration }}</p></div>
+      <div id="shiftObjects"><p class="bubble-title">{{ convertStatus(emergency.status) }}: {{ emergency.emergency }}</p></div>
+    </div>
+  </div>
+  </div>
+
+  <div id="data" v-if="showButton" v-for="shift in listOfShiftsByStatus" v-bind:key="shift">
+    <router-link :to="{ name: 'shiftdetails', params: { id: shift.shiftId }} ">
+      <div class="bubble" :class="{emergency : shift.emergency && shift.status == 3, green: shift.status == 4 || shift.status == 1}" >
+        <div id="shiftObjects"><p class="bubble-title">Name: {{ shift.assignedName }}</p></div>
+      
+      
+        <div id="shiftObjects"><p class="bubble-title">Start Time: {{ shift.startDateTime }}</p></div>
+      
+      
+        <div id="shiftObjects"><p class="bubble-title">Duration: {{ shift.duration }} <span>hours</span></p></div>
+      
+      
+        <div id="shiftObjects"><p class="bubble-title">Status: {{ convertStatus(shift.status) }}</p></div>
+      
+      
+        <div id="shiftObjects"><p class="bubble-title">Emergency: {{ shift.emergency }}</p></div>
+      </div>
+    </router-link>
+  </div> 
+  </div>
+  </div>
+  </div>
+</body>
 </template>
 
 
@@ -71,18 +77,7 @@ export default {
                     description: ''
       }],
       name:'',
-      emergencyShifts: [ {
-                    assignedName : '',
-                    shiftId: 0,
-                    assigned: 0,
-                    startDateTime: '',
-                    duration: '',
-                    status: 0,
-                    emergency: '',
-                    coverer: 0,
-                    covererName: '',
-                    description: ''
-      }]
+      emergencyShifts: []
     }
     
   },
@@ -164,70 +159,8 @@ export default {
 
 <style scoped>
 
-.yes{
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-evenly;
-    padding: 10px;
-    background-color: white;
-}
-
-.navigation {
-    padding: 10px;
-    margin: 20px;
-    border-radius: 5px; 
-}
-
-.navigation a {
-  text-decoration: none;
-  color: #000000;
-}
-
-.navigation ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    text-align: center;
-}
-
-.navigation li {
-    display: inline;
-    margin-right: 15px;
-    font-size: larger;
-    background-color: white;
-    color: black;
-    border-radius: 50px;
-    padding: 20px;
-    box-shadow: 0 4px 8px;
-    width: 100%; 
-    transition: transform 0.3s, box-shadow 0.3s;
-    font: bold;
-}
-
-.navigation li:hover {
-    transform: scale(1.05); 
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
-    background-color: lightgray;
-}
-
-@media (max-width: 768px) {
-    .navigation li {
-        font-size: medium; 
-        padding: 15px; 
-    }
-}
-
-@media (max-width: 480px) {
-    .navigation li {
-        font-size: small; 
-        padding: 10px; 
-    }
-
-    .navigation ul {
-        display: flex;
-        flex-direction: column;
-        flex-wrap: wrap; 
-    }
+body {
+  background: transparent;
 }
 
 #data {
@@ -237,6 +170,11 @@ export default {
   gap: 20px;  
   padding: 20px;
 }
+.together {
+      display: flex;
+      justify-content: center; 
+      width: 100%; 
+    }
 
 .bubble {
   background-color: #4a90e2; 
@@ -258,9 +196,26 @@ export default {
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
 }
 
+.container {
+  display: flex;
+  flex-direction: row; 
+  flex-wrap: wrap; 
+}
+
+@media (max-width: 600px) {
+  .container {
+    flex-direction: column; 
+  }
+}
+
 .bubble-title {
   font-weight: bold; 
-  margin-bottom: 10px; 
+  flex: 1 1 auto; 
+  padding: 15px;
+  margin: 10px;
+  border-radius: 5px;
+  text-align: center;
+  font-weight: bold; 
 }
 
 .bubble p {
@@ -296,4 +251,110 @@ h1{
   100% { transform: translateY(0) }
 }
 
+#backImage {
+  position: relative;
+  height: 100vh;
+  background-image: url("..\assets\nastuh-abootalebi-eHD8Y1Znfpk-unsplash.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8); 
+  z-index: 0; 
+}
+
+.content {
+  position: relative;
+  z-index: 1; 
+  padding: 20px;
+}
+
+#emergency-button {
+    padding: 20px;
+    margin: 20px;
+    text-align: center;
+    border-radius: 5px;
+    border-color: red;
+}
+
+.emergencyButton {
+    display: inline;
+    margin: auto;
+    font-size: larger;
+    color: red;
+    font-weight: bold;
+    border-radius: 50px;
+    padding: 20px;
+    box-shadow: 0 4px 8px;
+    max-width: 100%; 
+    transition: transform 0.3s, box-shadow 0.3s;
+    font: bold;
+    border-color: red;
+    border-width: 20px;
+}
+
+.clearButton {
+    display: inline;
+    margin: auto;
+    font-size: larger;
+    color: red;
+    font-weight: bold;
+    border-radius: 50px;
+    padding: 20px;
+    box-shadow: 0 4px 8px;
+    max-width: 100%; 
+    transition: transform 0.3s, box-shadow 0.3s;
+    font: bold;
+    border-color: red;
+    border-width: 20px;
+}
+
+.emergencybubble {
+  background-color: red; 
+  color: white;
+  border-radius: 50px; 
+  padding: 20px; 
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+  max-width: 100%;
+  width: auto; 
+  display: flex;
+  flex-direction: row; 
+  align-items: flex-start;
+  text-align: left;
+  box-sizing: border-box;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.emergencybubble:hover {
+  transform: scale(1.05); 
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+.container {
+  display: flex;
+  flex-direction: row; 
+  flex-wrap: wrap; 
+}
+
+@media (max-width: 600px) {
+  .container {
+    flex-direction: column; 
+  }
+}
+
+#emergency-button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;  
+  padding: 20px;
+}
 </style>

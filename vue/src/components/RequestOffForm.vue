@@ -69,6 +69,7 @@ body, html {
     }
 
 #form-body {
+  padding: 20px;
     display: flex;
     flex-direction: column;
     justify-content: center;

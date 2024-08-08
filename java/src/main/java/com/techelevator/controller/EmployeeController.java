@@ -21,18 +21,18 @@ public class EmployeeController {
 
     private final UserDao userDao;
     private final ShiftDao shiftDao;
-    private final UserShiftDao userShiftDao;
+    private final CoverRequestDao coverRequestDao;
     private final VacationDao vacationDao;
 
 
-    public EmployeeController(JdbcUserDao userDao, JdbcShiftDao shiftDao, JdbcUserShiftDao userShiftDao, JdbcVacationDao vacationDao) {
+    public EmployeeController(JdbcUserDao userDao, JdbcShiftDao shiftDao, JdbcCoverRequestDao coverRequestDao, JdbcVacationDao vacationDao) {
         this.userDao = userDao;
         this.shiftDao = shiftDao;
-        this.userShiftDao = userShiftDao;
+        this.coverRequestDao = coverRequestDao;
         this.vacationDao = vacationDao;
     }
     @GetMapping(path = "/shifts")
-    public List<Shift> getShifts(@RequestParam(required=false, defaultValue = "false") boolean mine, @RequestParam(required=false, defaultValue = "false") boolean emergency, @RequestParam(required = false, defaultValue = "0") int status, Principal principal){
+    public List<Shift> getShifts(@RequestParam(required=false, defaultValue = "false") boolean mine, @RequestParam(required=false, defaultValue = "false") boolean emergency, @RequestParam(required = false, defaultValue = "0") int status, @RequestParam(required = false, defaultValue = "false") boolean assigned, Principal principal){
         User user = userDao.getUserByUsername(principal.getName());
         List<Shift> shifts = shiftDao.getAllShift();
         if(mine) { // if filtering by mine...
@@ -43,6 +43,9 @@ public class EmployeeController {
         }
         if(status > 0) { // if filtering by status...
             shifts.removeIf(s -> s.getStatus() != status); // if status is not specified status, remove
+        }
+        if(assigned) { // if filtering by assigned...
+            shifts.removeIf(s -> s.getAssignedId() != user.getId()); // if assigned is not me, remove
         }
         return shifts;
     }
@@ -61,7 +64,7 @@ public class EmployeeController {
         }
 
         if(shift.getStatus() == 3) {
-            userShiftDao.createUserShift(id, userId);
+            coverRequestDao.createCoverRequest(id, userId);
         }
         else {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "This shift is not taking cover requests.");
@@ -109,8 +112,8 @@ public class EmployeeController {
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping(path = "shift/{id}")
-    public void deleteUserShift(@PathVariable int id, Principal principal){
-        userShiftDao.deleteUserShift(id, userDao.getUserByUsername(principal.getName()).getId());
+    public void deleteCoverRequest(@PathVariable int id, Principal principal){
+        coverRequestDao.deleteCoverRequest(id, userDao.getUserByUsername(principal.getName()).getId());
     }
 
 
@@ -123,7 +126,7 @@ public class EmployeeController {
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(path = "/vacation")
     public Vacation createVacationRequest(@Valid @RequestBody Vacation vacation, Principal principal){
-         return vacationDao.createVacation(vacation, principal);
+         return vacationDao.createVacation(vacation);
     }
 
 //    @GetMapping(path = "/user/fullName")

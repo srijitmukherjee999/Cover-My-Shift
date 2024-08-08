@@ -10,9 +10,9 @@
     <div>
       <nav class="navigation">
         <ul>
-          <li ><router-link v-bind:to="{ name: 'manager' }">MY HOME</router-link></li>
-          <li ><router-link v-bind:to="{ name: 'timeoff' }">PENDING REQUESTS</router-link></li>
-          <li ><router-link v-bind:to="{ name: 'pickupshift' }">FIRE EMPLOYEE</router-link></li>
+          <li><router-link v-bind:to="{ name: 'manager' }">MY HOME</router-link></li>
+          <li><router-link v-bind:to="{ name: 'pendingrequests' }">PENDING REQUESTS</router-link></li>
+          <li><router-link v-bind:to="{ name: 'pickupshift' }">FIRE EMPLOYEE</router-link></li>
         </ul>
       </nav>
     </div>
@@ -97,6 +97,16 @@
           this.selectedUsers.push(userId);
         }
       },
+      getFullName(){
+
+ShiftService.getUserFullName().then( response => {
+
+         this.name = response.data;
+
+        this.$store.commit("ADD_NAME", this.name);
+})
+
+},
   
       isSelected(userId) {
         return this.selectedUsers.includes(userId);
@@ -140,7 +150,9 @@
     },
   
     created() {
+      
       this.getAllUsers();
+      this.getFullName();
       //this.userRole =AuthService.getUsers().authorities[0].name;
     },
   };
