@@ -328,11 +328,5 @@ h1{
    animation: fadeIn 4s;
   
 }
-
-body{
-  background-image: url("../assets\nastuh-abootalebi-eHD8Y1Znfpk-unsplash.jpg");
-  height: 100vh;
-  
-}
 </style>
 
