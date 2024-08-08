@@ -25,7 +25,7 @@
   </div>
   </div>
 
-  <div id="data" v-for="shift in listOfShiftsByStatus" v-bind:key="shift">
+  <div id="data" v-if="showButton" v-for="shift in listOfShiftsByStatus" v-bind:key="shift">
     <router-link :to="{ name: 'shiftdetails', params: { id: shift.shiftId }} ">
       <div class="bubble" :class="{emergency : shift.emergency && shift.status == 3, green: shift.status == 4 || shift.status == 1}" >
         <div id="shiftObjects"><p class="bubble-title">Name: {{ shift.assignedName }}</p></div>
