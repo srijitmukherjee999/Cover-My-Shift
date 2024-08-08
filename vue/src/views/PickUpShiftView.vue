@@ -7,20 +7,22 @@
     <div class="content">
     <employee-navigation/>
   
-  <div id="emergency-button">
-    <div>
+  
+    <div id="emergency-button">
+      <div>
     <button class="emergencyButton" v-if="showButton" @click="getShiftsByEmergency">EMERGENCY SHIFTS</button>
     <button class="clearButton" v-else @click="toggleButton" >Clear</button>
+  </div>
+    
+    <div id="emergency-button">
+    <div class="together">
+    <div class="emergencybubble" v-for="emergency in emergencyShifts" v-bind:key="emergency.shiftId">
+      <div id="shiftObjects"><p class="bubble-title">Name: {{ emergency.assignedName}}</p></div>
+      <div id="shiftObjects"><p class="bubble-title">Start Time: {{ emergency.startDateTime }}</p></div>
+      <div id="shiftObjects"><p class="bubble-title">Duration: {{ emergency.duration }}</p></div>
+      <div id="shiftObjects"><p class="bubble-title">{{ convertStatus(emergency.status) }}: {{ emergency.emergency }}</p></div>
     </div>
-    <div v-for="emergency in emergencyShifts" v-bind:key="emergency.shiftId">
-      <p>{{ emergency.assignedName}}</p>
-      <p>{{ emergency.startDateTime }}</p>
-      <p>{{ emergency.duration }}</p>
-        <p>{{ convertStatus(emergency.status) }}</p>
-      <p>{{ emergency.emergency }}</p>
-    </div>
-
-
+  </div>
   </div>
 
   <div id="data" v-for="shift in listOfShiftsByStatus" v-bind:key="shift">
@@ -42,6 +44,7 @@
       </div>
     </router-link>
   </div> 
+  </div>
   </div>
   </div>
 </body>
@@ -74,18 +77,7 @@ export default {
                     description: ''
       }],
       name:'',
-      emergencyShifts: [ {
-                    assignedName : '',
-                    shiftId: 0,
-                    assigned: 0,
-                    startDateTime: '',
-                    duration: '',
-                    status: 0,
-                    emergency: '',
-                    coverer: 0,
-                    covererName: '',
-                    description: ''
-      }]
+      emergencyShifts: []
     }
     
   },
@@ -167,6 +159,10 @@ export default {
 
 <style scoped>
 
+body {
+  background: transparent;
+}
+
 #data {
   display: flex;
   flex-direction: column;
@@ -174,6 +170,11 @@ export default {
   gap: 20px;  
   padding: 20px;
 }
+.together {
+      display: flex;
+      justify-content: center; 
+      width: 100%; 
+    }
 
 .bubble {
   background-color: #4a90e2; 
@@ -209,7 +210,12 @@ export default {
 
 .bubble-title {
   font-weight: bold; 
-  margin-bottom: 10px; 
+  flex: 1 1 auto; 
+  padding: 15px;
+  margin: 10px;
+  border-radius: 5px;
+  text-align: center;
+  font-weight: bold; 
 }
 
 .bubble p {
@@ -293,5 +299,62 @@ h1{
     font: bold;
     border-color: red;
     border-width: 20px;
+}
+
+.clearButton {
+    display: inline;
+    margin: auto;
+    font-size: larger;
+    color: red;
+    font-weight: bold;
+    border-radius: 50px;
+    padding: 20px;
+    box-shadow: 0 4px 8px;
+    max-width: 100%; 
+    transition: transform 0.3s, box-shadow 0.3s;
+    font: bold;
+    border-color: red;
+    border-width: 20px;
+}
+
+.emergencybubble {
+  background-color: red; 
+  color: white;
+  border-radius: 50px; 
+  padding: 20px; 
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+  max-width: 100%;
+  width: auto; 
+  display: flex;
+  flex-direction: row; 
+  align-items: flex-start;
+  text-align: left;
+  box-sizing: border-box;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.emergencybubble:hover {
+  transform: scale(1.05); 
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+.container {
+  display: flex;
+  flex-direction: row; 
+  flex-wrap: wrap; 
+}
+
+@media (max-width: 600px) {
+  .container {
+    flex-direction: column; 
+  }
+}
+
+#emergency-button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;  
+  padding: 20px;
 }
 </style>
