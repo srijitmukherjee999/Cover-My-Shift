@@ -1,4 +1,5 @@
 <template>
+    <company-header/>
     <div class="yes">
       <h1>Hello Manager {{ name }}</h1>
     </div>
@@ -48,8 +49,10 @@
   <script>
   import ShiftService from "../services/ShiftService.js";
   import AuthService from "../services/AuthService";
+import CompanyHeader from '../components/CompanyHeader.vue';
   
   export default {
+  components: { CompanyHeader },
     data() {
       return {
         name: '',

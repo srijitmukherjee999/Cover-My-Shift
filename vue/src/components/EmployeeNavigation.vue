@@ -1,57 +1,27 @@
 <template>
-  <company-header/>
-  <employee-greeting/>
-  <employee-navigation/>  
-  <request-off-form/>
+    <body>
+        <div>
+    <nav class="navigation">
+    <ul>
+        <li><router-link v-bind:to="{name: 'employee'}">MY HOME</router-link></li>
+    
+        <li><router-link v-bind:to="{name: 'timeoff'}">REQUEST TIME OFF</router-link></li>
+    
+        <li><router-link v-bind:to="{name: 'pickupshift'}">PICK UP SHIFT</router-link></li>
+    </ul>
+  </nav>
+  </div>
+    </body>
+  
 </template>
 
 <script>
-import CompanyHeader from '../components/CompanyHeader.vue';
-import EmployeeGreeting from '../components/EmployeeGreeting.vue';
-import EmployeeNavigation from '../components/EmployeeNavigation.vue';
-import RequestOffForm from '../components/RequestOffForm.vue'
-import ShiftService from '../services/ShiftService';
 export default {
-  data(){
-    return {
-      name: ''
-    }
-    
-  },
-    components: {
-        RequestOffForm,
-        CompanyHeader,
-        EmployeeGreeting,
-        EmployeeNavigation
-    },
-    methods: {
-      getFullName(){
-
-  ShiftService.getUserFullName().then( response => {
-
-         this.name = response.data;
-
-        this.$store.commit("ADD_NAME", this.name);
-})
-
-},
-    },
-    created(){
-      this.getFullName();
-    }
 
 }
 </script>
 
 <style scoped>
-
-.yes{
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-evenly;
-    padding: 10px;
-    background-color: white;
-}
 
 .navigation {
     padding: 10px;
@@ -92,6 +62,7 @@ export default {
 }
 
 @media (max-width: 768px) {
+
     .navigation li {
         font-size: medium; 
         padding: 15px; 
@@ -99,6 +70,8 @@ export default {
 }
 
 @media (max-width: 480px) {
+
+ 
     .navigation li {
         font-size: small; 
         padding: 10px; 
@@ -110,13 +83,5 @@ export default {
         flex-wrap: wrap; 
     }
 }
-
-.request-off-form {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
-}
-
-
 
 </style>
