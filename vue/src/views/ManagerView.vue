@@ -1,11 +1,12 @@
 <template>
+    <company-header/>
     <div class="yes">
       <h1>Hello Manager {{ name }}</h1>
     </div>
     <div>
       <nav class="navigation">
         <ul>
-          <li><router-link v-bind:to="{ name: 'employee' }">MY HOME</router-link></li>
+          <li><router-link v-bind:to="{ name: 'manager' }">MY HOME</router-link></li>
           <li><router-link v-bind:to="{ name: 'timeoff' }">PENDING REQUESTS</router-link></li>
           <li><router-link v-bind:to="{ name: 'pickupshift' }">FIRE EMPLOYEE</router-link></li>
         </ul>
@@ -46,10 +47,12 @@
   
   
   <script>
-  import ShiftService from "../services/ShiftService";
+  import ShiftService from "../services/ShiftService.js";
   import AuthService from "../services/AuthService";
+import CompanyHeader from '../components/CompanyHeader.vue';
   
   export default {
+  components: { CompanyHeader },
     data() {
       return {
         name: '',

@@ -11,6 +11,7 @@ import RequestTimeOffView from '../views/RequestTimeOffView.vue';
 import PickUpShiftView from '../views/PickUpShiftView.vue';
 import ShiftDetailView from '../views/ShiftDetailView.vue';
 import ManagerView from '../views/ManagerView.vue'
+import MyShiftView from '../views/MyShiftView.vue'
 
 
 /**
@@ -92,6 +93,14 @@ const routes = [
     component: ManagerView,
     meta: {
       requiresAuth: false,
+    }
+  },
+  {
+    path: '/myshift',
+    name: 'myshift',
+    component: MyShiftView,
+    meta: {
+      requiresAuth: true
     }
   }
   

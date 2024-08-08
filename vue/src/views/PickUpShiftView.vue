@@ -1,19 +1,8 @@
 <template>
-    <div class="yes">
-         <h1>Hello {{ name }}</h1>
-        <h1>Hours Worked: 40</h1>
- </div>
-  <div>
-    <nav class="navigation">
-    <ul>
-        <li><router-link v-bind:to="{name: 'employee'}">MY HOME</router-link></li>
-    
-        <li><router-link v-bind:to="{name: 'timeoff'}">REQUEST TIME OFF</router-link></li>
-    
-        <li><router-link v-bind:to="{name: 'pickupshift'}">PICK UP SHIFT</router-link></li>
-    </ul>
-  </nav>
-  </div>
+    <company-header/>
+    <employee-greeting/>
+    <employee-navigation/>
+  
   <div class="emergencyButton">
     <button v-if="showButton" @click="getShiftsByEmergency">EMERGENCY SHIFTS</button>
     <button v-else @click="toggleButton" >Clear</button>
@@ -57,8 +46,12 @@
 
 
 <script>
+import CompanyHeader from '../components/CompanyHeader.vue';
+import EmployeeGreeting from '../components/EmployeeGreeting.vue';
+import EmployeeNavigation from '../components/EmployeeNavigation.vue';
 import ShiftService from '../services/ShiftService';
 export default {
+  components: { CompanyHeader, EmployeeGreeting, EmployeeNavigation },
 
 
   data(){
@@ -128,7 +121,7 @@ export default {
   getShiftsByEmergency(){
     
     ShiftService.getEmergencyShifts(true,3).then(response => {
-        console.log(response.data);
+        
       this.emergencyShifts = response.data;
       this.showButton = false;
       
@@ -162,7 +155,6 @@ export default {
     this.getShifts(3);
     this.getFullName();
   },
-
   }
 
 
@@ -180,11 +172,9 @@ export default {
 }
 
 .navigation {
-    
     padding: 10px;
     margin: 20px;
     border-radius: 5px; 
-    
 }
 
 .navigation a {
@@ -195,7 +185,7 @@ export default {
 .navigation ul {
     list-style: none;
     padding: 0;
-    margin: center;
+    margin: 0;
     text-align: center;
 }
 
@@ -217,6 +207,26 @@ export default {
     transform: scale(1.05); 
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
     background-color: lightgray;
+}
+
+@media (max-width: 768px) {
+    .navigation li {
+        font-size: medium; 
+        padding: 15px; 
+    }
+}
+
+@media (max-width: 480px) {
+    .navigation li {
+        font-size: small; 
+        padding: 10px; 
+    }
+
+    .navigation ul {
+        display: flex;
+        flex-direction: column;
+        flex-wrap: wrap; 
+    }
 }
 
 #data {
@@ -258,9 +268,12 @@ export default {
     margin-right: 20px;
 }
 
+
+
 .emergency{
     background-color: red;
     text-decoration: underline;
+    animation : vertical-shaking 4s infinite;
 }
 
 .emergencyButton{
@@ -268,8 +281,18 @@ export default {
   justify-content: center;
 }
 
+h1{
+  font-style: italic;
+  font-weight: bold;
+  animation: fadeIn 2s;
+}
 
-
-
+@keyframes vertical-shaking {
+  0% { transform: translateY(0) }
+  25% { transform: translateY(5px) }
+  50% { transform: translateY(-5px) }
+  75% { transform: translateY(5px) }
+  100% { transform: translateY(0) }
+}
 
 </style>

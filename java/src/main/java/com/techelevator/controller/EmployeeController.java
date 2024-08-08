@@ -61,7 +61,7 @@ public class EmployeeController {
         }
 
         if(shift.getStatus() == 3) {
-            userShiftDao.createUserShift(userId, id);
+            userShiftDao.createUserShift(id, userId);
         }
         else {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "This shift is not taking cover requests.");
@@ -90,12 +90,12 @@ public class EmployeeController {
             }
         }
         else if(status > 0) {
-            if(status == 2 && (shift.getStatus() == 1 || shift.getStatus() == 3)){
+            if(status == 2 && shift.getStatus() == 1){
                 shift.setStatus(2);
                 shift.setCovererId(0);
             }
-            else if(status == 3 && (shift.getStatus() == 1 || shift.getStatus() == 3)) {
-                shift.setStatus(3);
+            else if(status == 1 && shift.getStatus() == 2) { // TODO: ask tom if approved days off can be canceled
+                shift.setStatus(1);
                 shift.setCovererId(user.getId());
             }
             else {

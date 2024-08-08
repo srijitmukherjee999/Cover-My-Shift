@@ -9,6 +9,7 @@ public class ApprovalDto {
 
    private int shiftId;
    private int employeeId;
+   private boolean approved;
 
    public int getShiftId() {
       return shiftId;
@@ -26,11 +27,20 @@ public class ApprovalDto {
       this.employeeId = employeeId;
    }
 
+   public boolean isApproved() {
+      return approved;
+   }
+
+   public void setApproved(boolean approved) {
+      this.approved = approved;
+   }
+
    @Override
    public String toString() {
       return "ApprovalDto{" +
               "shiftId=" + shiftId +
               ", employeeId=" + employeeId +
+              ", approved=" + approved +
               '}';
    }
 }
