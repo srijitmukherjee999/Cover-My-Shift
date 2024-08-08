@@ -3,16 +3,17 @@
         <div>
     <nav class="navigation">
     <ul>
-        <li><router-link v-bind:to="{name: 'employee'}">MY HOME</router-link></li>
+       <li><router-link v-bind:to="{name: 'employee'}">MY HOME</router-link></li>
     
         <li><router-link v-bind:to="{name: 'timeoff'}">REQUEST TIME OFF</router-link></li>
     
         <li><router-link v-bind:to="{name: 'pickupshift'}">PICK UP SHIFT</router-link></li>
+
+        <li><router-link v-bind:to="{name: 'myshift'}">MY SHIFT</router-link></li>
     </ul>
   </nav>
-  </div>
+</div>
     </body>
-  
 </template>
 
 <script>
@@ -23,10 +24,23 @@ export default {
 
 <style scoped>
 
+body {
+    background: transparent;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+body > div {
+  margin: 0;
+  padding: 0;
+}
 .navigation {
-    padding: 10px;
+    padding: 0;
     margin: 20px;
-    border-radius: 5px; 
+    border-radius: 5px;
 }
 
 .navigation a {
@@ -35,7 +49,6 @@ export default {
 }
 
 .navigation ul {
-    list-style: none;
     padding: 0;
     margin: 0;
     text-align: center;
@@ -45,7 +58,6 @@ export default {
     display: inline;
     margin-right: 15px;
     font-size: larger;
-    background-color: white;
     color: black;
     border-radius: 50px;
     padding: 20px;
@@ -75,7 +87,11 @@ export default {
     .navigation li {
         font-size: small; 
         padding: 10px; 
+        display: flex;
+        flex-direction: column;
+        flex-wrap: wrap; 
     }
+    
 
     .navigation ul {
         display: flex;

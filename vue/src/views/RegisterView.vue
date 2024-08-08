@@ -34,10 +34,10 @@
           <label>Profile</label>
           <div>
             <label>
-              <input type="radio" value="Manager" v-model="user.role" /> Manager
+              <input type="radio" value="ROLE_MANAGER" v-model="user.role" /> Manager
             </label>
             <label>
-              <input type="radio" value="Employee" v-model="user.role" /> Employee
+              <input type="radio" value="ROLE_EMPLOYEE" v-model="user.role" /> Employee
             </label>
           </div>
         </div>

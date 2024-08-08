@@ -57,5 +57,3 @@ CREATE TABLE cover_request (
 );
 
 COMMIT;
-
-SELECT * FROM users

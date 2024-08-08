@@ -1,36 +1,23 @@
 <template>
+  <body>
+    <company-header/>
+      <employee-greeting/>
+      <div id="backImage">
+    <div class="overlay"></div>
+    <div class="content">
+      <employee-navigation/>
 
-<div class="yes">
-         <h1>Hello {{ name }}</h1>
-        <h1>Hours Worked: 40</h1>
- </div>
-
-  <div>
-    <nav class="navigation">
-    <ul>
-        <li><router-link v-bind:to="{name: 'employee'}">MY HOME</router-link></li>
-    
-        <li><router-link v-bind:to="{name: 'timeoff'}">REQUEST TIME OFF</router-link></li>
-    
-        <li><router-link v-bind:to="{name: 'pickupshift'}">PICK UP SHIFT</router-link></li>
-        
-        <li><router-link v-bind:to="{name: 'myshift'}">MY SHIFT</router-link></li>
-    </ul>
-  </nav>
-  </div>
-  
-  <div class="MyFilter">
-    
-
-    <input type="date" id="startDateTime" v-model="myFilter.startDateTime"  />&nbsp;&nbsp;
-    <input type="text" id="duration" v-model="myFilter.duration" placeholder="Duration">&nbsp;&nbsp;
+  <div id="search-shifts">
+  <div class="filter">
+    <input type="date" id="startDateTime" v-model="myFilter.startDateTime"  />
+    <input type="text" id="duration" v-model="myFilter.duration" placeholder="Duration">
     <select id = "myList" v-model="myFilter.status" >
     <option  id="">--None--</option>
     <option value="uncovered request">Uncovered request</option>
     <option value="covered">Covered</option>
     <option value="uncovered">Uncovered</option>
     <option value="assigned">Assigned</option>
-    </select>&nbsp;&nbsp;
+    </select>
 
     <select id = "myList" v-model="myFilter.emergency" >Emergency
     <option  id="emergency">--None--</option>
@@ -38,40 +25,47 @@
     <option value="false">false</option>
     </select>
   </div>
+  </div>
 
-  <div id="myData" v-for="shift in filteredMyList" :key="shift.shiftId">
+  <div id="data" v-for="shift in filteredMyList" :key="shift.shiftId">
     <router-link :to="{ name: 'shiftdetails', params: { id: shift.shiftId }} ">
       <div class="bubble" :class="{emergency : shift.emergency}">
-        <p class="bubble-title">Name</p>
-        <p>{{ shift.assignedName }}</p>
+        <div id="shiftObjects"><p class="bubble-title">Name: {{ shift.assignedName }}</p></div>
       
       
-        <p class="bubble-title">Start Time</p>
-        <p>{{ shift.startDateTime }}</p>
-      
-      
-        <p class="bubble-title">Duration</p>
-        <p>{{ shift.duration }} <span>hours</span></p>
-      
-      
-        <p class="bubble-title">Status</p>
-        <p>{{ convertStatus(shift.status) }}</p>
-      
-      
-        <p class="bubble-title">Emergency</p>
-        <p>{{ shift.emergency }}</p>
+      <div id="shiftObjects"><p class="bubble-title">Start Time: {{ shift.startDateTime }}</p></div>
+    
+    
+      <div id="shiftObjects"><p class="bubble-title">Duration: {{ shift.duration }} <span>hours</span></p></div>
+    
+    
+      <div id="shiftObjects"><p class="bubble-title">Status: {{ convertStatus(shift.status) }}</p></div>
+    
+    
+      <div id="shiftObjects"><p class="bubble-title">Emergency: {{ shift.emergency }}</p></div>
       </div>
+    
     </router-link>
     </div>
-    
-
+  </div>
+    </div>
+  </body>
   
 </template>
 
 
 <script>
+import CompanyHeader from '../components/CompanyHeader.vue';
+import EmployeeGreeting from '../components/EmployeeGreeting.vue';
+import EmployeeNavigation from '../components/EmployeeNavigation.vue';
 import ShiftService from '../services/ShiftService';
+
+
 export default {
+  components: { CompanyHeader,
+                EmployeeGreeting,
+                EmployeeNavigation,
+  },
     data(){
         return{
             name: '',
@@ -122,54 +116,55 @@ export default {
             return "covered"
 
         },
-        getFullName(){
+          getFullName(){
 
-          ShiftService.getUserFullName().then( response => {
+            ShiftService.getUserFullName().then( response => {
 
-         this.name = response.data;
+          this.name = response.data;
 
-        this.$store.commit("ADD_NAME", this.name);
-        })
+          this.$store.commit("ADD_NAME", this.name);
+          })
 
-          },
+            },
+            convertStringToBoolean(emergency){
+              if(emergency === 'true')
+              return true
+              if(emergency === 'false')
+              return false
+          }
 
 
 
     }, 
     computed: {
 
-        filteredMyList() {
-      let filteredUsers = this.listOfMyShifts;
-      
-      if (this.myFilter.startDateTime != "") {
-        filteredUsers = filteredUsers.filter((shift) =>
-          shift.startDateTime.includes(this.myFilter.startDateTime)
-        );
+          filteredMyList() {
+        let filteredUsers = this.listOfMyShifts;
+        
+        if (this.myFilter.startDateTime != "") {
+          filteredUsers = filteredUsers.filter((shift) =>
+            shift.startDateTime.includes(this.myFilter.startDateTime)
+          );
+        }
+        if (this.myFilter.duration != 0) {
+          filteredUsers = filteredUsers.filter(( shift) =>
+            shift.duration == (this.myFilter.duration)
+          );
+        }
+        if ((this.myFilter.status != "--None--")) {
+          filteredUsers = filteredUsers.filter((shift) =>
+              this.convertStatus(shift.status) == (this.myFilter.status.toLowerCase())
+          );
+        }
+        if( this.myFilter.emergency != '--None--'){
+          filteredUsers = filteredUsers.filter(shift  => 
+            shift.emergency === this.convertStringToBoolean(this.myFilter.emergency)
+          )
+        }
+        
+        
+        return filteredUsers;
       }
-      if (this.myFilter.duration != 0) {
-        filteredUsers = filteredUsers.filter(( shift) =>
-          shift.duration == (this.myFilter.duration)
-        );
-      }
-      if ((this.myFilter.status != "--None--")) {
-        filteredUsers = filteredUsers.filter((shift) =>
-            this.convertStatus(shift.status) == (this.myFilter.status.toLowerCase())
-        );
-      }
-      if( this.myFilter.emergency == true){
-        filteredUsers = filteredUsers.filter(shift => {
-          shift.emergency == true
-        })
-      }
-      if(this.myFilter.emergency == false){
-        filteredUsers = filteredUsers.filter( shift => {
-           shift.emergency == false
-        })
-      }
-
-      
-      return filteredUsers;
-    }
     }, 
     created(){
 
@@ -187,24 +182,159 @@ export default {
 
 <style scoped>
 
-.MyFilter{
-
-  display: flex;
-  justify-content: center;
+#search-shifts {
+margin: 0 auto;
+  width: 80%;
+  max-width: fit-content;
+  padding: 20px;
 }
 
-#myData{
-
+.filter {
+    background-color: orange; 
+  color: white;
+  border-radius: 50px; 
+  padding: 20px; 
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);  
   display: flex;
+  flex-wrap: wrap; 
+  align-items: center;
   justify-content: center;
-  padding-top: 3%;
+  text-align: center;
+  box-sizing: border-box;
+  transition: transform 0.3s, box-shadow 0.3s;
+  gap: 20px;
+}
 
+input[type="text"] {
+  width: 200px;         
+  height: 50px;         
+  padding: 10px;        
+  font-size: 18px;      
+  border: 2px solid #000; 
+  border-radius: 5px; 
+  text-align: center; 
+}
+
+input[type="date"] {
+  width: 200px;         
+  height: 50px;         
+  padding: 10px;        
+  font-size: 18px;      
+  border: 2px solid #000; 
+  border-radius: 5px;
+  text-align: center;  
+}
+
+#myList {
+    width: 200px;         
+  height: 50px;         
+  padding: 10px;        
+  font-size: 18px;      
+  border: 2px solid #000; 
+  border-radius: 5px;
+  text-align: center;  
+}
+.myFilter{
+  
+  justify-content: center;
+  align-content: center;
 }
 
 h1{
   font-style: italic;
   font-weight: bold;
   animation: fadeIn 2s;
+}
+
+#backImage {
+  position: relative;
+  height: 100vh;
+  background-image: url("..\assets\nastuh-abootalebi-eHD8Y1Znfpk-unsplash.jpg"); /* Example image */
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+
+/* Overlay with semi-transparent color */
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8); /* Semi-transparent black overlay */
+  z-index: 0; /* Place the overlay above the background but below content */
+}
+
+.content {
+  position: relative;
+  z-index: 1; /* Ensure content is above the overlay */
+  padding: 20px; /* Add padding as needed */
+}
+
+#data {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;  
+  padding: 20px;
+}
+
+.bubble {
+  background-color: #4a90e2; 
+  color: white;
+  border-radius: 50px; 
+  padding: 20px; 
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+  width: 100%; 
+  display: flex;
+  flex-wrap: wrap; 
+  align-items: center;
+  text-align: left;
+  box-sizing: border-box;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.bubble:hover {
+  transform: scale(1.05); 
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+.container {
+  display: flex;
+  flex-direction: row; /* Aligns items horizontally */
+  flex-wrap: wrap; /* Allows items to wrap to the next line */
+}
+
+@media (max-width: 600px) {
+  .container {
+    flex-direction: column; /* Stacks items vertically */
+  }
+}
+
+.bubble-title {
+  font-weight: bold; 
+  flex: 1 1 auto; /* Allows items to grow and shrink */
+  padding: 15px;
+  margin: 10px;
+  border-radius: 5px;
+  text-align: center; 
+}
+
+.bubble p {
+    margin: 0;
+    padding: 0;
+    margin-right: 20px;
+}
+
+.emergency{
+    background-color: red;
+    text-decoration: underline;
+   animation: vertical-shaking 4s infinite;
+}
+.green{
+  background-color: green;
+  text-decoration: green;
 }
 
 </style>
