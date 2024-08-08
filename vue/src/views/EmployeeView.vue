@@ -1,11 +1,11 @@
 <template>
-    
+    <body>
       <company-header/>
       <employee-greeting/>
-      <body>
+      <div id="backImage">
       <employee-navigation/>
-     
     
+
   <div id="search-shifts">
   <div class="filter">
     <input type="text" id="assignedNameFilter" placeholder="Name" v-model="filter.assignedName" />
@@ -52,7 +52,7 @@
       </div>
     </router-link>
   </div>  
-
+</div>
 </body>
 </template>
 
@@ -134,20 +134,21 @@ export default {
         },
         
         convertStatusToNumber(status){
-          if(status.toLowerCase().includes("assigned"))
+            if(status.toLowerCase().includes("assigned"))
             return 1
-          if(status.includes("uncovered request"))
+            if(status.includes("uncovered request"))
             return 2
-          if(status.includes("uncovered"))
-            return 3
-          if(status.includes("covered"))
-            return 4
+        if(status.includes("uncovered"))
+        return 3
+        if(status.includes("covered"))
+          return 4
+    
         },
         convertStringToBoolean(emergency){
           if(this.filter.emergency === 'true')
-            return true
+          return true
           if(this.filter.emergency === 'false')
-            return false
+          return false
         }
 
   
@@ -160,47 +161,49 @@ export default {
         
     },
     computed: {
-      shiftDetails(){
-        const shiftId = this.$route.params.id;
-        return this.listOfShifts.find( e => e.shiftId === shiftId);
-      },
-      filteredList() {
-        let filteredUsers = this.listOfShifts;
-        if (this.filter.assignedName != "") {
-          filteredUsers = filteredUsers.filter((shift) =>
-            shift.assignedName.toLowerCase().includes(this.filter.assignedName.toLowerCase())      
-          );
-        }
-
-        if (this.filter.startDateTime != "") {
-          filteredUsers = filteredUsers.filter((shift) =>
-            shift.startDateTime.includes(this.filter.startDateTime)
-          );
-        }
-
-        if (this.filter.duration != 0) {
-          filteredUsers = filteredUsers.filter(( shift) =>
-            shift.duration == (this.filter.duration)
-          );
-        }
-
-        if ((this.filter.status != "--None--")) {
-          filteredUsers = filteredUsers.filter((shift) =>
-            this.convertStatus(shift.status) == (this.filter.status.toLowerCase())
-          );
-        }
-
-        if( this.filter.emergency != '--None--'){
-          filteredUsers = filteredUsers.filter((shift) => 
-            shift.emergency == this.convertStringToBoolean(this.filter.emergency)
-          );
-        }
-
-        return filteredUsers;
-      },
-
-
+        shiftDetails(){
+            const shiftId = this.$route.params.id;
+            return this.listOfShifts.find( e => e.shiftId === shiftId);
+        },
+        filteredList() {
+      let filteredUsers = this.listOfShifts;
+      if (this.filter.assignedName != "") {
+        filteredUsers = filteredUsers.filter((shift) =>
+          shift.assignedName.toLowerCase().includes(this.filter.assignedName.toLowerCase())      
+        );
       }
+      if (this.filter.startDateTime != "") {
+        filteredUsers = filteredUsers.filter((shift) =>
+          shift.startDateTime.includes(this.filter.startDateTime)
+        );
+      }
+      if (this.filter.duration != 0) {
+        filteredUsers = filteredUsers.filter(( shift) =>
+          shift.duration == (this.filter.duration)
+        );
+      }
+      if ((this.filter.status != "--None--")) {
+        filteredUsers = filteredUsers.filter((shift) =>
+            this.convertStatus(shift.status) == (this.filter.status.toLowerCase())
+        );
+      }
+      if( this.filter.emergency != '--None--'){
+        filteredUsers = filteredUsers.filter(shift => {
+          shift.emergency === this.convertStringToBoolean(this.filter.emergency) 
+        })
+      }
+      if(this.filter.emergency == false){
+        filteredUsers = filteredUsers.filter( shift => {
+           shift.emergency == false
+        })
+      }
+
+      
+      return filteredUsers;
+    },
+    
+      
+     }
 
 }
 </script>
@@ -328,8 +331,11 @@ h1{
   
 }
 
-body{
+#backImage{
   background-image: url("../assets\nastuh-abootalebi-eHD8Y1Znfpk-unsplash.jpg");
+  height: 100vh;
+  background-repeat: no-repeat;
+  
 }
 </style>
 
