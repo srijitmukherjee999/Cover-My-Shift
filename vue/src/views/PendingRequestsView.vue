@@ -53,8 +53,8 @@ export default {
         this.$store.commit("ADD_NAME", this.name);
       });
     },
-    getMyShiftPendingRequests(){
-      ShiftService.getMyShiftsByUncoveredRequest(2).then(response => {
+    getShiftPendingRequests(){
+      ShiftService.getShiftsByUncoveredRequest(2).then(response => {
         this.listOfPendingRequests = response.data;
       });
     },
@@ -86,7 +86,7 @@ export default {
   },
   created(){
     this.getFullName();
-    this.getMyShiftPendingRequests();
+    this.getShiftPendingRequests();
   }
 }
 </script>

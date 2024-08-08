@@ -20,7 +20,7 @@
       <div id="shiftObjects"><p class="bubble-title">Name: {{ emergency.assignedName}}</p></div>
       <div id="shiftObjects"><p class="bubble-title">Start Time: {{ emergency.startDateTime }}</p></div>
       <div id="shiftObjects"><p class="bubble-title">Duration: {{ emergency.duration }}</p></div>
-      <div id="shiftObjects"><p class="bubble-title">{{ convertStatus(emergency.status) }}: {{ emergency.emergency }}</p></div>
+      <div id="shiftObjects"><p class="bubble-title">{{ convertStatus(emergency.status) }}</p></div>
     </div>
   </div>
   </div>

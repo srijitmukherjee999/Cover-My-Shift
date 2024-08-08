@@ -95,14 +95,14 @@
           this.selectedUsers.push(userId);
         }
       },
-      getFullName(){
+                  getFullName(){
 
-ShiftService.getUserFullName().then( response => {
+            ShiftService.getUserFullName().then( response => {
 
-         this.name = response.data;
+                    this.name = response.data;
 
-        this.$store.commit("ADD_NAME", this.name);
-})
+                    this.$store.commit("ADD_NAME", this.name);
+            })
 
 },
   

@@ -58,7 +58,19 @@ export default {
 
       return axios.get(`/shifts?assigned=${assigned}&status=${status}`);
 
-   }
+   },
+
+      getShiftsByUncoveredRequest(status){
+
+         return axios.get(`/shifts?status=${status}`);
+
+      },
+
+      createCoverRequest(id){
+
+         return axios.post(`/shift/${id}`);
+
+      }
 
 
 

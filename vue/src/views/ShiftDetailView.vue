@@ -10,7 +10,7 @@
     <button @click="updateShiftStatusToUncovered">Request Day Off</button>
         </div>
         <div class="accept">
-        <button @click="updateShiftStatusToAssigned">Accept</button>
+        <button @click="coverThisShift">Cover this Shift</button>
 
     </div>
 
@@ -42,17 +42,19 @@ export default {
 
     ShiftService.updateShiftStatus(this.$route.params.id,2).then(response => {
     if(response.status === 200){
-        alert("You have updated");
+        alert("You have requested the day off. Pending Management decision");
     }
 })
 
 },
-    updateShiftStatusToAssigned(){
-        ShiftService.updateUserShiftStatus(this.$route.params.id,2).then(response => {
-            if(response.status === 200){
-                alert("You have updated");
+    coverThisShift(){
+
+        ShiftService.createCoverRequest(this.$route.params.id).then(response => {
+            if(response.status === 201){
+                alert("You have requested to cover this shift.Pending Management decision");
             }
         })
+
     }
 
 
