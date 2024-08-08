@@ -2,8 +2,10 @@
     <body>
       <company-header/>
       <employee-greeting/>
+      <div id="backImage">
       <employee-navigation/>
     
+
   <div id="search-shifts">
   <div class="filter">
     <input type="text" id="assignedNameFilter" placeholder="Name" v-model="filter.assignedName" />
@@ -50,7 +52,7 @@
       </div>
     </router-link>
   </div>  
-
+</div>
 </body>
 </template>
 
@@ -326,6 +328,13 @@ h1{
   font-style: italic;
   font-weight: bold;
    animation: fadeIn 4s;
+  
+}
+
+#backImage{
+  background-image: url("../assets\nastuh-abootalebi-eHD8Y1Znfpk-unsplash.jpg");
+  height: 100vh;
+  background-repeat: no-repeat;
   
 }
 </style>
