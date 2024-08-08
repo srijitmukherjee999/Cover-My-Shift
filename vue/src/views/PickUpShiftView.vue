@@ -108,6 +108,7 @@ export default {
             return "covered"
 
         },
+        
         getFullName(){
 
     ShiftService.getUserFullName().then( response => {

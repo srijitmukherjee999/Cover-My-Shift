@@ -122,54 +122,55 @@ export default {
             return "covered"
 
         },
-        getFullName(){
+          getFullName(){
 
-          ShiftService.getUserFullName().then( response => {
+            ShiftService.getUserFullName().then( response => {
 
-         this.name = response.data;
+          this.name = response.data;
 
-        this.$store.commit("ADD_NAME", this.name);
-        })
+          this.$store.commit("ADD_NAME", this.name);
+          })
 
-          },
+            },
+            convertStringToBoolean(emergency){
+              if(emergency === 'true')
+              return true
+              if(emergency === 'false')
+              return false
+          }
 
 
 
     }, 
     computed: {
 
-        filteredMyList() {
-      let filteredUsers = this.listOfMyShifts;
-      
-      if (this.myFilter.startDateTime != "") {
-        filteredUsers = filteredUsers.filter((shift) =>
-          shift.startDateTime.includes(this.myFilter.startDateTime)
-        );
+          filteredMyList() {
+        let filteredUsers = this.listOfMyShifts;
+        
+        if (this.myFilter.startDateTime != "") {
+          filteredUsers = filteredUsers.filter((shift) =>
+            shift.startDateTime.includes(this.myFilter.startDateTime)
+          );
+        }
+        if (this.myFilter.duration != 0) {
+          filteredUsers = filteredUsers.filter(( shift) =>
+            shift.duration == (this.myFilter.duration)
+          );
+        }
+        if ((this.myFilter.status != "--None--")) {
+          filteredUsers = filteredUsers.filter((shift) =>
+              this.convertStatus(shift.status) == (this.myFilter.status.toLowerCase())
+          );
+        }
+        if( this.myFilter.emergency != '--None--'){
+          filteredUsers = filteredUsers.filter(shift  => 
+            shift.emergency === this.convertStringToBoolean(this.myFilter.emergency)
+          )
+        }
+        
+        
+        return filteredUsers;
       }
-      if (this.myFilter.duration != 0) {
-        filteredUsers = filteredUsers.filter(( shift) =>
-          shift.duration == (this.myFilter.duration)
-        );
-      }
-      if ((this.myFilter.status != "--None--")) {
-        filteredUsers = filteredUsers.filter((shift) =>
-            this.convertStatus(shift.status) == (this.myFilter.status.toLowerCase())
-        );
-      }
-      if( this.myFilter.emergency == true){
-        filteredUsers = filteredUsers.filter(shift => {
-          shift.emergency == true
-        })
-      }
-      if(this.myFilter.emergency == false){
-        filteredUsers = filteredUsers.filter( shift => {
-           shift.emergency == false
-        })
-      }
-
-      
-      return filteredUsers;
-    }
     }, 
     created(){
 
