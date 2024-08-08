@@ -82,15 +82,17 @@ import CompanyHeader from '../components/CompanyHeader.vue';
             showShiftForm: false, 
           },
         ],
-        newShift: {
-          assignedId: 0,
-          startDateTime: "",
-          duration: 0,
-          status: 1,
-          emergency: false,
-          covererId: 0,
-          description: "",
-        },
+        listOfNewShifts:[ 
+            {
+            assignedId: 0,
+            startDateTime: "",
+            duration: 0,
+            status: 1,
+            emergency: false,
+            covererId: 0,
+            description: "",
+            },
+        ]   
       };
     },
   
@@ -133,6 +135,7 @@ import CompanyHeader from '../components/CompanyHeader.vue';
   
       addShift(userId) {
         this.newShift.assignedId = userId;
+        this.newShift.covererId = userId;
         ShiftService.createShift(this.newShift).then((response) => {
           if (response.status === 201) {
             console.log("Hey")
