@@ -102,31 +102,7 @@ export default {
                     emergency: '--None--',
                     
             },
-            listOfMyShifts: [
-            {
-                    assignedName : '',
-                    shiftId: 0,
-                    assigned: 0,
-                    startDateTime: '',
-                    duration: 0,
-                    status: 0,
-                    emergency: false,
-                    coverer: 0,
-                    covererName: '',
-                    description: ''
-                    
-                }
-            ],
-            myFilter: {
-                    assignedName : '',          
-                    startDateTime: '',
-                    duration: '',
-                    status: '--None--',
-                    emergency: '--None--',
-                    
-            },
-
-            
+     
         }
     }
     ,
@@ -173,6 +149,12 @@ export default {
         if(status.includes("covered"))
           return 4
     
+        },
+        convertStringToBoolean(emergency){
+          if(this.filter.emergency === 'true')
+          return true
+          if(this.filter.emergency === 'false')
+          return false
         }
 
   
@@ -211,9 +193,9 @@ export default {
             this.convertStatus(shift.status) == (this.filter.status.toLowerCase())
         );
       }
-      if( this.filter.emergency == true){
+      if( this.filter.emergency != '--None--'){
         filteredUsers = filteredUsers.filter(shift => {
-          shift.emergency == true
+          shift.emergency === this.convertStringToBoolean(this.filter.emergency) 
         })
       }
       if(this.filter.emergency == false){
@@ -421,6 +403,12 @@ h1{
   font-style: italic;
   font-weight: bold;
    animation: fadeIn 4s;
+  
+}
+
+body{
+  background-image: url("../assets\nastuh-abootalebi-eHD8Y1Znfpk-unsplash.jpg");
+  height: 100vh;
   
 }
 </style>
