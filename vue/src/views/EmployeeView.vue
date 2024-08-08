@@ -232,19 +232,19 @@ export default {
 
 .container {
   display: flex;
-  flex-direction: row; /* Aligns items horizontally */
-  flex-wrap: wrap; /* Allows items to wrap to the next line */
+  flex-direction: row; 
+  flex-wrap: wrap; 
 }
 
 @media (max-width: 600px) {
   .container {
-    flex-direction: column; /* Stacks items vertically */
+    flex-direction: column; 
   }
 }
 
 .bubble-title {
   font-weight: bold; 
-  flex: 1 1 auto; /* Allows items to grow and shrink */
+  flex: 1 1 auto; 
   padding: 15px;
   margin: 10px;
   border-radius: 5px;
@@ -343,27 +343,27 @@ h1{
 #backImage {
   position: relative;
   height: 100vh;
-  background-image: url("..\assets\nastuh-abootalebi-eHD8Y1Znfpk-unsplash.jpg"); /* Example image */
+  background-image: url("..\assets\nastuh-abootalebi-eHD8Y1Znfpk-unsplash.jpg");
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
 }
 
-/* Overlay with semi-transparent color */
+
 .overlay {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.8); /* Semi-transparent black overlay */
-  z-index: 0; /* Place the overlay above the background but below content */
+  background: rgba(0, 0, 0, 0.8); 
+  z-index: 0; 
 }
 
 .content {
   position: relative;
-  z-index: 1; /* Ensure content is above the overlay */
-  padding: 20px; /* Add padding as needed */
+  z-index: 1; 
+  padding: 20px;
 }
 
 </style>

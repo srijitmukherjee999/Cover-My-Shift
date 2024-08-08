@@ -1,26 +1,37 @@
 <template>
+  <body>
   <company-header/>
   <employee-greeting/>
+  <div id="backImage">
+    <div class="overlay"></div>
+    <div class="content">
   <employee-navigation/>  
   <request-off-form/>
 
-  <h2>Your Pending Requests: </h2>
+  <h2>Your Pending Requests:</h2>
 
-  <div v-for="shift in listOfPendingRequests" v-bind:key="shift.shiftId">
+  <div id="data" v-for="shift in listOfPendingRequests" v-bind:key="shift.shiftId">
+    
+    <div class="bubble" :class="{emergency : shift.emergency && shift.status == 3, green: shift.status == 4 || shift.status == 1}" >
+        <div id="shiftObjects"><p class="bubble-title">Name: {{ shift.assignedName }}</p></div>
+      
+      
+        <div id="shiftObjects"><p class="bubble-title">Start Time: {{ shift.startDateTime }}</p></div>
+      
+      
+        <div id="shiftObjects"><p class="bubble-title">Duration: {{ shift.duration }} <span>hours</span></p></div>
+      
+      
+        <div id="shiftObjects"><p class="bubble-title">Emergency: {{ shift.emergency }}</p></div>
+      </div>
+    
+      
 
-    <p>{{ shift.assignedName }}</p>&nbsp;&nbsp;
-    <p>{{ shift.startDateTime }}</p>&nbsp;&nbsp;
-    <p>{{ shift.duration }}</p>&nbsp;&nbsp;
 
-    <p>{{ shift.emergency }}</p>&nbsp;&nbsp;
-
-
-  </div>
-
-
-
-
-
+    </div>
+    </div>
+    </div>
+  </body>
 </template>
 
 <script>
@@ -104,70 +115,75 @@ export default {
 
 <style scoped>
 
-.yes{
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-evenly;
-    padding: 10px;
-    background-color: white;
+body {
+  background: transparent;
 }
 
-.navigation {
-    padding: 10px;
-    margin: 20px;
-    border-radius: 5px; 
+#data {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;  
+  padding: 20px;
 }
 
-.navigation a {
-  text-decoration: none;
-  color: #000000;
+.bubble {
+  background-color: #4a90e2; 
+  color: white;
+  border-radius: 50px; 
+  padding: 20px; 
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+  max-width: 790px;
+  width: 100%; 
+  display: flex;
+  flex-wrap: wrap; 
+  align-items: center;
+  text-align: center;
+  box-sizing: border-box;
+  transition: transform 0.3s, box-shadow 0.3s;
 }
 
-.navigation ul {
-    list-style: none;
-    padding: 0;
+.bubble:hover {
+  transform: scale(1.05); 
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+.container {
+  display: flex;
+  flex-direction: row; 
+  flex-wrap: wrap; 
+}
+
+@media (max-width: 600px) {
+  .container {
+    flex-direction: column; 
+  }
+}
+
+.bubble-title {
+  font-weight: bold; 
+  flex: 1 1 auto; 
+  padding: 15px;
+  margin: 10px;
+  border-radius: 5px;
+  text-align: center;
+  font-weight: bold; 
+}
+
+.bubble p {
     margin: 0;
-    text-align: center;
+    padding: 0;
+    margin-right: 20px;
 }
 
-.navigation li {
-    display: inline;
-    margin-right: 15px;
-    font-size: larger;
-    background-color: white;
-    color: black;
-    border-radius: 50px;
-    padding: 20px;
-    box-shadow: 0 4px 8px;
-    width: 100%; 
-    transition: transform 0.3s, box-shadow 0.3s;
-    font: bold;
+.emergency{
+    background-color: red;
+    text-decoration: underline;
+   animation: vertical-shaking 4s infinite;
 }
-
-.navigation li:hover {
-    transform: scale(1.05); 
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
-    background-color: lightgray;
-}
-
-@media (max-width: 768px) {
-    .navigation li {
-        font-size: medium; 
-        padding: 15px; 
-    }
-}
-
-@media (max-width: 480px) {
-    .navigation li {
-        font-size: small; 
-        padding: 10px; 
-    }
-
-    .navigation ul {
-        display: flex;
-        flex-direction: column;
-        flex-wrap: wrap; 
-    }
+.green{
+  background-color: green;
+  text-decoration: green;
 }
 
 .request-off-form {
@@ -177,29 +193,37 @@ export default {
 }
 
 
-h1{
-  font-style: italic;
-  font-weight: bold;
-  animation: fadeIn 2s;
-}
-
-p{
-
-  display: flex;
-  display: inline-block;
-  
-}
-div{
-  display: flex;
-  justify-content: center;
-}
-
-
 h2{
 
 display: flex;
 justify-content: center;
 
+}
+
+#backImage {
+  position: relative;
+  height: 100vh;
+  background-image: url("..\assets\nastuh-abootalebi-eHD8Y1Znfpk-unsplash.jpg"); 
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8); 
+  z-index: 0; 
+}
+
+.content {
+  position: relative;
+  z-index: 1; 
+  padding: 20px; 
 }
 
 </style>

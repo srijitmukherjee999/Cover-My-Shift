@@ -19,28 +19,23 @@
 
   <div id="data" v-for="shift in listOfShiftsByStatus" v-bind:key="shift">
     <router-link :to="{ name: 'shiftdetails', params: { id: shift.shiftId }} ">
-    <div class="bubble" :class="{emergency : shift.emergency && shift.status == 3}">
-    <p class="bubble-title">Name</p>
-    <p>{{ shift.assignedName }}</p>
-
-    <p class="bubble-title">Start Time</p> 
-    <p>{{ shift.startDateTime}}</p>
-
-    <p class="bubble-title">Duration</p> 
-    <p>{{ shift.duration }} hours</p>
-
-    <p class="bubble-title">Status</p>
-    <p>{{ convertStatus(shift.status) }}</p>
-
-    <p class="bubble-title">Emergency</p> 
-    <p>{{ shift.emergency }}</p>
-   </div>
-  </router-link>
-
-
-   
-
-  </div>
+      <div class="bubble" :class="{emergency : shift.emergency && shift.status == 3, green: shift.status == 4 || shift.status == 1}" >
+        <div id="shiftObjects"><p class="bubble-title">Name: {{ shift.assignedName }}</p></div>
+      
+      
+        <div id="shiftObjects"><p class="bubble-title">Start Time: {{ shift.startDateTime }}</p></div>
+      
+      
+        <div id="shiftObjects"><p class="bubble-title">Duration: {{ shift.duration }} <span>hours</span></p></div>
+      
+      
+        <div id="shiftObjects"><p class="bubble-title">Status: {{ convertStatus(shift.status) }}</p></div>
+      
+      
+        <div id="shiftObjects"><p class="bubble-title">Emergency: {{ shift.emergency }}</p></div>
+      </div>
+    </router-link>
+  </div> 
   
 </template>
 
