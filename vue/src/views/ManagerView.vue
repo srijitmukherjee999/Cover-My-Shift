@@ -5,6 +5,16 @@
       <h1>Hello Manager {{ name }}</h1>
     </div>
   
+    <div>
+      <nav class="navigation">
+        <ul>
+          <li><router-link v-bind:to="{ name: 'manager' }">MY HOME</router-link></li>
+          <li><router-link v-bind:to="{ name: 'timeoff' }">PENDING REQUESTS</router-link></li>
+          <li><router-link v-bind:to="{ name: 'pickupshift' }">FIRE EMPLOYEE</router-link></li>
+        </ul>
+      </nav>
+    </div>
+  
     <div class="shift-inputs">
       <input
         type="date"
@@ -26,98 +36,107 @@
         v-model="shiftInputs.duration"
         placeholder="Duration (hours)"
       />
+      <button class="submit-button" @click="submitShifts">
+      Submit Shifts
+    </button>
     </div>
   
-    <div>
-      <nav class="navigation">
-        <ul>
-          <li><router-link v-bind:to="{ name: 'manager' }">MY HOME</router-link></li>
-          <li><router-link v-bind:to="{ name: 'timeoff' }">PENDING REQUESTS</router-link></li>
-          <li><router-link v-bind:to="{ name: 'pickupshift' }">FIRE EMPLOYEE</router-link></li>
-        </ul>
-      </nav>
-    </div>
- 
     <div id="data">
       <div v-for="user in listOfUsers" :key="user.id" class="bubble">
         <div class="bubble-title">{{ user.fullName }}</div>
         <button
-          :class="['add-shift-button', user.showShiftForm ? 'cancel-button' : 'add-button']"
-          @click="addShift(user.id)"
+          :class="['add-shift-button', isSelected(user.id) ? 'selected-button' : 'add-button']"
+          @click="toggleSelection(user.id)"
         >
-          Add Shift
+          {{ isSelected(user.id) ? 'Selected' : 'Add Shift' }}
         </button>
       </div>
     </div>
+    
   </template>
   
-  
-  
   <script>
-import ShiftService from "../services/ShiftService.js";
-import AuthService from "../services/AuthService";
-import CompanyHeader from '../components/CompanyHeader.vue';
-
-export default {
-  components: { CompanyHeader },
+  import ShiftService from "../services/ShiftService.js";
+  import AuthService from "../services/AuthService";
+  import CompanyHeader from '../components/CompanyHeader.vue';
   
-  data() {
-    return {
-      name: '',
-      shiftInputs: {
-        startDate: "",
-        endDate: "",
-        startTime: "",
-        duration: 0,
-      },
-      listOfUsers: [],
-      listOfNewShifts: []
-    };
-  },
+  export default {
+    components: { CompanyHeader },
   
-  methods: {
-    getAllUsers() {
-      AuthService.getUsers().then((response) => {
-        this.listOfUsers = response.data.map((user) => ({
-          ...user,
-          showShiftForm: false,
-        }));
-      });
+    data() {
+      return {
+        name: '',
+        shiftInputs: {
+          startDate: "",
+          endDate: "",
+          startTime: "",
+          duration: 0,
+        },
+        listOfUsers: [],
+        selectedUsers: [],
+      };
     },
-
-    addShift(userId) {
-      let startDate = new Date(this.shiftInputs.startDate);
-      const endDate = this.shiftInputs.endDate ? new Date(this.shiftInputs.endDate) : startDate;
-
-      while (startDate <= endDate) {
-        const startDateTime = new Date(startDate);
-        startDateTime.setHours(...this.shiftInputs.startTime.split(":"));
-
-        const newShift = {
-          assignedId: userId,
-          startDateTime: startDateTime.toISOString(),
-          duration: this.shiftInputs.duration,
-          status: 1,
-          emergency: false,
-          covererId: userId,
-          description: `Shift for ${startDateTime.toLocaleDateString()}`
-        };
-
-        ShiftService.createShift(newShift).then((response) => {
-          if (response.status === 201) {
-            alert(`Shift has been added to employee ${userId}`);
+  
+    methods: {
+      getAllUsers() {
+        AuthService.getUsers().then((response) => {
+          this.listOfUsers = response.data.map((user) => ({
+            ...user,
+            showShiftForm: false,
+          }));
+        });
+      },
+  
+      toggleSelection(userId) {
+        const index = this.selectedUsers.indexOf(userId);
+        if (index !== -1) {
+          this.selectedUsers.splice(index, 1);
+        } else {
+          this.selectedUsers.push(userId);
+        }
+      },
+  
+      isSelected(userId) {
+        return this.selectedUsers.includes(userId);
+      },
+  
+      submitShifts() {
+        this.selectedUsers.forEach((userId) => {
+          let startDate = new Date(this.shiftInputs.startDate);
+          const endDate = this.shiftInputs.endDate ? new Date(this.shiftInputs.endDate) : startDate;
+  
+          while (startDate <= endDate) {
+            const startDateTime = new Date(startDate);
+            startDateTime.setHours(...this.shiftInputs.startTime.split(":"));
+  
+            const newShift = {
+              assignedId: userId,
+              startDateTime: startDateTime.toISOString(),
+              duration: this.shiftInputs.duration,
+              status: 1,
+              emergency: false,
+              covererId: userId,
+              description: `Shift for ${startDateTime.toLocaleDateString()}`
+            };
+  
+            ShiftService.createShift(newShift).then((response) => {
+              if (response.status === 201) {
+                alert(`Shift has been added to employee ${userId}`);
+              }
+            });
+  
+            startDate.setDate(startDate.getDate() + 1);
           }
         });
-
-        startDate.setDate(startDate.getDate() + 1);
-      }
+  
+        this.selectedUsers = []; 
+      },
     },
-  },
-
-  created() {
-    this.getAllUsers();
-  },
-};
+  
+    created() {
+      this.getAllUsers();
+    },
+  };
 </script>
 
   
