@@ -97,7 +97,6 @@ const routes = [
     meta: {
       requiresAuth: true,
       role:'ROLE_MANAGER',
-
     }
   },
   {
@@ -131,6 +130,8 @@ router.beforeEach((to) => {
   // Get the Vuex store
   const store = useStore();
 
+  //const userRole = store.getters.userRole;
+
   // Determine if the route requires Authentication
   const requiresAuth = to.matched.some(x => x.meta.requiresAuth);
 
@@ -139,6 +140,12 @@ router.beforeEach((to) => {
     return {name: "login"};
   }
   // Otherwise, do nothing and they'll go to their next destination
+
+  //const routeRole = to.meta.role;
+  // if (routeRole && userRole !== routeRole) {
+  //   return { name: 'home' }; // Redirect to home or an access denied page
+  // }
+
 });
 
 export default router;

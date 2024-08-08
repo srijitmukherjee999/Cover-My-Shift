@@ -42,6 +42,20 @@ export function createStore(currentToken, currentUser) {
         state.name = fullName;
       }
     },
+
+    
+    // getters: {
+    //   isAuthenticated(state) {
+    //     return !!state.token;
+    //   },
+    //   userRole(state) {
+    //     return state.user.role || ''; 
+    //   },
+    //   userName(state) {
+    //     return state.user.name || ''; 
+    //   }
+    // }
+
   });
   return store;
 }
