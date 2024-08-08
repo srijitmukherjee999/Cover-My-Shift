@@ -128,7 +128,7 @@ public class JdbcShiftDao implements ShiftDao{
         shift.setStartDateTime(rowSet.getTimestamp("start_date_time").toLocalDateTime());
         }*/
 
-    public Shift mapRowToShift(SqlRowSet rowSet){
+    private Shift mapRowToShift(SqlRowSet rowSet){
 
         Shift shift = new Shift();
         shift.setShiftId(rowSet.getInt("shift_id"));

@@ -1,25 +1,14 @@
 <template>
-    <div class="yes">
-         <h1>Hello {{ name }}</h1>
-        <h1>Hours Worked: 40</h1>
- </div>
-  <div>
-    <nav class="navigation">
-    <ul>
-        <li><router-link v-bind:to="{name: 'employee'}">MY HOME</router-link></li>
-    
-        <li><router-link v-bind:to="{name: 'timeoff'}">REQUEST TIME OFF</router-link></li>
-    
-        <li><router-link v-bind:to="{name: 'pickupshift'}">PICK UP SHIFT</router-link></li>
-
-        <li><router-link v-bind:to="{name: 'myshift'}">MY SHIFT</router-link></li>
-    </ul>
-  </nav>
-  </div>
+  <company-header/>
+  <employee-greeting/>
+  <employee-navigation/>  
   <request-off-form/>
 </template>
 
 <script>
+import CompanyHeader from '../components/CompanyHeader.vue';
+import EmployeeGreeting from '../components/EmployeeGreeting.vue';
+import EmployeeNavigation from '../components/EmployeeNavigation.vue';
 import RequestOffForm from '../components/RequestOffForm.vue'
 import ShiftService from '../services/ShiftService';
 export default {
@@ -30,7 +19,10 @@ export default {
     
   },
     components: {
-        RequestOffForm
+        RequestOffForm,
+        CompanyHeader,
+        EmployeeGreeting,
+        EmployeeNavigation
     },
     methods: {
       getFullName(){
