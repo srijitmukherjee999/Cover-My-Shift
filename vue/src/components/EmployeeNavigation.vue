@@ -8,6 +8,8 @@
         <li><router-link v-bind:to="{name: 'timeoff'}">REQUEST TIME OFF</router-link></li>
     
         <li><router-link v-bind:to="{name: 'pickupshift'}">PICK UP SHIFT</router-link></li>
+
+        <li><router-link v-bind:to="{name: 'myshift'}">MY SHIFT</router-link></li>
     </ul>
   </nav>
   </div>
