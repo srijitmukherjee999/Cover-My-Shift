@@ -13,6 +13,8 @@
         <li><router-link v-bind:to="{name: 'timeoff'}">REQUEST TIME OFF</router-link></li>
     
         <li><router-link v-bind:to="{name: 'pickupshift'}">PICK UP SHIFT</router-link></li>
+
+        <li><router-link v-bind:to="{name: 'myshift'}">MY SHIFT</router-link></li>
     </ul>
   </nav>
   </div>
@@ -63,53 +65,6 @@
     </router-link>
   </div>  
 
-      <div>
-        <div class="MyFilter">
-    
-
-    <input type="date" id="startDateTime" v-model="myFilter.startDateTime"  />&nbsp;&nbsp;
-    <input type="text" id="duration" v-model="myFilter.duration" placeholder="Duration">&nbsp;&nbsp;
-    <select id = "myList" v-model="myFilter.status" >
-    <option  id="">--None--</option>
-    <option value="uncovered request">Uncovered Request</option>
-    <option value="covered">Covered</option>
-    <option value="uncovered">Uncovered</option>
-    <option value="assigned">Assigned</option>
-    </select>&nbsp;&nbsp;
-
-    <select id = "myList" v-model="myFilter.emergency" >Emergency
-    <option  id="emergency">--None--</option>
-    <option value="true">true</option>
-    <option value="false">false</option>
-    </select>
-  </div>
-
-  <div id="myData" v-for="shift in filteredMyList" :key="shift.shiftId">
-    <router-link :to="{ name: 'shiftdetails', params: { id: shift.shiftId }} ">
-      <div class="bubble" :class="{emergency : shift.emergency}">
-        <p class="bubble-title">Name</p>
-        <p>{{ shift.assignedName }}</p>
-      
-      
-        <p class="bubble-title">Start Time</p>
-        <p>{{ shift.startDateTime }}</p>
-      
-      
-        <p class="bubble-title">Duration</p>
-        <p>{{ shift.duration }} <span>hours</span></p>
-      
-      
-        <p class="bubble-title">Status</p>
-        <p>{{ convertStatus(shift.status) }}</p>
-      
-      
-        <p class="bubble-title">Emergency</p>
-        <p>{{ shift.emergency }}</p>
-      </div>
-    </router-link>
-  </div>  
-
-      </div>
 </body>
 </template>
 
@@ -147,31 +102,7 @@ export default {
                     emergency: '--None--',
                     
             },
-            listOfMyShifts: [
-            {
-                    assignedName : '',
-                    shiftId: 0,
-                    assigned: 0,
-                    startDateTime: '',
-                    duration: 0,
-                    status: 0,
-                    emergency: false,
-                    coverer: 0,
-                    covererName: '',
-                    description: ''
-                    
-                }
-            ],
-            myFilter: {
-                    assignedName : '',          
-                    startDateTime: '',
-                    duration: '',
-                    status: '--None--',
-                    emergency: '--None--',
-                    
-            },
-
-            
+     
         }
     }
     ,
@@ -219,26 +150,20 @@ export default {
           return 4
     
         },
-
-        getMyShifts(){
-
-          ShiftService.getMyShifts(true).then(response => {
-
-            this.listOfMyShifts = response.data;
-
-          })
+        convertStringToBoolean(emergency){
+          if(this.filter.emergency === 'true')
+          return true
+          if(this.filter.emergency === 'false')
+          return false
         }
 
-    
-   
-
+  
 
     },
     created(){
         
         this.getAllShifts();
         this.getFullName();
-        this.getMyShifts();
         
     },
     computed: {
@@ -268,9 +193,9 @@ export default {
             this.convertStatus(shift.status) == (this.filter.status.toLowerCase())
         );
       }
-      if( this.filter.emergency == true){
+      if( this.filter.emergency != '--None--'){
         filteredUsers = filteredUsers.filter(shift => {
-          shift.emergency == true
+          shift.emergency === this.convertStringToBoolean(this.filter.emergency) 
         })
       }
       if(this.filter.emergency == false){
@@ -282,41 +207,9 @@ export default {
       
       return filteredUsers;
     },
-    filteredMyList() {
-      let filteredUsers = this.listOfMyShifts;
-     
-      if (this.filter.startDateTime != "") {
-        filteredUsers = filteredUsers.filter((shift) =>
-          shift.startDateTime.includes(this.filter.startDateTime)
-        );
-      }
-      if (this.filter.duration != 0) {
-        filteredUsers = filteredUsers.filter(( shift) =>
-          shift.duration == (this.filter.duration)
-        );
-      }
-      if ((this.filter.status != "--None--")) {
-        filteredUsers = filteredUsers.filter((shift) =>
-            this.convertStatus(shift.status) == (this.filter.status.toLowerCase())
-        );
-      }
-      if( this.filter.emergency == true){
-        filteredUsers = filteredUsers.filter(shift => {
-          shift.emergency == true
-        })
-      }
-      if(this.filter.emergency == false){
-        filteredUsers = filteredUsers.filter( shift => {
-           shift.emergency == false
-        })
-      }
-
-      
-      return filteredUsers;
-    }
     
-        
-    }
+      
+     }
 
 }
 </script>
@@ -434,6 +327,7 @@ export default {
 .emergency{
     background-color: red;
     text-decoration: underline;
+   animation: vertical-shaking 4s infinite;
 }
 .green{
   background-color: green;
@@ -496,6 +390,26 @@ input[type="date"] {
   
   justify-content: center;
   align-content: center;
+}
+
+@keyframes vertical-shaking {
+  0% { transform: translateY(0) }
+  25% { transform: translateY(5px) }
+  50% { transform: translateY(-5px) }
+  75% { transform: translateY(5px) }
+  100% { transform: translateY(0) }
+}
+h1{
+  font-style: italic;
+  font-weight: bold;
+   animation: fadeIn 4s;
+  
+}
+
+body{
+  background-image: url("../assets\nastuh-abootalebi-eHD8Y1Znfpk-unsplash.jpg");
+  height: 100vh;
+  
 }
 </style>
 
