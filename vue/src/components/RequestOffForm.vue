@@ -7,7 +7,9 @@
       <input type="text" class="description-input" placeholder="description" v-model="newRequest.description">
       <button type="submit" >Submit Request</button>
     </form>
-    <button v-else @click="toggleForm">Request Time Off</button>
+    
+    <button class="requestOffButton" v-else @click="toggleForm">Request Time Off</button>
+    
 </div>
 </body>
 </template>
@@ -134,5 +136,21 @@ button:hover {
     transform: scale(1.05); 
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
   background-color: lightgray;
+}
+
+.requestOffButton {
+    display: inline;
+    margin: auto;
+    font-size: larger;
+    color: Orange;
+    font-weight: bold;
+    border-radius: 50px;
+    padding: 20px;
+    box-shadow: 0 4px 8px;
+    max-width: 100%; 
+    transition: transform 0.3s, box-shadow 0.3s;
+    font: bold;
+    border-color: orange;
+    border-width: 20px;
 }
 </style>
