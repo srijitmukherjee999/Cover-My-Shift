@@ -1,7 +1,7 @@
 
 BEGIN TRANSACTION;
 
-DROP TABLE IF EXISTS users_shift, users, shift, hours, vacation CASCADE;
+DROP TABLE IF EXISTS users_shift, cover_request, users, shift, hours, vacation CASCADE;
 
 CREATE TABLE users (
 	user_id serial NOT NULL,
@@ -46,9 +46,11 @@ CREATE TABLE vacation(
     CONSTRAINT FK_vacation_employee FOREIGN KEY (employee) REFERENCES users (user_id) ON DELETE CASCADE
 );
 
-CREATE TABLE users_shift (
+CREATE TABLE cover_request (
 	shift_id int NOT NULL,
 	coverer_id int NOT NULL,
+	status int NOT NULL,
+	message varchar(500),
 	CONSTRAINT PK_user_shift PRIMARY KEY (shift_id, coverer_id),
 	CONSTRAINT FK_coverer_id FOREIGN KEY (coverer_id) REFERENCES users (user_id) ON DELETE CASCADE,
 	CONSTRAINT FK_shift_id FOREIGN KEY (shift_id) REFERENCES shift (shift_id) ON DELETE CASCADE
