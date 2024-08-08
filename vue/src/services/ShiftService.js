@@ -47,6 +47,9 @@ export default {
 
       return axios.get(`/shifts?emergency=${emergency}&status=${status}`);
    }
+
+
+   
 }
 
   
