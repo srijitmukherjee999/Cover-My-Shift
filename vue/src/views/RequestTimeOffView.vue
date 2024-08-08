@@ -11,7 +11,7 @@
   <h2>Your Pending Requests:</h2>
 
   <div id="data" v-for="shift in listOfPendingRequests" v-bind:key="shift.shiftId">
-    
+    <div class="together">
     <div class="bubble" :class="{emergency : shift.emergency && shift.status == 3, green: shift.status == 4 || shift.status == 1}" >
         <div id="shiftObjects"><p class="bubble-title">Name: {{ shift.assignedName }}</p></div>
       
@@ -24,6 +24,7 @@
       
         <div id="shiftObjects"><p class="bubble-title">Emergency: {{ shift.emergency }}</p></div>
       </div>
+    </div>
     
       
 
@@ -127,18 +128,24 @@ body {
   padding: 20px;
 }
 
+.together {
+      display: flex;
+      justify-content: center; 
+      width: 100%; 
+    }
+
 .bubble {
   background-color: #4a90e2; 
   color: white;
   border-radius: 50px; 
   padding: 20px; 
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
-  max-width: 790px;
-  width: 100%; 
+  max-width: 100%;
+  width: auto; 
   display: flex;
-  flex-wrap: wrap; 
-  align-items: center;
-  text-align: center;
+  flex-direction: row; 
+  align-items: flex-start;
+  text-align: left;
   box-sizing: border-box;
   transition: transform 0.3s, box-shadow 0.3s;
 }
