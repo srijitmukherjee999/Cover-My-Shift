@@ -50,12 +50,11 @@ export default {
           if (response.status == 200) {
             this.$store.commit("SET_AUTH_TOKEN", response.data.token);
             this.$store.commit("SET_USER", response.data.user);
-           
-
-            const userRole = response.data.user.role;
-            if (userRole == 'admin') {
+            
+            const userRole = response.data.user.authorities[0].name;
+            if (userRole == 'ROLE_MANAGER') {
               this.$router.push("/manager");
-            } else {
+            }else if (userRole == 'ROLE_EMPLOYEE'){
               this.$router.push("/employee");
             }
             //this.$router.push("/employee"); 
@@ -65,9 +64,18 @@ export default {
         .catch(error => {
           const response = error.response;
 
-          if (response.status === 401) {
-            this.invalidCredentials = true;
+          if(response){
+            console.log(error.response.status)
+            if (response.status === 401) {
+              this.invalidCredentials = true;
+            }
+          } else if (error.request) {
+            console.log(error.request)
+          } else {
+            console.log(error)
           }
+
+          
         });
     }
   }
