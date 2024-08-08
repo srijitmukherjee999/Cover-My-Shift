@@ -118,5 +118,11 @@ export default {
 }
 
 
+h1{
+  font-style: italic;
+  font-weight: bold;
+  animation: fadeIn 2s;
+}
+
 
 </style>

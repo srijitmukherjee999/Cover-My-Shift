@@ -36,7 +36,7 @@ public class EmployeeController {
         User user = userDao.getUserByUsername(principal.getName());
         List<Shift> shifts = shiftDao.getAllShift();
         if(mine) { // if filtering by mine...
-            shifts.removeIf(s -> s.getCovererId() != user.getId()); // if coverer is not me, remove
+            shifts.removeIf(s -> s.getAssignedId() != user.getId()); // if coverer is not me, remove
         }
         if(emergency) { // if filtering by emergency...
             shifts.removeIf(s -> !s.isEmergency()); // if shift is not emergency, remove

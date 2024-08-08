@@ -1,7 +1,7 @@
 <template>
-  <company-header/>
-  <employee-greeting/>
-  <employee-navigation/>
+    <company-header/>
+    <employee-greeting/>
+    <employee-navigation/>
   
   <div class="emergencyButton">
     <button v-if="showButton" @click="getShiftsByEmergency">EMERGENCY SHIFTS</button>
@@ -121,7 +121,7 @@ export default {
   getShiftsByEmergency(){
     
     ShiftService.getEmergencyShifts(true,3).then(response => {
-        console.log(response.data);
+        
       this.emergencyShifts = response.data;
       this.showButton = false;
       
@@ -273,6 +273,7 @@ export default {
 .emergency{
     background-color: red;
     text-decoration: underline;
+    animation : vertical-shaking 4s infinite;
 }
 
 .emergencyButton{
@@ -280,5 +281,18 @@ export default {
   justify-content: center;
 }
 
+h1{
+  font-style: italic;
+  font-weight: bold;
+  animation: fadeIn 2s;
+}
+
+@keyframes vertical-shaking {
+  0% { transform: translateY(0) }
+  25% { transform: translateY(5px) }
+  50% { transform: translateY(-5px) }
+  75% { transform: translateY(5px) }
+  100% { transform: translateY(0) }
+}
 
 </style>
