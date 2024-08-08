@@ -1,10 +1,10 @@
 <template>
-  <body>
+  
     <div id="company-name">
     <h1>COVER MY SHIFT</h1>
     <button><router-link v-bind:to="{ name: 'logout' }" v-if="this.$store.state.token != ''">Logout</router-link></button>
   </div>
-  </body>
+  
 </template>
 
 <script>
