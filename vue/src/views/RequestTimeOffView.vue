@@ -84,7 +84,7 @@ export default {
         },
 
         getMyShiftPendingRequests(){
-          ShiftService.getMyShiftsByUncoveredRequest(2).then( response => {
+          ShiftService.getMyShiftsByUncoveredRequest(true,2).then( response => {
 
               this.listOfPendingRequests = response.data;
 
@@ -204,6 +204,9 @@ h2{
 
 display: flex;
 justify-content: center;
+color: White;
+text-decoration-line: underline;
+
 
 }
 

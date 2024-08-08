@@ -95,6 +95,16 @@
           this.selectedUsers.push(userId);
         }
       },
+      getFullName(){
+
+ShiftService.getUserFullName().then( response => {
+
+         this.name = response.data;
+
+        this.$store.commit("ADD_NAME", this.name);
+})
+
+},
   
       isSelected(userId) {
         return this.selectedUsers.includes(userId);
@@ -135,6 +145,8 @@
   
     created() {
       this.getAllUsers();
+      this.getFullName();
+    
     },
   };
 </script>
