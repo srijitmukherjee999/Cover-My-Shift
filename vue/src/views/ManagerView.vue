@@ -1,8 +1,33 @@
 <template>
     <company-header/>
+    
     <div class="yes">
       <h1>Hello Manager {{ name }}</h1>
     </div>
+  
+    <div class="shift-inputs">
+      <input
+        type="date"
+        v-model="shiftInputs.startDate"
+        placeholder="Start Date"
+      />
+      <input
+        type="date"
+        v-model="shiftInputs.endDate"
+        placeholder="End Date (optional)"
+      />
+      <input
+        type="time"
+        v-model="shiftInputs.startTime"
+        placeholder="Start Time"
+      />
+      <input
+        type="number"
+        v-model="shiftInputs.duration"
+        placeholder="Duration (hours)"
+      />
+    </div>
+  
     <div>
       <nav class="navigation">
         <ul>
@@ -12,142 +37,89 @@
         </ul>
       </nav>
     </div>
-  
+ 
     <div id="data">
       <div v-for="user in listOfUsers" :key="user.id" class="bubble">
         <div class="bubble-title">{{ user.fullName }}</div>
         <button
           :class="['add-shift-button', user.showShiftForm ? 'cancel-button' : 'add-button']"
-          @click="toggleShiftForm(user.id)"
+          @click="addShift(user.id)"
         >
-          {{ user.showShiftForm ? 'Cancel' : 'Add Shift' }}
+          Add Shift
         </button>
-        <div v-if="user.showShiftForm" class="shift-form">
-          <input
-            type="datetime-local"
-            v-model="newShift.startDateTime"
-            placeholder="Start Date and Time"
-          />
-          <input
-            type="number"
-            v-model="newShift.duration"
-            placeholder="Duration (hours)"
-          />
-          <input
-            type="text"
-            v-model="newShift.description"
-            placeholder="Description"
-          />
-          <button @click.prevent="addShift(user.id)">Submit</button>
-        </div>
       </div>
     </div>
-  
   </template>
   
   
-  <script>
-  import ShiftService from "../services/ShiftService.js";
-  import AuthService from "../services/AuthService";
-import CompanyHeader from '../components/CompanyHeader.vue';
   
-  export default {
+  <script>
+import ShiftService from "../services/ShiftService.js";
+import AuthService from "../services/AuthService";
+import CompanyHeader from '../components/CompanyHeader.vue';
+
+export default {
   components: { CompanyHeader },
-    data() {
-      return {
-        name: '',
-        listOfShifts: [
-          {
-            name: "",
-            shiftId: 0,
-            assigned: 0,
-            startDateTime: "",
-            duration: 0,
-            status: 0,
-            emergency: false,
-            coverer: 0,
-            description: "",
-          },
-        ],
-        listOfUsers: [
-          {
-            id: 0,
-            username: "",
-            fullName: "",
-            authorities: [
-              {
-                name: "",
-              },
-            ],
-            showShiftForm: false, 
-          },
-        ],
-        newShift: {
-          assignedId: 0,
-          startDateTime: "",
-          duration: 0,
+  
+  data() {
+    return {
+      name: '',
+      shiftInputs: {
+        startDate: "",
+        endDate: "",
+        startTime: "",
+        duration: 0,
+      },
+      listOfUsers: [],
+      listOfNewShifts: []
+    };
+  },
+  
+  methods: {
+    getAllUsers() {
+      AuthService.getUsers().then((response) => {
+        this.listOfUsers = response.data.map((user) => ({
+          ...user,
+          showShiftForm: false,
+        }));
+      });
+    },
+
+    addShift(userId) {
+      let startDate = new Date(this.shiftInputs.startDate);
+      const endDate = this.shiftInputs.endDate ? new Date(this.shiftInputs.endDate) : startDate;
+
+      while (startDate <= endDate) {
+        const startDateTime = new Date(startDate);
+        startDateTime.setHours(...this.shiftInputs.startTime.split(":"));
+
+        const newShift = {
+          assignedId: userId,
+          startDateTime: startDateTime.toISOString(),
+          duration: this.shiftInputs.duration,
           status: 1,
           emergency: false,
-          covererId: 0,
-          description: "",
-        },
-      };
-    },
-  
-    methods: {
-   
-      getUser(id) {
-        ShiftService.getUserByUserId(id).then((response) => {
-          this.$store.state.user = response.data;
-        });
-      },
- 
-  
-  
-  
-      getAllUsers() {
-        AuthService.getUsers().then((response) => {
-          this.listOfUsers = response.data.map((user) => ({
-            ...user,
-            showShiftForm: false,
-          }));
-        });
-      },
-  
-      toggleShiftForm(userId) {
-        this.currentUserId = userId;
-        this.listOfUsers = this.listOfUsers.map((user) =>
-          user.id === userId ? { ...user, showShiftForm: !user.showShiftForm } : user
-        );
-      },
-  
-      addShift(userId) {
-        this.newShift.assignedId = userId;
-        ShiftService.createShift(this.newShift).then((response) => {
+          covererId: userId,
+          description: `Shift for ${startDateTime.toLocaleDateString()}`
+        };
+
+        ShiftService.createShift(newShift).then((response) => {
           if (response.status === 201) {
-            console.log("Hey")
-            alert(`Shift has been added to employee `);
-            this.toggleShiftForm(userId); 
-            this.newShift = {
-                assignedId: 0,
-                startDateTime: "",
-                duration: 0,
-                status: 1,
-                emergency: false,
-                covererId: 0,
-                description: "",
-            }; 
+            alert(`Shift has been added to employee ${userId}`);
           }
         });
-      },
+
+        startDate.setDate(startDate.getDate() + 1);
+      }
     },
-  
-    created() {
-    
-      this.getAllUsers();
-    },
-  };
-  </script>
+  },
+
+  created() {
+    this.getAllUsers();
+  },
+};
+</script>
+
   
   <style>
   .yes {
