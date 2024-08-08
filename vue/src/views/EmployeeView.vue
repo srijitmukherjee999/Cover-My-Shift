@@ -3,6 +3,8 @@
       <company-header/>
       <employee-greeting/>
       <div id="backImage">
+    <div class="overlay"></div>
+    <div class="content">
       <employee-navigation/>
     
 
@@ -31,27 +33,23 @@
   <div id="data" v-for="shift in filteredList" :key="shift.shiftId">
     <router-link :to="{ name: 'shiftdetails', params: { id: shift.shiftId }} ">
       <div class="bubble" :class="{emergency : shift.emergency && shift.status == 3, green: shift.status == 4 || shift.status == 1}" >
-        <p class="bubble-title">Name</p>
-        <p>{{ shift.assignedName }}</p>
+        <div id="shiftObjects"><p class="bubble-title">Name: {{ shift.assignedName }}</p></div>
       
       
-        <p class="bubble-title">Start Time</p>
-        <p>{{ shift.startDateTime }}</p>
+        <div id="shiftObjects"><p class="bubble-title">Start Time: {{ shift.startDateTime }}</p></div>
       
       
-        <p class="bubble-title">Duration</p>
-        <p>{{ shift.duration }} <span>hours</span></p>
+        <div id="shiftObjects"><p class="bubble-title">Duration: {{ shift.duration }} <span>hours</span></p></div>
       
       
-        <p class="bubble-title">Status</p>
-        <p>{{ convertStatus(shift.status) }}</p>
+        <div id="shiftObjects"><p class="bubble-title">Status: {{ convertStatus(shift.status) }}</p></div>
       
       
-        <p class="bubble-title">Emergency</p>
-        <p>{{ shift.emergency }}</p>
+        <div id="shiftObjects"><p class="bubble-title">Emergency: {{ shift.emergency }}</p></div>
       </div>
     </router-link>
-  </div>  
+  </div> 
+</div> 
 </div>
 </body>
 </template>
@@ -232,9 +230,25 @@ export default {
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
 }
 
+.container {
+  display: flex;
+  flex-direction: row; /* Aligns items horizontally */
+  flex-wrap: wrap; /* Allows items to wrap to the next line */
+}
+
+@media (max-width: 600px) {
+  .container {
+    flex-direction: column; /* Stacks items vertically */
+  }
+}
+
 .bubble-title {
   font-weight: bold; 
-  margin-bottom: 10px; 
+  flex: 1 1 auto; /* Allows items to grow and shrink */
+  padding: 15px;
+  margin: 10px;
+  border-radius: 5px;
+  text-align: center; 
 }
 
 .bubble p {
@@ -326,11 +340,31 @@ h1{
   
 }
 
-#backImage{
-  background-image: url("../assets\nastuh-abootalebi-eHD8Y1Znfpk-unsplash.jpg");
+#backImage {
+  position: relative;
   height: 100vh;
+  background-image: url("..\assets\nastuh-abootalebi-eHD8Y1Znfpk-unsplash.jpg"); /* Example image */
   background-repeat: no-repeat;
-  
+  background-size: cover;
+  background-position: center;
 }
+
+/* Overlay with semi-transparent color */
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8); /* Semi-transparent black overlay */
+  z-index: 0; /* Place the overlay above the background but below content */
+}
+
+.content {
+  position: relative;
+  z-index: 1; /* Ensure content is above the overlay */
+  padding: 20px; /* Add padding as needed */
+}
+
 </style>
 
