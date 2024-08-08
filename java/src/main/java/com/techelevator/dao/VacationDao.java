@@ -7,8 +7,8 @@ import java.util.List;
 
 public interface VacationDao {
     Vacation getVacationById(int employeeId);
-    List<Vacation> getListsOfVacation();
-    Vacation createVacation(Vacation vacation, Principal principal);
+    List<Vacation> getVacations();
+    Vacation createVacation(Vacation vacation);
     Vacation updateVacation(Vacation vacation);
     void deleteVacation(int id);
 

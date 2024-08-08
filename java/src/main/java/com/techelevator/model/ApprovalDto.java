@@ -10,6 +10,7 @@ public class ApprovalDto {
    private int shiftId;
    private int employeeId;
    private boolean approved;
+   private String message;
 
    public int getShiftId() {
       return shiftId;
@@ -35,12 +36,21 @@ public class ApprovalDto {
       this.approved = approved;
    }
 
+   public String getMessage() {
+      return message;
+   }
+
+   public void setMessage(String message) {
+      this.message = message;
+   }
+
    @Override
    public String toString() {
       return "ApprovalDto{" +
               "shiftId=" + shiftId +
               ", employeeId=" + employeeId +
               ", approved=" + approved +
+              ", message='" + message + '\'' +
               '}';
    }
 }
