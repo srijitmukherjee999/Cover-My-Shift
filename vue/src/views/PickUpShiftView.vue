@@ -11,6 +11,8 @@
         <li><router-link v-bind:to="{name: 'timeoff'}">REQUEST TIME OFF</router-link></li>
     
         <li><router-link v-bind:to="{name: 'pickupshift'}">PICK UP SHIFT</router-link></li>
+
+        <li><router-link v-bind:to="{name: 'myshift'}">MY SHIFT</router-link></li>
     </ul>
   </nav>
   </div>
@@ -128,7 +130,7 @@ export default {
   getShiftsByEmergency(){
     
     ShiftService.getEmergencyShifts(true,3).then(response => {
-        console.log(response.data);
+        
       this.emergencyShifts = response.data;
       this.showButton = false;
       
@@ -280,6 +282,7 @@ export default {
 .emergency{
     background-color: red;
     text-decoration: underline;
+    animation : vertical-shaking 4s infinite;
 }
 
 .emergencyButton{
@@ -287,5 +290,18 @@ export default {
   justify-content: center;
 }
 
+h1{
+  font-style: italic;
+  font-weight: bold;
+  animation: fadeIn 2s;
+}
+
+@keyframes vertical-shaking {
+  0% { transform: translateY(0) }
+  25% { transform: translateY(5px) }
+  50% { transform: translateY(-5px) }
+  75% { transform: translateY(5px) }
+  100% { transform: translateY(0) }
+}
 
 </style>

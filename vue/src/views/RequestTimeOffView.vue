@@ -11,6 +11,8 @@
         <li><router-link v-bind:to="{name: 'timeoff'}">REQUEST TIME OFF</router-link></li>
     
         <li><router-link v-bind:to="{name: 'pickupshift'}">PICK UP SHIFT</router-link></li>
+
+        <li><router-link v-bind:to="{name: 'myshift'}">MY SHIFT</router-link></li>
     </ul>
   </nav>
   </div>
@@ -123,6 +125,12 @@ export default {
     justify-content: space-around;
 }
 
+
+h1{
+  font-style: italic;
+  font-weight: bold;
+  animation: fadeIn 2s;
+}
 
 
 </style>
