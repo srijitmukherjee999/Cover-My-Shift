@@ -1,6 +1,8 @@
 <template>
     <company-header/>
     
+
+    <!-- v-if="userRole === 'ROLE_MANAGER'" -->
     <div class="yes">
       <h1>Hello Manager {{ name }}</h1>
     </div>
@@ -15,7 +17,7 @@
       </nav>
     </div>
   
-    <div class="shift-inputs">
+    <div class="shift-inputs" >
       <input
         type="date"
         v-model="shiftInputs.startDate"
@@ -41,7 +43,7 @@
     </button>
     </div>
   
-    <div id="data">
+    <div id="data" >
       <div v-for="user in listOfUsers" :key="user.id" class="bubble">
         <div class="bubble-title">{{ user.fullName }}</div>
         <button
@@ -141,16 +143,20 @@ ShiftService.getUserFullName().then( response => {
   
         this.selectedUsers = []; 
       },
+
+      // isManager(){
+
+      // },
     },
   
     created() {
+      
       this.getAllUsers();
       this.getFullName();
-    
+      //this.userRole =AuthService.getUsers().authorities[0].name;
     },
   };
 </script>
-
   
   <style>
   .yes {
