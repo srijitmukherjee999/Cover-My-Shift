@@ -92,13 +92,7 @@
     },
   
     methods: {
-    //   getAllShifts() {
-    //     ShiftService.getShifts().then((response) => {
-    //       this.listOfShifts = response.data;
-    //       this.getNameByShift();
-    //     });
-    //   },
-  
+   
       getUser(id) {
         ShiftService.getUserByUserId(id).then((response) => {
           this.$store.state.user = response.data;
@@ -106,11 +100,7 @@
       },
  
   
-    //   getNameByShift() {
-    //     this.listOfShifts.forEach((e) => {
-    //       this.name = this.getUser(e.id).name;
-    //     });
-    //   },
+  
   
       getAllUsers() {
         AuthService.getUsers().then((response) => {
@@ -150,7 +140,7 @@
     },
   
     created() {
-    //   this.getAllShifts();
+    
       this.getAllUsers();
     },
   };
