@@ -3,6 +3,23 @@
   <employee-greeting/>
   <employee-navigation/>  
   <request-off-form/>
+
+
+  <div v-for="shift in listOfPendingRequests" v-bind:key="shift.shiftId">
+
+    <p>{{ shift.assignedName }}</p>&nbsp;&nbsp;
+    <p>{{ shift.startDateTime }}</p>&nbsp;&nbsp;
+    <p>{{ shift.duration }}</p>&nbsp;&nbsp;
+    <p>{{ convertStatus(shift.status) }}</p>&nbsp;&nbsp;
+    <p>{{ shift.emergency }}</p>&nbsp;&nbsp;
+
+
+  </div>
+
+
+
+
+
 </template>
 
 <script>
@@ -14,7 +31,24 @@ import ShiftService from '../services/ShiftService';
 export default {
   data(){
     return {
-      name: ''
+      name: '',
+
+    listOfPendingRequests: [
+      {
+
+                    assignedName : '',
+                    shiftId: 0,
+                    assigned: 0,
+                    startDateTime: '',
+                    duration: 0,
+                    status: 0,
+                    emergency: false,
+                    coverer: 0,
+                    covererName: '',
+                    description: ''
+
+      }
+    ]
     }
     
   },
@@ -25,19 +59,43 @@ export default {
         EmployeeNavigation
     },
     methods: {
-      getFullName(){
+              getFullName(){
 
-  ShiftService.getUserFullName().then( response => {
+          ShiftService.getUserFullName().then( response => {
 
-         this.name = response.data;
+                this.name = response.data;
 
-        this.$store.commit("ADD_NAME", this.name);
-})
+                this.$store.commit("ADD_NAME", this.name);
+        })
 
-},
+        },
+
+        getMyShiftPendingRequests(){
+          ShiftService.getMyShiftsByUncoveredRequest(2).then( response => {
+
+              this.listOfPendingRequests = response.data;
+
+          })
+        },
+        convertStatus(status){
+            
+            if(status == 1)
+                return "assigned"
+            if(status == 2)
+            return "uncovered request"
+                if(status === 3)
+                return "uncovered"
+            if(status == 4)
+            return "covered"
+
+        },
+
+
+
     },
     created(){
       this.getFullName();
+      this.getMyShiftPendingRequests();
     }
 
 }
@@ -122,6 +180,13 @@ h1{
   font-style: italic;
   font-weight: bold;
   animation: fadeIn 2s;
+}
+
+p{
+
+  display: flex;
+  display: inline-block;
+  justify-content: center;
 }
 
 

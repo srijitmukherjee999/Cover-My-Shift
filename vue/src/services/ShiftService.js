@@ -46,10 +46,22 @@ export default {
    getEmergencyShifts(emergency,status){
 
       return axios.get(`/shifts?emergency=${emergency}&status=${status}`);
+   },
+
+   updateShiftStatus(id,status){
+
+      return axios.put(`/shift/${id}?status=${status}`);
+
+   },
+
+   getMyShiftsByUncoveredRequest(status){
+
+      return axios.get(`/shifts?status=${status}`);
+
    }
 
 
-   
+
 }
 
   

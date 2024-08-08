@@ -7,7 +7,7 @@
 
     <div class ="uncover">
 
-    <button @click="updateShiftStatusToUncovered">Uncover Shift</button>
+    <button @click="updateShiftStatusToUncovered">Request Day Off</button>
         </div>
         <div class="accept">
         <button @click="updateShiftStatusToAssigned">Accept</button>
@@ -40,7 +40,7 @@ export default {
 
     updateShiftStatusToUncovered(){
 
-    ShiftService.updateUserShiftStatus(this.$route.params.id,3).then(response => {
+    ShiftService.updateShiftStatus(this.$route.params.id,2).then(response => {
     if(response.status === 200){
         alert("You have updated");
     }

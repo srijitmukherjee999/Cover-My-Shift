@@ -145,9 +145,9 @@ export default {
     
         },
         convertStringToBoolean(emergency){
-          if(this.filter.emergency === 'true')
+          if(emergency === 'true')
           return true
-          if(this.filter.emergency === 'false')
+          if(emergency === 'false')
           return false
         }
 
@@ -318,6 +318,7 @@ input[type="date"] {
   75% { transform: translateY(5px) }
   100% { transform: translateY(0) }
 }
+
 h1{
   font-style: italic;
   font-weight: bold;
