@@ -186,6 +186,10 @@ p{
 
   display: flex;
   display: inline-block;
+  
+}
+div{
+  display: flex;
   justify-content: center;
 }
 
