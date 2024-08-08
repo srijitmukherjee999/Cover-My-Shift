@@ -1,8 +1,10 @@
 <template>
-    <body>
+    
       <company-header/>
       <employee-greeting/>
+      <body>
       <employee-navigation/>
+     
     
   <div id="search-shifts">
   <div class="filter">
@@ -324,6 +326,10 @@ h1{
   font-weight: bold;
    animation: fadeIn 4s;
   
+}
+
+body{
+  background-image: url("../assets\nastuh-abootalebi-eHD8Y1Znfpk-unsplash.jpg");
 }
 </style>
 
