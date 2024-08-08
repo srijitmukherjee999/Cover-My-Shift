@@ -67,14 +67,16 @@ public class ManagerController {
         }
     }
 
-    // TODO: make this check if a shift request actually exits before approving, probably needs DAO changes
-
     @PutMapping(path = "/manage/shifts")
     public Shift approveOrDenyCoverRequest(@Valid @RequestBody ApprovalDto approval){
+        if(userShiftDao.getUserShift(approval.getShiftId(), approval.getEmployeeId()) == null)
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Shift cover request for shift id " + approval.getShiftId() + " by employee id " +approval.getEmployeeId() + " not found!");
         Shift shift = shiftDao.getShiftById(approval.getShiftId());
-        shift.setCovererId(approval.getEmployeeId());
-        shift.setStatus(4);
-        shift = shiftDao.updateShift(shift);
+        if(approval.isApproved()) {
+            shift.setCovererId(approval.getEmployeeId());
+            shift.setStatus(4);
+            shift = shiftDao.updateShift(shift);
+        }
         userShiftDao.deleteUserShift(approval.getShiftId(), approval.getEmployeeId());
         return shift;
     }

@@ -12,6 +12,30 @@
 import ShiftService from '../services/ShiftService';
 
 export default {
+data(){
+  return{
+    name:''
+  }
+},
+methods: {
+ 
+  getFullName(){
+
+ShiftService.getUserFullName().then( response => {
+
+         this.name = response.data;
+
+        this.$store.commit("ADD_NAME", this.name);
+})
+
+},
+
+
+},
+created(){
+  this.getFullName();
+}
+
 
 }
 </script>
@@ -26,5 +50,10 @@ export default {
     background-color: white;
 }
 
+
+h1{
+  font-style: italic;
+  animation: fadeIn 4s;
+}
 
 </style>
