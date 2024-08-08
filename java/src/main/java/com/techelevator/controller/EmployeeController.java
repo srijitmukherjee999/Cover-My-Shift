@@ -61,7 +61,7 @@ public class EmployeeController {
         }
 
         if(shift.getStatus() == 3) {
-            userShiftDao.createUserShift(userId, id);
+            userShiftDao.createUserShift(id, userId);
         }
         else {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "This shift is not taking cover requests.");
