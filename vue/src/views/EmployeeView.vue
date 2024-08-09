@@ -29,6 +29,7 @@
       <option value="true">true</option>
       <option value="false">false</option>
     </select>
+    <button  @click="clearForm">Clear</button>
   </div>
   </div>
 </div>
@@ -165,6 +166,21 @@ export default {
           
 
         },
+<<<<<<< HEAD
+        clearForm(){
+        
+          this.filter = {
+                    assignedName : '',          
+                    startDateTime: '',
+                    duration: '',
+                    status: '--None--',
+                    emergency: '--None--',
+          };
+
+        }
+
+  
+=======
       },
    
   created() {
@@ -181,6 +197,7 @@ export default {
     //   this.getFullName();
     // }
   },
+>>>>>>> dbf8b78b7d8034a909aa2beef54ba5a484bd4e56
 
   computed: {
     shiftDetails() {
