@@ -4,69 +4,102 @@
       <company-header />
       <employee-greeting />
       <div id="backImage">
-    <div class="overlay"></div>
-    <div class="content">
-      <employee-navigation/>
-      
-    
+        <div class="overlay"></div>
+        <div class="content">
+          <employee-navigation />
 
-  <div id="search-shifts">
-  <div class="filter">
-    <input type="text" id="assignedNameFilter" placeholder="Name" v-model="filter.assignedName" />
-    <input type="date" id="startDateTime" v-model="filter.startDateTime"  />
-    <input type="text" id="duration" v-model="filter.duration" placeholder="Duration">
-    <select id = "myList1" v-model="filter.status" >
-      <option  id="status">--None--</option>
-      <option value="uncovered request">Uncovered Request</option>
-      <option value="covered">Covered</option>
-      <option value="uncovered">Uncovered</option>
-      <option value="assigned">Assigned</option>
-    </select>
+          <div id="search-shifts">
+            <div class="filter">
+              <input
+                type="text"
+                id="assignedNameFilter"
+                placeholder="Name"
+                v-model="filter.assignedName"
+              />
+              <input
+                type="date"
+                id="startDateTime"
+                v-model="filter.startDateTime"
+              />
+              <input
+                type="text"
+                id="duration"
+                v-model="filter.duration"
+                placeholder="Duration"
+              />
+              <select id="myList1" v-model="filter.status">
+                <option id="status">--None--</option>
+                <option value="uncovered request">Uncovered Request</option>
+                <option value="covered">Covered</option>
+                <option value="uncovered">Uncovered</option>
+                <option value="assigned">Assigned</option>
+              </select>
 
-    
-    <select id = "myList2" v-model="filter.emergency" >Emergency
-      <option  id="emergency">--None--</option>
-      <option value="true">true</option>
-      <option value="false">false</option>
-    </select>
-    <button type="button" @click="clearForm">Clear</button>
-  </div>
-  </div>
-</div>
+              <select id="myList2" v-model="filter.emergency">
+                Emergency
+                <option id="emergency">--None--</option>
+                <option value="true">true</option>
+                <option value="false">false</option>
+              </select>
+              <button type="button" @click="clearForm">Clear</button>
+            </div>
+          </div>
+        </div>
 
-  
+        <div class="scrollable-container" v-if="done">
+          <div class="scrollable-content">
+            <div class="content">
+              <div id="data" v-for="shift in filteredList" :key="shift.shiftId">
+                <!-- <router-link :to="{ name: 'shiftdetails', params: { id: shift.shiftId }} "> -->
+                <div class="together">
+                  <div
+                    class="bubble"
+                    :class="{
+                      emergency: shift.emergency && shift.status == 3,
+                      green: shift.status == 4 || shift.status == 1,
+                    }"
+                  >
+                    <div id="shiftObjects1">
+                      <p class="bubble-title">Name: {{ shift.assignedName }}</p>
+                    </div>
 
-  <div class="scrollable-container" v-if="done">
-    <div class="scrollable-content">
-      <div class="content">
-        
-    <div id="data" v-for="shift in filteredList" :key="shift.shiftId">
-    <!-- <router-link :to="{ name: 'shiftdetails', params: { id: shift.shiftId }} "> -->
-      <div class="together">
-      <div class="bubble" :class="{emergency : shift.emergency && shift.status == 3, green: shift.status == 4 || shift.status == 1}" >
-        <div id="shiftObjects1"><p class="bubble-title">Name: {{ shift.assignedName }}</p></div>
-      
-      
-        <div id="shiftObjects2"><p class="bubble-title">Start Time: {{ shift.startDateTime}}</p></div>
-      
-      
-        <div id="shiftObjects3"><p class="bubble-title">Duration: {{ shift.duration }} <span>hours</span></p></div>
-      
-      
-        <div id="shiftObjects4"><p class="bubble-title">Status: {{ convertStatus(shift.status) }}</p></div>
-      
-        <div id="shiftObjects5"><button class="button-title" @click="updateShiftStatusToUncovered(shift.shiftId)" v-if="shift.assignedName == name && shift.status === 1" >Request Day Off</button></div>
-        
+                    <div id="shiftObjects2">
+                      <p class="bubble-title">
+                        Start Time: {{ shift.startDateTime }}
+                      </p>
+                    </div>
+
+                    <div id="shiftObjects3">
+                      <p class="bubble-title">
+                        Duration: {{ shift.duration }} <span>hours</span>
+                      </p>
+                    </div>
+
+                    <div id="shiftObjects4">
+                      <p class="bubble-title">
+                        Status: {{ convertStatus(shift.status) }}
+                      </p>
+                    </div>
+
+                    <div id="shiftObjects5">
+                      <button
+                        class="button-title"
+                        @click="updateShiftStatusToUncovered(shift.shiftId)"
+                        v-if="shift.assignedName == name && shift.status === 1"
+                      >
+                        Request Day Off
+                      </button>
+                    </div>
+                  </div>
+                  <!-- </router-link> -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-    <!-- </router-link> -->
-  </div>
-  </div> 
-  </div>
-  </div>
-  </div>
-  </div>
-</div>
-</section>
+    </div>
+  </section>
 </template>
 
 <script>
@@ -121,67 +154,45 @@ export default {
         this.$store.commit("ADD_NAME", this.name);
       });
     },
-       
-    updateShiftStatusToUncovered(shiftId){
 
-      ShiftService.updateShiftStatus(shiftId,2).then(response => {
-        if(response.status === 200){
-            alert("You have requested the day off. Pending Management decision");
-            this.getAllShifts();
+    updateShiftStatusToUncovered(shiftId) {
+      ShiftService.updateShiftStatus(shiftId, 2).then((response) => {
+        if (response.status === 200) {
+          alert("You have requested the day off. Pending Management decision");
+          this.getAllShifts();
         }
       });
     },
-        
-        convertStatus(status){
-            
-            if(status == 1)
-                return "assigned"
-            if(status == 2)
-            return "uncovered request"
-                if(status === 3)
-                return "uncovered"
-            if(status == 4)
-            return "covered"
 
-        },
-        
-        convertStatusToNumber(status){
-            if(status.toLowerCase().includes("assigned"))
-            return 1
-            if(status.includes("uncovered request"))
-            return 2
-        if(status.includes("uncovered"))
-        return 3
-        if(status.includes("covered"))
-          return 4
-    
-        },
-        convertStringToBoolean(emergency){
-          if(emergency === 'true')
-          return true
-          if(emergency === 'false')
-          return false
-        }, 
-        convertDateToString(startDateTime){
+    convertStatus(status) {
+      if (status == 1) return "assigned";
+      if (status == 2) return "uncovered request";
+      if (status === 3) return "uncovered";
+      if (status == 4) return "covered";
+    },
 
-          
-
-        },
-        clearForm(){
-        
-          this.filter = {
-                    assignedName : '',          
-                    startDateTime: '',
-                    duration: '',
-                    status: '--None--',
-                    emergency: '--None--',
-          };
-
-        }
-
-  
+    convertStatusToNumber(status) {
+      if (status.toLowerCase().includes("assigned")) return 1;
+      if (status.includes("uncovered request")) return 2;
+      if (status.includes("uncovered")) return 3;
+      if (status.includes("covered")) return 4;
+    },
+    convertStringToBoolean(emergency) {
+      if (emergency === "true") return true;
+      if (emergency === "false") return false;
+    },
+    convertDateToString(startDateTime) {},
+    clearForm() {
+      this.filter = {
+        assignedName: "",
+        startDateTime: "",
+        duration: "",
+        status: "--None--",
+        emergency: "--None--",
+      };
+    },
   },
-   
+
   created() {
     this.getAllShifts();
     this.getFullName();
@@ -242,11 +253,10 @@ export default {
     //   return this.$store.state.user.authorities[0].name; // Adapt this based on your state management
     // },
   },
-}
+};
 </script>
 
 <style scoped>
-
 #data {
   display: flex;
   flex-direction: column;
@@ -272,10 +282,10 @@ export default {
 }
 
 .together {
-      display: flex;
-      justify-content: center; 
-      width: 100%; 
-    }
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
 
 .bubble:hover {
   transform: scale(1.05);
@@ -381,7 +391,7 @@ input[type="date"] {
 
 #shiftObjects5 {
   width: 150px;
-  height: 5px; 
+  height: 5px;
 }
 
 #shiftObjects5:hover {
@@ -389,7 +399,7 @@ input[type="date"] {
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
 }
 
-.button-title{
+.button-title {
   font-weight: bold;
   flex: 1 1 auto;
   border-radius: 5px;
@@ -397,7 +407,8 @@ input[type="date"] {
   font-weight: bold;
 }
 
-#myList1, #myList2 {
+#myList1,
+#myList2 {
   width: 200px;
   height: 50px;
   padding: 10px;
