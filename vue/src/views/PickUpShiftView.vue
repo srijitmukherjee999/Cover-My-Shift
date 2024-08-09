@@ -1,5 +1,5 @@
 <template>
-  <body>
+  <section>
     <company-header/>
     <employee-greeting/>
     <div id="backImage">
@@ -51,7 +51,7 @@
   </div>
   </div>
   </div>
-</body>
+</section>
 </template>
 
 
@@ -173,7 +173,7 @@ export default {
 
 <style scoped>
 
-body {
+section {
   background: transparent;
 }
 

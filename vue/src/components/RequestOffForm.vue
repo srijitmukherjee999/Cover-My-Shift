@@ -1,5 +1,5 @@
 <template>
-    <body>
+  <section>
     <div id="form-body">
   <form class="request-off-form" v-on:submit.prevent="addNewRequest" v-if="showForm">
       <input type="date" class="start-date-input" placeholder="Date" v-model="newRequest.startDate">
@@ -11,7 +11,7 @@
     <button class="requestOffButton" v-else @click="toggleForm">Request Time Off</button>
     
 </div>
-</body>
+</section>
 </template>
 
 <script>
@@ -62,7 +62,7 @@ methods:{
 
 <style scoped>
 
-body, html {
+section, html {
       height: 100%;
       margin: 0;
       display: flex;
