@@ -245,13 +245,6 @@ export default {
 </script>
 
 <style scoped>
-section,
-html {
-  margin: 0;
-  padding: 0;
-  height: 100%;
-  background: transparent;
-}
 
 #data {
   display: flex;
@@ -267,10 +260,11 @@ html {
   border-radius: 50px;
   padding: 20px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  width: 100%;
+  max-width: 100%;
+  width: auto;
   display: flex;
-  flex-wrap: wrap;
-  align-items: center;
+  flex-direction: row;
+  align-items: flex-start;
   text-align: left;
   box-sizing: border-box;
   transition: transform 0.3s, box-shadow 0.3s;
@@ -306,6 +300,7 @@ html {
   margin: 10px;
   border-radius: 5px;
   text-align: center;
+  font-weight: bold;
 }
 
 .bubble p {
