@@ -1,6 +1,6 @@
 <template>
     <body>
-      <div class="fixed-header"></div>
+      <div class="fixed-header">
       <company-header/>
       <employee-greeting/>
       <div id="backImage">
@@ -31,6 +31,7 @@
     </select>
   </div>
   </div>
+</div>
 
   
 
@@ -242,12 +243,11 @@ export default {
 <style scoped>
 
 body, html {
-      margin: 0;
-      padding: 0;
-      
-      height: 100%;
-      background: transparent;
-    }
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  background: transparent;
+}
 
 #data {
   display: flex;
@@ -407,18 +407,13 @@ h1{
   z-index: 1; 
 }
 
-.content {
-  position: relative;
-  z-index: 1; 
-  padding: 20px;
-}
 
 .fixed-header {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
-  z-index: 1000;
+  z-index: 999;
   background: white; /* Ensure visibility if needed */
 }
 
