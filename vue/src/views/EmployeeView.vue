@@ -29,6 +29,7 @@
     <option value="true">true</option>
     <option value="false">false</option>
     </select>
+    <button  @click="clearForm">Clear</button>
   </div>
   </div>
 </div>
@@ -172,6 +173,17 @@ export default {
         convertDateToString(startDateTime){
 
           
+
+        },
+        clearForm(){
+        
+          this.filter = {
+                    assignedName : '',          
+                    startDateTime: '',
+                    duration: '',
+                    status: '--None--',
+                    emergency: '--None--',
+          };
 
         }
 
