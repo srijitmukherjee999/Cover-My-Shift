@@ -3,12 +3,16 @@
     <company-header />
     <!-- v-if="userRole === 'ROLE_MANAGER'" -->
     <manager-greeting />
+    
 
   <div id="backImage">
     <div class="overlay"></div>
+    
 
     <div id="shift-inputs">
+      <manager-navigation/>
       <div class="filter">
+        
         <div><input type="date" v-model="shiftInputs.startDate" placeholder="Start Date" /></div>
         <div><input type="date" v-model="shiftInputs.endDate" placeholder="End Date (optional)" /></div>
         <div><input type="time" v-model="shiftInputs.startTime" placeholder="Start Time" /></div>
