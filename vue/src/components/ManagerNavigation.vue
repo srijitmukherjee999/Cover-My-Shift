@@ -1,17 +1,17 @@
 <template>
-  <div>
+  <div class="navigation">
       <nav class="navigation">
         <ul>
           <li><router-link v-bind:to="{ name: 'manager' }">MY HOME</router-link></li>
           <li><router-link v-bind:to="{ name: 'pendingrequests' }">PENDING REQUESTS</router-link></li>
-          <li><router-link v-bind:to="{ name: 'pickupshift' }">FIRE EMPLOYEE</router-link></li>
+          <li><router-link v-bind:to="{ name: 'allShifts' }">ALL SHIFTS</router-link></li>
         </ul>
       </nav>
     </div>
 </template>
 
 <script>
-import ShiftService from '../services/ShiftService';
+
 
 export default {
 
@@ -21,14 +21,19 @@ export default {
 <style>
 
 .navigation {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
     padding: 10px;
     margin: 20px;
     border-radius: 5px;
+    z-index: 2;
   }
   
   .navigation a {
     text-decoration: none;
     color: #000000;
+    
   }
   
   .navigation ul {
@@ -36,6 +41,7 @@ export default {
     padding: 0;
     margin: center;
     text-align: center;
+    
   }
   
   .navigation li {

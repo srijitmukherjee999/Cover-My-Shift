@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import { registerRuntimeCompiler } from 'vue';
+
 import ShiftService from '../services/ShiftService';
 
 export default {
