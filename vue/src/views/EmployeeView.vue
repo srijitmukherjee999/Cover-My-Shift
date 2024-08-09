@@ -29,7 +29,7 @@
       <option value="true">true</option>
       <option value="false">false</option>
     </select>
-    <button  @click="clearForm">Clear</button>
+    <button type="button" @click="clearForm">Clear</button>
   </div>
   </div>
 </div>
@@ -55,7 +55,7 @@
       
         <div id="shiftObjects4"><p class="bubble-title">Status: {{ convertStatus(shift.status) }}</p></div>
       
-        <div id="shiftObjects5"><button class="bubble-title" @click="updateShiftStatusToUncovered(shift.shiftId)" v-if="shift.assignedName == name && shift.status === 1" >Request Day Off</button></div>
+        <div id="shiftObjects5"><button class="button-title" @click="updateShiftStatusToUncovered(shift.shiftId)" v-if="shift.assignedName == name && shift.status === 1" >Request Day Off</button></div>
         
       </div>
     <!-- </router-link> -->
@@ -360,6 +360,41 @@ input[type="date"] {
   border: 2px solid #000;
   border-radius: 5px;
   text-align: center;
+}
+
+[type="button"] {
+  width: 200px;
+  height: 50px;
+  padding: 10px;
+  font-size: 18px;
+  border: 2px solid #000;
+  border-radius: 5px;
+  text-align: center;
+}
+
+[type="button"]:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+  background-color: lightgrey;
+  animation: forwards;
+}
+
+#shiftObjects5 {
+  width: 150px;
+  height: 5px; 
+}
+
+#shiftObjects5:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+.button-title{
+  font-weight: bold;
+  flex: 1 1 auto;
+  border-radius: 5px;
+  text-align: center;
+  font-weight: bold;
 }
 
 #myList1, #myList2 {
