@@ -103,6 +103,7 @@ export default {
                     emergency: '--None--',
                     
             },
+            userRole:'',
             isEmployee:false,
         }
     }
@@ -163,10 +164,21 @@ export default {
     },
     created(){
         
+        // this.getAllShifts();
+        // this.getFullName();
+        
+        ////////
+        this.userRole =this.$store.state.user.authorities[0].name;
+      this.isEmployee = this.userRole ==="ROLE_EMPLOYEE";
+      if(!this.isEmployee){
+        this.$router.push('/login');  // this to redirect to login/register page
+      }else{
+
         this.getAllShifts();
         this.getFullName();
-        
+      }
     },
+      
     computed: {
         shiftDetails(){
             const shiftId = this.$route.params.id;
@@ -203,7 +215,10 @@ export default {
       return filteredUsers;
     },
     
-      
+    // userRole() {
+    //   return this.$store.state.user.authorities[0].name; // Adapt this based on your state management
+    // },
+
      }
 
 }

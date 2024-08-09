@@ -7,7 +7,6 @@
     <div class="content">
    <manager-navigation/>
   
-
   
     <div id="shift-inputs">
       <div class="filter">
@@ -62,6 +61,8 @@ import ManagerGreeting from '../components/ManagerGreeting.vue';
         },
         listOfUsers: [],
         selectedUsers: [],
+        userRole:'',
+        isManager:false,
       };
     },
   
@@ -83,13 +84,13 @@ import ManagerGreeting from '../components/ManagerGreeting.vue';
           this.selectedUsers.push(userId);
         }
       },
-                  getFullName(){
+      getFullName(){
 
-            ShiftService.getUserFullName().then( response => {
+        ShiftService.getUserFullName().then( response => {
 
-                    this.name = response.data;
+          this.name = response.data;
 
-                    this.$store.commit("ADD_NAME", this.name);
+          this.$store.commit("ADD_NAME", this.name);
             })
 
 },
@@ -130,18 +131,32 @@ import ManagerGreeting from '../components/ManagerGreeting.vue';
         this.selectedUsers = []; 
       },
 
-      // isManager(){
+      
 
-      // },
+  //     computed: {
+  //       userRole() {
+  //         return this.$store.state.user.authorities[0].name; // Adapt this based on your state management
+  //   }
+  // }
+
     },
   
     created() {
       
-      this.getAllUsers();
-      this.getFullName();
-      //this.userRole =AuthService.getUsers().authorities[0].name;
+      // this.getAllUsers();
+      // this.getFullName();
+      ///////
+      this.userRole =this.$store.state.user.authorities[0].name;
+      this.isManager = this.userRole ==="ROLE_MANAGER";
+      if(!this.isManager){
+        this.$router.push('/login');  // this to redirect to login/register page
+      }else{
+
+        this.getAllUsers();
+        this.getFullName();
+      }
     },
-  };
+  }
 </script>
   
   <style>
@@ -354,5 +369,36 @@ input[type="number"] {
   padding: 20px; 
 
 }
+
+/* .scrollable-container { 
+      position: fixed;
+      top: 50px; 
+      left: 0;
+      right: 0;
+      bottom: 0;
+      overflow: hidden; 
+      
+    }
+
+    
+    .scrollable-content {
+      height: 100%;
+      overflow-y: auto; 
+      padding: 10px;
+      background-color: #f4f4f4;
+    }
+
+    .fixed-header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background-color: #333;
+      color: #fff;
+      padding: 10px;
+      text-align: center;
+      z-index: 1000; 
+    }*/
+
   </style>
   

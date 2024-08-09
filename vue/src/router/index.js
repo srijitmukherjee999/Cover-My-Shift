@@ -71,7 +71,8 @@ const routes = [
     name: "timeoff",
     component: RequestTimeOffView,
     meta: {
-      requiresAuth: true
+      requiresAuth: true,
+      role:'ROLE_EMPLOYEE',
     }
   },
   {
@@ -79,7 +80,8 @@ const routes = [
     name: "pickupshift",
     component: PickUpShiftView,
     meta: {
-      requiresAuth:  true
+      requiresAuth:  true,
+      role:'ROLE_EMPLOYEE',
     }
   },
   {
@@ -87,7 +89,8 @@ const routes = [
     name: "shiftdetails",
     component: ShiftDetailView,
     meta: {
-      requiresAuth:  true
+      requiresAuth:  true,
+      role:'ROLE_EMPLOYEE',
     }
   },
   {
@@ -105,6 +108,7 @@ const routes = [
     component: MyShiftView,
     meta: {
       requiresAuth: true,
+      role:'ROLE_EMPLOYEE',
     }
   },
   {
