@@ -24,10 +24,6 @@ export default {
 
 <style scoped>
 
-body {
-    background: transparent;
-}
-
 html, body {
   margin: 0;
   padding: 0;
@@ -38,9 +34,12 @@ body > div {
   padding: 0;
 }
 .navigation {
-    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
     margin: 20px;
     border-radius: 5px;
+    z-index: 1000;
 }
 
 .navigation a {
@@ -49,6 +48,7 @@ body > div {
 }
 
 .navigation ul {
+    list-style: none;
     padding: 0;
     margin: 0;
     text-align: center;
