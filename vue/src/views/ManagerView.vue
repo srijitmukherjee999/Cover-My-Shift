@@ -3,11 +3,11 @@
     
 
     <!-- v-if="userRole === 'ROLE_MANAGER'" -->
-    <div class="yes">
+    <div class="yes" v-if="isManager">
       <h1>Hello Manager {{ name }}</h1>
     </div>
   
-    <div>
+    <div v-if="isManager">
       <nav class="navigation">
         <ul>
           <li><router-link v-bind:to="{ name: 'manager' }">MY HOME</router-link></li>
@@ -76,6 +76,8 @@
         },
         listOfUsers: [],
         selectedUsers: [],
+        userRole:'',
+        isManager:false,
       };
     },
   
@@ -97,13 +99,13 @@
           this.selectedUsers.push(userId);
         }
       },
-                  getFullName(){
+      getFullName(){
 
-            ShiftService.getUserFullName().then( response => {
+        ShiftService.getUserFullName().then( response => {
 
-                    this.name = response.data;
+          this.name = response.data;
 
-                    this.$store.commit("ADD_NAME", this.name);
+          this.$store.commit("ADD_NAME", this.name);
             })
 
 },
@@ -144,18 +146,32 @@
         this.selectedUsers = []; 
       },
 
-      // isManager(){
+      
 
-      // },
+  //     computed: {
+  //       userRole() {
+  //         return this.$store.state.user.authorities[0].name; // Adapt this based on your state management
+  //   }
+  // }
+
     },
   
     created() {
       
-      this.getAllUsers();
-      this.getFullName();
-      //this.userRole =AuthService.getUsers().authorities[0].name;
+      // this.getAllUsers();
+      // this.getFullName();
+      ///////
+      this.userRole =this.$store.state.user.authorities[0].name;
+      this.isManager = this.userRole ==="ROLE_MANAGER";
+      if(!this.isManager){
+        this.$router.push('/login');  // this to redirect to login/register page
+      }else{
+
+        this.getAllUsers();
+        this.getFullName();
+      }
     },
-  };
+  }
 </script>
   
   <style>
