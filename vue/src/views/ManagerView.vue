@@ -1,11 +1,10 @@
 <template>
     <company-header/>
-    
-
     <!-- v-if="userRole === 'ROLE_MANAGER'" -->
     <div class="yes" v-if="isManager">
       <h1>Hello Manager {{ name }}</h1>
     </div>
+   <manager-navigation/>
   
     <div v-if="isManager">
       <nav class="navigation">
@@ -17,7 +16,8 @@
       </nav>
     </div>
   
-    <div class="shift-inputs" >
+    <div id="shift-inputs">
+      <div class="filter"></div>
       <input
         type="date"
         v-model="shiftInputs.startDate"
@@ -43,15 +43,17 @@
     </button>
     </div>
   
-    <div id="data" >
+    <div id="data">
       <div v-for="user in listOfUsers" :key="user.id" class="bubble">
+        <div class="together">
         <div class="bubble-title">{{ user.fullName }}</div>
-        <button
+        <div><button
           :class="['add-shift-button', isSelected(user.id) ? 'selected-button' : 'add-button']"
           @click="toggleSelection(user.id)"
         >
           {{ isSelected(user.id) ? 'Selected' : 'Add Shift' }}
-        </button>
+        </button></div>
+      </div>
       </div>
     </div>
     
@@ -61,9 +63,12 @@
   import ShiftService from "../services/ShiftService.js";
   import AuthService from "../services/AuthService";
   import CompanyHeader from '../components/CompanyHeader.vue';
+  import ManagerNavigation from "../components/ManagerNavigation.vue";
   
   export default {
-    components: { CompanyHeader },
+    components: { CompanyHeader,
+                  ManagerNavigation,  
+    },
   
     data() {
       return {
@@ -175,52 +180,22 @@
 </script>
   
   <style>
-  .yes {
+
+.yes {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-evenly;
     padding: 10px;
     background-color: white;
   }
-  
-  .navigation {
-    padding: 10px;
-    margin: 20px;
-    border-radius: 5px;
-  }
-  
-  .navigation a {
-    text-decoration: none;
-    color: #000000;
-  }
-  
-  .navigation ul {
-    list-style: none;
-    padding: 0;
-    margin: center;
-    text-align: center;
-  }
-  
-  .navigation li {
-    display: inline;
-    margin-right: 15px;
-    font-size: larger;
-    background-color: white;
-    color: black;
-    border-radius: 50px;
-    padding: 20px;
-    box-shadow: 0 4px 8px;
-    width: 100%;
-    transition: transform 0.3s, box-shadow 0.3s;
-    font: bold;
-  }
-  
-  .navigation li:hover {
-    transform: scale(1.05);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
-    background-color: lightgray;
-  }
-  
+
+  .together {
+      display: flex;
+      justify-content: center; 
+      width: 100%;
+      max-width: 0 auto; 
+    }
+ 
   #data {
     display: flex;
     flex-direction: column;
