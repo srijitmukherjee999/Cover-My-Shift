@@ -1,5 +1,5 @@
 <template>
-  <body>
+  <section>
     <div class="fixed-header">
       <company-header />
       <manager-greeting />
@@ -75,7 +75,7 @@
         </div>
       </div>
     </div>
-  </body>
+  </section>
 </template>
   
   <script>
@@ -176,22 +176,26 @@ export default {
   },
 
   created() {
-    // this.getAllUsers();
-    // this.getFullName();
+    this.getAllUsers();
+    this.getFullName();
     ///////
-    this.userRole = this.$store.state.user.authorities[0].name;
-    this.isManager = this.userRole === "ROLE_MANAGER";
-    if (!this.isManager) {
-      this.$router.push("/login"); // this to redirect to login/register page
-    } else {
-      this.getAllUsers();
-      this.getFullName();
-    }
+    // this.userRole = this.$store.state.user.authorities[0].name;
+    // this.isManager = this.userRole === "ROLE_MANAGER";
+    // if (!this.isManager) {
+    //   this.$router.push("/login"); // this to redirect to login/register page
+    // } else {
+    //   this.getAllUsers();
+    //   this.getFullName();
+    // }
   },
+ 
 };
+  
+   
+  
 </script>
   
-  <style>
+  <style scoped>
 #data {
   display: flex;
   flex-direction: column;
@@ -357,7 +361,7 @@ input[type="number"] {
   text-align: center;
 }
 
-body,
+section,
 html {
   margin: 0;
   padding: 0;
@@ -413,5 +417,7 @@ html {
   position: relative;
   z-index: 1; /* Make sure it's behind the fixed header */
 }
+
 </style>
+
   

@@ -1,5 +1,5 @@
 <template>
-   <body>
+   <section>
     <div id="backImage">
     <div class="overlay"></div>
     <div class="content">
@@ -54,7 +54,7 @@
     </div>
     </div>
     </div>
-    </body>
+    </section>
 </template>
 
 <script>

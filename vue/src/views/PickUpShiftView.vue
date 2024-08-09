@@ -1,5 +1,5 @@
 <template>
-  <body>
+  <section>
     <company-header/>
     <employee-greeting/>
     <div id="backImage">
@@ -26,7 +26,7 @@
   </div>
 
   <div id="data" v-if="showButton" v-for="shift in listOfShiftsByStatus" v-bind:key="shift">
-    <router-link :to="{ name: 'shiftdetails', params: { id: shift.shiftId }} ">
+    <!-- <router-link :to="{ name: 'shiftdetails', params: { id: shift.shiftId }} "> -->
       <div class="bubble" :class="{emergency : shift.emergency && shift.status == 3, green: shift.status == 4 || shift.status == 1}" >
         <div id="shiftObjects"><p class="bubble-title">Name: {{ shift.assignedName }}</p></div>
       
@@ -41,13 +41,17 @@
       
       
         <div id="shiftObjects"><p class="bubble-title">Emergency: {{ shift.emergency }}</p></div>
+
+        <div id="shiftObjects"><button class="bubble-title" @click="coverThisShift(shift.shiftId)" >Cover This Shift</button></div>
+
+
       </div>
-    </router-link>
+    <!-- </router-link> -->
   </div> 
   </div>
   </div>
   </div>
-</body>
+</section>
 </template>
 
 
@@ -142,7 +146,17 @@ export default {
       toggleButton(){
         this.showButton = !this.showButton;
         this.emergencyShifts = [];
-      }
+      },
+            coverThisShift(shiftId){
+
+          ShiftService.createCoverRequest(shiftId).then(response => {
+              if(response.status === 201){
+                  alert("You have requested to cover this shift.Pending Management decision");
+                  this.getShifts(3);
+              }
+          })
+
+          }
 },
       
         
@@ -159,7 +173,7 @@ export default {
 
 <style scoped>
 
-body {
+section {
   background: transparent;
 }
 

@@ -1,10 +1,10 @@
 <template>
-  <body>
+  <section>
     <div class="yes">
          <h1>Hello {{ name }}</h1>
         <h1>Hours Worked: 40</h1>
  </div>
-  </body>
+  </section>
 </template>
 
 <script>

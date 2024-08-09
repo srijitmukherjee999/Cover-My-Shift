@@ -1,5 +1,5 @@
 <template>
-  <body>
+  <section>
     <div>
       <nav class="navigation">
         <ul>
@@ -25,7 +25,7 @@
         </ul>
       </nav>
     </div>
-  </body>
+  </section>
 </template>
 
 <script>
@@ -34,12 +34,12 @@ export default {};
 
 <style scoped>
 html,
-body {
+section {
   margin: 0;
   padding: 0;
 }
 
-body > div {
+section > div {
   margin: 0;
   padding: 0;
 }
