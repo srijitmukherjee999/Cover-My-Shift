@@ -166,7 +166,6 @@ export default {
           
 
         },
-<<<<<<< HEAD
         clearForm(){
         
           this.filter = {
@@ -180,8 +179,7 @@ export default {
         }
 
   
-=======
-      },
+  },
    
   created() {
     this.getAllShifts();
@@ -197,7 +195,6 @@ export default {
     //   this.getFullName();
     // }
   },
->>>>>>> dbf8b78b7d8034a909aa2beef54ba5a484bd4e56
 
   computed: {
     shiftDetails() {
