@@ -6,10 +6,13 @@
     <manager-greeting />
   <div id="backImage">
     <div class="overlay"></div>
+    <div class="content">
     <manager-navigation/>
 
     <div id="shift-inputs">
+      
       <div class="filter">
+        
         <div><input type="date" v-model="shiftInputs.startDate" placeholder="Start Date" /></div>
         <div><input type="date" v-model="shiftInputs.endDate" placeholder="End Date (optional)" /></div>
         <div><input type="time" v-model="shiftInputs.startTime" placeholder="Start Time" /></div>
@@ -18,6 +21,7 @@
       </div>
     </div>
     </div>
+  </div>
 
     <div class="scrollable-container">
       <div class="scrollable-content">
@@ -147,18 +151,18 @@ import ManagerGreeting from '../components/ManagerGreeting.vue';
   
     created() {
       
-      // this.getAllUsers();
-      // this.getFullName();
-      ///////
-      this.userRole =this.$store.state.user.authorities[0].name;
-      this.isManager = this.userRole ==="ROLE_MANAGER";
-      if(!this.isManager){
-        this.$router.push('/login');  // this to redirect to login/register page
-      }else{
+      this.getAllUsers();
+      this.getFullName();
+      /////
+      // this.userRole =this.$store.state.user.authorities[0].name;
+      // this.isManager = this.userRole ==="ROLE_MANAGER";
+      // if(!this.isManager){
+      //   this.$router.push('/login');  // this to redirect to login/register page
+      // }else{
 
-        this.getAllUsers();
-        this.getFullName();
-      }
+      //   this.getAllUsers();
+      //   this.getFullName();
+      // }
     },
   }
 </script>
@@ -257,6 +261,15 @@ import ManagerGreeting from '../components/ManagerGreeting.vue';
     }
   }
 
+  #shift-inputs {
+  margin: 0 auto;
+  width: 80%;
+  max-width: fit-content;
+  position: relative;
+  z-index: 2; /* Ensure it is above the overlay but below scrolling content */
+}
+
+
 .filter {
   background-color: orange; 
   color: white;
@@ -330,15 +343,6 @@ body, html {
   background: transparent;
 }
 
-.fixed-header {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  z-index: 1000;
-  background: white; 
-}
-
 #backImage {
   position: relative;
   height: 100vh;
@@ -358,12 +362,13 @@ body, html {
   z-index: 1; /* Less than header */
 }
 
-#shift-inputs {
-  margin: 0 auto;
-  width: 80%;
-  max-width: fit-content;
-  position: relative;
-  z-index: 2; /* Ensure it is above the overlay but below scrolling content */
+.fixed-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  background: white; 
 }
 
 .scrollable-container {
@@ -386,5 +391,22 @@ body, html {
   position: relative;
   z-index: 1; /* Make sure it's behind the fixed header */
 }
+<<<<<<< HEAD
+=======
+
+
+
+
+
+
+
+ 
+
+    
+   
+
+    
+
+>>>>>>> 1f8f26d8b2e433642b356c7aface3e2c2f8513fc
   </style>
   

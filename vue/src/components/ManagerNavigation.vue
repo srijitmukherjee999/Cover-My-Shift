@@ -1,5 +1,6 @@
 <template>
-  <div class="navigation">
+  <body>
+  <div>
       <nav class="navigation">
         <ul>
           <li><router-link v-bind:to="{ name: 'manager' }">MY HOME</router-link></li>
@@ -8,23 +9,34 @@
         </ul>
       </nav>
     </div>
+  </body>
 </template>
 
 <script>
-import ShiftService from '../services/ShiftService';
+
 
 export default {
 
 }
 </script>
 
-<style>
+<style >
 
+
+
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+body > div {
+  margin: 0;
+  padding: 0;
+}
 .navigation {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-evenly;
-    padding: 10px;
     margin: 20px;
     border-radius: 5px;
     z-index: 2;
@@ -48,7 +60,6 @@ export default {
     display: inline;
     margin-right: 15px;
     font-size: larger;
-    background-color: white;
     color: black;
     border-radius: 50px;
     padding: 20px;
@@ -63,5 +74,32 @@ export default {
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
     background-color: lightgray;
   }
+
+  @media (max-width: 768px) {
+
+.navigation li {
+    font-size: medium; 
+    padding: 15px; 
+}
+}
+
+@media (max-width: 480px) {
+
+
+.navigation li {
+    font-size: small; 
+    padding: 10px; 
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap; 
+}
+
+
+.navigation ul {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap; 
+}
+}
 
 </style>

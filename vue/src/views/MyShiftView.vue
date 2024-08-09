@@ -28,7 +28,7 @@
   </div>
 
   <div id="data" v-for="shift in filteredMyList" :key="shift.shiftId">
-    <router-link :to="{ name: 'shiftdetails', params: { id: shift.shiftId }} ">
+    <!-- <router-link :to="{ name: 'shiftdetails', params: { id: shift.shiftId }} "> -->
       <div class="bubble" :class="{emergency : shift.emergency}">
         <div id="shiftObjects"><p class="bubble-title">Name: {{ shift.assignedName }}</p></div>
       
@@ -41,11 +41,11 @@
     
       <div id="shiftObjects"><p class="bubble-title">Status: {{ convertStatus(shift.status) }}</p></div>
     
-    
-      <div id="shiftObjects"><p class="bubble-title">Emergency: {{ shift.emergency }}</p></div>
+      <div id="shiftObjects"><button class="bubble-title" @click="updateShiftStatusToUncovered(shift.shiftId)" v-if="shift.assignedName == name && shift.status === 1" >Request Day Off</button></div>
+      
       </div>
-    
-    </router-link>
+<!--     
+    </router-link> -->
     </div>
   </div>
     </div>
@@ -116,7 +116,17 @@ export default {
             return "covered"
 
         },
-          getFullName(){
+          updateShiftStatusToUncovered(shiftId){
+
+        ShiftService.updateShiftStatus(shiftId,2).then(response => {
+        if(response.status === 200){
+            alert("You have requested the day off. Pending Management decision");
+            this.getMyShifts();
+        }
+        })
+
+        },
+                  getFullName(){
 
             ShiftService.getUserFullName().then( response => {
 
