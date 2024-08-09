@@ -23,7 +23,8 @@ INSERT INTO shift (assigned, start_date_time, duration, status, emergency, cover
 ((SELECT user_id FROM users WHERE username = 'mjones'), '2024-08-07 10:00:00', 5, 1, FALSE, (SELECT user_id FROM users WHERE username = 'mjones'), 'Regular shift'),
 ((SELECT user_id FROM users WHERE username = 'klee'), '2024-08-08 07:00:00', 9, 3, FALSE, NULL, 'Uncovered overtime shift'),
 ((SELECT user_id FROM users WHERE username = 'pwhite'), '2024-08-09 08:00:00', 8, 4, TRUE, (SELECT user_id FROM users WHERE username = 'asmith'), 'Emergency shift covered by Alice Smith');
-git
+
+
 
 INSERT INTO hours (employee, week_year, hours_worked) VALUES
 ((SELECT user_id FROM users WHERE username = 'jdoe'), 202432, 40),
