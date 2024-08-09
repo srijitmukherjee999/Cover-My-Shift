@@ -43,6 +43,7 @@ export default {
     ShiftService.updateShiftStatus(this.$route.params.id,2).then(response => {
     if(response.status === 200){
         alert("You have requested the day off. Pending Management decision");
+        this.$router.push('/employee');
     }
 })
 
@@ -52,6 +53,7 @@ export default {
         ShiftService.createCoverRequest(this.$route.params.id).then(response => {
             if(response.status === 201){
                 alert("You have requested to cover this shift.Pending Management decision");
+                this.$router.push('/employee');
             }
         })
 

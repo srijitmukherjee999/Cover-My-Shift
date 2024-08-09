@@ -24,8 +24,8 @@
         <p>{{ shift.emergency ? 'Emergency' : 'Regular' }}</p>
       </div>
       <div class="bubble-actions">
-        <button class="accept-button" @click="acceptShift(shift.shiftId, shift.employeeId)">Accept</button>
-        <button class="reject-button" @click="rejectShift(shift.shiftId, shift.employeeId)">Reject</button>
+        <button class="accept-button" @click="approveDayOffRequest(shift.shiftId)">Accept</button>
+        <button class="reject-button" @click="denyDayOffRequest(shift.shiftId)">Reject</button>
       </div>
     </div>
   </div>
@@ -84,6 +84,30 @@ export default {
       message: 'yes'
     };
     },
+
+      approveDayOffRequest(id){
+
+        ManagerService.acceptDayOffRequest(id,3).then(response => {
+          if(response.status === 200){
+            alert("Accepted");
+            this.getShiftPendingRequests();
+          }
+        })
+
+
+      },
+      denyDayOffRequest(id){
+        ManagerService.acceptDayOffRequest(id,1).then(response => {
+          if(response.status === 200 ){ 
+            alert("Rejected");
+            this.getShiftPendingRequests();
+          }
+        })
+      }
+
+
+
+
   },
   created(){
     this.getFullName();
