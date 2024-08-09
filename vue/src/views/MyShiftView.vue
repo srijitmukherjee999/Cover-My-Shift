@@ -35,6 +35,7 @@
                 <option value="true">true</option>
                 <option value="false">false</option>
               </select>
+              <button type="button" @click="clearForm">Clear</button>
             </div>
           </div>
         </div>
@@ -118,7 +119,7 @@ export default {
         },
       ],
       myFilter: {
-        assignedName: "",
+        
         startDateTime: "",
         duration: "",
         status: "--None--",
@@ -156,6 +157,15 @@ export default {
     convertStringToBoolean(emergency) {
       if (emergency === "true") return true;
       if (emergency === "false") return false;
+    },
+    clearForm() {
+      this.myFilter = {
+        assignedName: "",
+        startDateTime: "",
+        duration: "",
+        status: "--None--",
+        emergency: "--None--",
+      };
     },
   },
   computed: {
