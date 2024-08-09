@@ -39,9 +39,10 @@
   <div class="scrollable-container" v-if="done">
     <div class="scrollable-content">
       <div class="content">
-        <div class="together">
+        
     <div id="data" v-for="shift in filteredList" :key="shift.shiftId">
     <!-- <router-link :to="{ name: 'shiftdetails', params: { id: shift.shiftId }} "> -->
+      <div class="together">
       <div class="bubble" :class="{emergency : shift.emergency && shift.status == 3, green: shift.status == 4 || shift.status == 1}" >
         <div id="shiftObjects1"><p class="bubble-title">Name: {{ shift.assignedName }}</p></div>
       
