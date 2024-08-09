@@ -3,6 +3,7 @@
     <company-header />
     <!-- v-if="userRole === 'ROLE_MANAGER'" -->
     <manager-greeting />
+    <manager-navigation/>
 
   <div id="backImage">
     <div class="overlay"></div>
@@ -145,18 +146,18 @@ import ManagerGreeting from '../components/ManagerGreeting.vue';
   
     created() {
       
-      // this.getAllUsers();
-      // this.getFullName();
-      ///////
-      this.userRole =this.$store.state.user.authorities[0].name;
-      this.isManager = this.userRole ==="ROLE_MANAGER";
-      if(!this.isManager){
-        this.$router.push('/login');  // this to redirect to login/register page
-      }else{
+      this.getAllUsers();
+      this.getFullName();
+      /////
+      // this.userRole =this.$store.state.user.authorities[0].name;
+      // this.isManager = this.userRole ==="ROLE_MANAGER";
+      // if(!this.isManager){
+      //   this.$router.push('/login');  // this to redirect to login/register page
+      // }else{
 
-        this.getAllUsers();
-        this.getFullName();
-      }
+      //   this.getAllUsers();
+      //   this.getFullName();
+      // }
     },
   }
 </script>
