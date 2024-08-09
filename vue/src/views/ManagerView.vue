@@ -1,8 +1,10 @@
 <template>
-    <company-header/>
+  <div class="fixed-header">
+    <company-header />
     <!-- v-if="userRole === 'ROLE_MANAGER'" -->
-    <manager-greeting/>
-    <div id="backImage">
+    <manager-greeting />
+
+  <div id="backImage">
     <div class="overlay"></div>
     <div class="content">
    <manager-navigation/>
@@ -19,33 +21,37 @@
     </div> -->
 
   
+
     <div id="shift-inputs">
       <div class="filter">
-      <div><input type="date" v-model="shiftInputs.startDate" placeholder="Start Date"/></div>
-      <div><input type="date" v-model="shiftInputs.endDate" placeholder="End Date (optional)"/></div>
-      <div><input type="time" v-model="shiftInputs.startTime" placeholder="Start Time"/></div>
-      <div><input type="number" v-model="shiftInputs.duration" placeholder="Duration (hours)"/></div>
-      <div><button class="submit-button" @click="submitShifts">Submit Shifts</button></div>
-    </div>
-    </div>
-    
-  
-  
-    
-      <div id="data" v-for="user in listOfUsers" :key="user.id">
-        <div class="together">
-          <div class="bubble">
-        <div class="bubble-title"><p>{{ user.fullName }}</p></div>
-        <div><button :class="['add-shift-button', isSelected(user.id) ? 'selected-button' : 'add-button']" @click="toggleSelection(user.id)"> {{ isSelected(user.id) ? 'Selected' : 'Add Shift' }} </button></div>
+        <div><input type="date" v-model="shiftInputs.startDate" placeholder="Start Date" /></div>
+        <div><input type="date" v-model="shiftInputs.endDate" placeholder="End Date (optional)" /></div>
+        <div><input type="time" v-model="shiftInputs.startTime" placeholder="Start Time" /></div>
+        <div><input type="number" v-model="shiftInputs.duration" placeholder="Duration (hours)" /></div>
+        <div><button class="submit-button" @click="submitShifts">Submit Shifts</button></div>
       </div>
-      </div>
-      </div>
-    
-    
-    
-    
     </div>
     </div>
+
+    <div class="scrollable-container">
+      <div class="scrollable-content">
+        <div class="content">
+        <div id="data" v-for="user in listOfUsers" :key="user.id">
+          <div class="together">
+            <div class="bubble">
+              <div class="bubble-title"><p>{{ user.fullName }}</p></div>
+              <div>
+                <button :class="['add-shift-button', isSelected(user.id) ? 'selected-button' : 'add-button']" @click="toggleSelection(user.id)">
+                  {{ isSelected(user.id) ? 'Selected' : 'Add Shift' }}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        </div>
+      </div>
+    </div>
+  </div>
   </template>
   
   <script>
@@ -58,7 +64,7 @@ import ManagerGreeting from '../components/ManagerGreeting.vue';
   export default {
     components: { CompanyHeader,
                   ManagerNavigation,
-        ManagerGreeting,  
+                  ManagerGreeting,  
     },
   
     data() {
@@ -171,23 +177,6 @@ import ManagerGreeting from '../components/ManagerGreeting.vue';
 </script>
   
   <style>
-
-body, html {
-      margin: 0;
-      padding: 0;
-      /* overflow: hidden; Prevent horizontal scroll */
-      height: 100%;
-      background: transparent;
-    }
-
-.yes {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-evenly;
-    padding: 10px;
-    background-color: white;
-  }
-
 
   #data {
   display: flex;
@@ -354,15 +343,30 @@ input[type="number"] {
   text-align: center;  
 }
 
+body, html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  background: transparent;
+}
+
+.fixed-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  background: white; /* Ensure visibility if needed */
+}
+
 #backImage {
   position: relative;
   height: 100vh;
-  background-image: url("..\assets\arlington-research-kN_kViDchA0-unsplash (1).jpg"); 
+  background-image: url("../assets/arlington-research-kN_kViDchA0-unsplash (1).jpg");
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
 }
-
 
 .overlay {
   position: absolute;
@@ -370,46 +374,38 @@ input[type="number"] {
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.8); 
-  z-index: 0; 
+  background: rgba(0, 0, 0, 0.8);
+  z-index: 1; /* Less than header */
+}
+
+#shift-inputs {
+  margin: 0 auto;
+  width: 80%;
+  max-width: fit-content;
+  padding: 20px;
+  position: relative;
+  z-index: 2; /* Ensure it is above the overlay but below scrolling content */
+}
+
+.scrollable-container {
+  position: fixed;
+  top: 300px; /* Adjust this based on your header height */
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow: hidden;
+  z-index: 1; /* Less than header */
+}
+
+.scrollable-content {
+  height: 100%;
+  overflow-y: auto;
+  padding: 10px;
 }
 
 .content {
   position: relative;
-  z-index: 1; 
-  padding: 20px; 
-
+  z-index: 1; /* Make sure it's behind the fixed header */
 }
-
-/* .scrollable-container { 
-      position: fixed;
-      top: 50px; 
-      left: 0;
-      right: 0;
-      bottom: 0;
-      overflow: hidden; 
-      
-    }
-
-    
-    .scrollable-content {
-      height: 100%;
-      overflow-y: auto; 
-      padding: 10px;
-      background-color: #f4f4f4;
-    }
-
-    .fixed-header {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      background-color: #333;
-      color: #fff;
-      padding: 10px;
-      text-align: center;
-      z-index: 1000; 
-    }*/
-
   </style>
   
