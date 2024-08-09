@@ -38,6 +38,7 @@
   <div class="scrollable-container" v-if="done">
     <div class="scrollable-content">
       <div class="content">
+        <div class="together">
     <div id="data" v-for="shift in filteredList" :key="shift.shiftId">
     <!-- <router-link :to="{ name: 'shiftdetails', params: { id: shift.shiftId }} "> -->
       <div class="bubble" :class="{emergency : shift.emergency && shift.status == 3, green: shift.status == 4 || shift.status == 1}" >
@@ -56,6 +57,7 @@
         
       </div>
     <!-- </router-link> -->
+  </div>
   </div> 
   </div>
   </div>
@@ -259,6 +261,12 @@ html {
   box-sizing: border-box;
   transition: transform 0.3s, box-shadow 0.3s;
 }
+
+.together {
+      display: flex;
+      justify-content: center; 
+      width: 100%; 
+    }
 
 .bubble:hover {
   transform: scale(1.05);
