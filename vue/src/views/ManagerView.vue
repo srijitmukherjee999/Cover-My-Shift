@@ -7,7 +7,7 @@
     <div class="content">
    <manager-navigation/>
   
-<<<<<<< HEAD
+
     <!-- <div v-if="isManager">
       <nav class="navigation">
         <ul>
@@ -16,14 +16,8 @@
           <li><router-link v-bind:to="{ name: 'pickupshift' }">FIRE EMPLOYEE</router-link></li>
         </ul>
       </nav>
-<<<<<<< HEAD
-    </div>
-
-=======
     </div> -->
->>>>>>> a951477d9fe2215be83fc10a2fffc1b3d4c4f2dc
-=======
->>>>>>> df05f5b72c4b71c2924ca0464d2603da5fd2fb8b
+
   
     <div id="shift-inputs">
       <div class="filter">
