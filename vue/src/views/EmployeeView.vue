@@ -174,7 +174,7 @@ export default {
         this.$router.push('/login');  // this to redirect to login/register page
       }else{
 
-        this.getAllUsers();
+        this.getAllShifts();
         this.getFullName();
       }
     },

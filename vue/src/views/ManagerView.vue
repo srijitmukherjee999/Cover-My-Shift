@@ -6,7 +6,7 @@
     </div>
    <manager-navigation/>
   
-    <div v-if="isManager">
+    <!-- <div v-if="isManager">
       <nav class="navigation">
         <ul>
           <li><router-link v-bind:to="{ name: 'manager' }">MY HOME</router-link></li>
@@ -14,7 +14,7 @@
           <li><router-link v-bind:to="{ name: 'pickupshift' }">FIRE EMPLOYEE</router-link></li>
         </ul>
       </nav>
-    </div>
+    </div> -->
   
     <div id="shift-inputs">
       <div class="filter"></div>
