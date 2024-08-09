@@ -1,7 +1,7 @@
 
 BEGIN TRANSACTION;
 
-DROP TABLE IF EXISTS users_shift, cover_request, users, shift, hours, vacation CASCADE;
+DROP TABLE IF EXISTS cover_request, users, shift, hours, vacation CASCADE;
 
 CREATE TABLE users (
 	user_id serial NOT NULL,
