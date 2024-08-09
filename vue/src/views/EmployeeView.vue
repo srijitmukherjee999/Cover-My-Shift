@@ -1,6 +1,6 @@
 <template>
     <body>
-      <!-- <div class="fixed-header"> -->
+      <div class="fixed-header"></div>
       <company-header/>
       <employee-greeting/>
       <div id="backImage">

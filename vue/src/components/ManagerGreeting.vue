@@ -52,6 +52,7 @@ export default {
     justify-content: space-evenly;
     padding: 10px;
     background-color: white;
+    z-index: 2;
   }
 
 </style>
