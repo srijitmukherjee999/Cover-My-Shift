@@ -24,6 +24,9 @@
     <option value="true">true</option>
     <option value="false">false</option>
     </select>
+
+    <button  @click="clearForm">Clear</button>
+
   </div>
   </div>
 
@@ -141,7 +144,18 @@ export default {
               return true
               if(emergency === 'false')
               return false
-          }
+          },
+          clearForm(){
+        
+        this.myFilter = {
+                  assignedName : '',          
+                  startDateTime: '',
+                  duration: '',
+                  status: '--None--',
+                  emergency: '--None--',
+        };
+
+      }
 
 
 

@@ -1,19 +1,18 @@
 <template>
   
   <div class="yes">
-         <h1>Hello {{ name }}</h1>
+        <h1>Hello {{ name }}</h1>
         <h1>Hours Worked: 40</h1>
- </div>
 
     <div class ="uncover">
-
-    <button @click="updateShiftStatusToUncovered">Request Day Off</button>
-        </div>
-        <div class="accept">
+        <button @click="updateShiftStatusToUncovered">Request Day Off</button>
+    </div>
+    
+    <div class="accept">
         <button @click="coverThisShift">Cover this Shift</button>
 
     </div>
-
+  </div>
 </template>
 
 
