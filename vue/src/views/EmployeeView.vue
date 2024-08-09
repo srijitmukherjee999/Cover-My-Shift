@@ -36,6 +36,7 @@
 
   <div class="scrollable-container">
     <div class="scrollable-content">
+      <div class="content">
   <div id="data" v-for="shift in filteredList" :key="shift.shiftId">
     <router-link :to="{ name: 'shiftdetails', params: { id: shift.shiftId }} ">
       <div class="bubble" :class="{emergency : shift.emergency && shift.status == 3, green: shift.status == 4 || shift.status == 1}" >
@@ -59,7 +60,7 @@
   </div>
   </div>
   </div>
-<!-- </div> -->
+</div>
 </body>
 </template>
 
@@ -229,7 +230,7 @@ export default {
 body, html {
       margin: 0;
       padding: 0;
-      /* overflow: hidden; Prevent horizontal scroll */
+      
       height: 100%;
       background: transparent;
     }
@@ -389,7 +390,7 @@ h1{
   width: 100%;
   height: 100%;
   background: rgba(0, 0, 0, 0.8); 
-  z-index: 0; 
+  z-index: 1; 
 }
 
 .content {
@@ -398,36 +399,35 @@ h1{
   padding: 20px;
 }
 
-/* .scrollable-container { 
-      position: fixed;
-      top: 50px; 
-      left: 0;
-      right: 0;
-      bottom: 0;
-      overflow: hidden; 
-      
-    }
+.fixed-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  background: white; /* Ensure visibility if needed */
+}
 
-    
-    .scrollable-content {
-      height: 100%;
-      overflow-y: auto; 
-      padding: 10px;
-      background-color: #f4f4f4;
-    }
+    .scrollable-container {
+  position: fixed;
+  top: 390px; /* Adjust this based on your header height */
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow: hidden;
+  z-index: 1; /* Less than header */
+}
 
-    .fixed-header {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      background-color: #333;
-      color: #fff;
-      padding: 10px;
-      text-align: center;
-      z-index: 1000; 
-    }*/
+.scrollable-content {
+  height: 100%;
+  overflow-y: auto;
+  padding: 10px;
+}
 
+.content {
+  position: relative;
+  z-index: 1; /* Make sure it's behind the fixed header */
+}
 
 </style>
 

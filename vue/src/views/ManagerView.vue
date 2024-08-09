@@ -1,26 +1,12 @@
 <template>
+  <body>
   <div class="fixed-header">
     <company-header />
     <!-- v-if="userRole === 'ROLE_MANAGER'" -->
     <manager-greeting />
-
   <div id="backImage">
     <div class="overlay"></div>
-    <div class="content">
-   <manager-navigation/>
-  
-
-    <!-- <div v-if="isManager">
-      <nav class="navigation">
-        <ul>
-          <li><router-link v-bind:to="{ name: 'manager' }">MY HOME</router-link></li>
-          <li><router-link v-bind:to="{ name: 'pendingrequests' }">PENDING REQUESTS</router-link></li>
-          <li><router-link v-bind:to="{ name: 'pickupshift' }">FIRE EMPLOYEE</router-link></li>
-        </ul>
-      </nav>
-    </div> -->
-
-  
+    <manager-navigation/>
 
     <div id="shift-inputs">
       <div class="filter">
@@ -52,6 +38,7 @@
       </div>
     </div>
   </div>
+  </body>
   </template>
   
   <script>
@@ -270,13 +257,6 @@ import ManagerGreeting from '../components/ManagerGreeting.vue';
     }
   }
 
-  #shift-inputs {
-    margin: 0 auto;
-  width: 80%;
-  max-width: fit-content;
-  padding: 20px;
-  }
-
 .filter {
   background-color: orange; 
   color: white;
@@ -356,7 +336,7 @@ body, html {
   left: 0;
   width: 100%;
   z-index: 1000;
-  background: white; /* Ensure visibility if needed */
+  background: white; 
 }
 
 #backImage {
@@ -382,14 +362,13 @@ body, html {
   margin: 0 auto;
   width: 80%;
   max-width: fit-content;
-  padding: 20px;
   position: relative;
   z-index: 2; /* Ensure it is above the overlay but below scrolling content */
 }
 
 .scrollable-container {
   position: fixed;
-  top: 300px; /* Adjust this based on your header height */
+  top: 390px; /* Adjust this based on your header height */
   left: 0;
   right: 0;
   bottom: 0;
