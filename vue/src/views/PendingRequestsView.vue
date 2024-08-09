@@ -80,7 +80,8 @@ export default {
     return {
       shiftId: shiftId,
       employeeId: employeeId,
-      approved: isApproved
+      approved: isApproved,
+      message: 'yes'
     };
     },
   },

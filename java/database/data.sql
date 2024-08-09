@@ -10,12 +10,8 @@ INSERT INTO users (username, password_hash, full_name, role, active) VALUES
 INSERT INTO shift (assigned, start_date_time, duration, status, emergency, coverer, description) VALUES
 ((SELECT user_id FROM users WHERE username = 'jdoe'), '2024-08-05 08:00:00', 8, 1, FALSE, (SELECT user_id FROM users WHERE username = 'jdoe'), 'Regular shift'),
 ((SELECT user_id FROM users WHERE username = 'asmith'), '2024-08-06 09:00:00', 6, 4, TRUE, (SELECT user_id FROM users WHERE username = 'jdoe'), 'Emergency shift covered by John Doe'),
-((SELECT user_id FROM users WHERE username = 'mjones'), '2024-08-07 10:00:00', 5, 1, FALSE, NULL, 'Regular shift'),
-((SELECT user_id FROM users WHERE username = 'klee'), '2024-08-08 07:00:00', 9, 3, FALSE, NULL, 'Overtime shift'),
-((SELECT user_id FROM users WHERE username = 'pwhite'), '2024-08-09 08:00:00', 8, 3, TRUE, 2, 'Emergency shift covered by Alice Smith');
 ((SELECT user_id FROM users WHERE username = 'mjones'), '2024-08-07 10:00:00', 5, 1, FALSE, (SELECT user_id FROM users WHERE username = 'mjones'), 'Regular shift'),
 ((SELECT user_id FROM users WHERE username = 'klee'), '2024-08-08 07:00:00', 9, 3, FALSE, NULL, 'Uncovered overtime shift'),
-((SELECT user_id FROM users WHERE username = 'pwhite'), '2024-08-09 08:00:00', 8, 3, TRUE, (SELECT user_id FROM users WHERE username = 'asmith'), 'Emergency shift covered by Alice Smith');
 ((SELECT user_id FROM users WHERE username = 'pwhite'), '2024-08-09 08:00:00', 8, 4, TRUE, (SELECT user_id FROM users WHERE username = 'asmith'), 'Emergency shift covered by Alice Smith');
 
 INSERT INTO hours (employee, week_year, hours_worked) VALUES
