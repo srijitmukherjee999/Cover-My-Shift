@@ -51,7 +51,7 @@ CREATE TABLE cover_request (
 	coverer_id int NOT NULL,
 	status int NOT NULL,
 	message varchar(500),
-	CONSTRAINT PK_user_shift PRIMARY KEY (shift_id, coverer_id),
+	CONSTRAINT PK_cover_request PRIMARY KEY (shift_id, coverer_id),
 	CONSTRAINT FK_coverer_id FOREIGN KEY (coverer_id) REFERENCES users (user_id) ON DELETE CASCADE,
 	CONSTRAINT FK_shift_id FOREIGN KEY (shift_id) REFERENCES shift (shift_id) ON DELETE CASCADE
 );

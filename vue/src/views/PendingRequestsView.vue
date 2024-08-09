@@ -10,7 +10,7 @@
       <ul>
         <li><router-link v-bind:to="{ name: 'manager' }">MY HOME</router-link></li>
         <li><router-link v-bind:to="{ name: 'pendingrequests' }">PENDING REQUESTS</router-link></li>
-        <li><router-link v-bind:to="{ name: 'pickupshift' }">FIRE EMPLOYEE</router-link></li>
+        <li><router-link v-bind:to="{ name: 'allShifts' }">ALL SHIFTS</router-link></li>
       </ul>
     </nav>
   </div>
@@ -80,30 +80,35 @@ export default {
     return {
       shiftId: shiftId,
       employeeId: employeeId,
-      approved: isApproved
+      approved: isApproved,
+      message: 'yes'
     };
     },
 
-      approveDayOffRequest(id){
-
-        ManagerService.acceptDayOffRequest(id,3).then(response => {
-          if(response.status === 200){
-            alert("Accepted");
-            this.getShiftPendingRequests();
-          }
-        })
-
-
-      },
-      denyDayOffRequest(id){
-        ManagerService.acceptDayOffRequest(id,1).then(response => {
-          if(response.status === 200 ){ 
-            alert("Rejected");
-            this.getShiftPendingRequests();
-          }
-        })
-      }
-
+  approveDayOffRequest(id){
+    ManagerService.acceptDayOffRequest(id, 3)
+      .then(response => {
+        if(response.status === 200){
+          alert("Accepted");
+          this.getShiftPendingRequests();
+        }
+      })
+      .catch(error => {
+        console.error("Error approving day off request:", error);
+      });
+  },
+  denyDayOffRequest(id){
+    ManagerService.acceptDayOffRequest(id, 1)
+      .then(response => {
+        if(response.status === 200 ){ 
+          alert("Rejected");
+          this.getShiftPendingRequests();
+        }
+      })
+      .catch(error => {
+        console.error("Error denying day off request:", error);
+      });
+  }
 
 
 

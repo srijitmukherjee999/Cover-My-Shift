@@ -13,6 +13,8 @@ import ShiftDetailView from '../views/ShiftDetailView.vue';
 import ManagerView from '../views/ManagerView.vue'
 import MyShiftView from '../views/MyShiftView.vue'
 import PendingRequestsView from '../views/PendingRequestsView.vue'
+import PendingCoverRequestsView from '../views/PendingCoverRequestsView.vue'
+import ManagerAllShiftsView from '../views/ManagerAllShiftsView.vue'
 
 
 /**
@@ -115,6 +117,24 @@ const routes = [
     path: '/pendingrequests',
     name: 'pendingrequests',
     component: PendingRequestsView,
+    meta: {
+      requiresAuth: true,
+      role: 'ROLE_MANAGER',
+    }
+  },
+  {
+    path: '/shift/:shiftId/cover',
+    name: 'pendingCoverRequests',
+    component: PendingCoverRequestsView,
+    meta: {
+      requiresAuth: true,
+      role: 'ROLE_MANAGER',
+    }
+  },
+  {
+    path: '/allShifts',
+    name: 'allShifts',
+    component: ManagerAllShiftsView,
     meta: {
       requiresAuth: true,
       role: 'ROLE_MANAGER',
