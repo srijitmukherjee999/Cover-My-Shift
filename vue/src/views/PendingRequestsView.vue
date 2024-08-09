@@ -106,8 +106,6 @@ export default {
       }
 
 
-
-
   },
   created(){
     this.getFullName();
