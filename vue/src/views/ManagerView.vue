@@ -1,54 +1,41 @@
 <template>
     <company-header/>
     <!-- v-if="userRole === 'ROLE_MANAGER'" -->
-    <div class="yes">
-      <h1>Hello Manager {{ name }}</h1>
-    </div>
+    <manager-greeting/>
+    <div id="backImage">
+    <div class="overlay"></div>
+    <div class="content">
    <manager-navigation/>
   
 
   
     <div id="shift-inputs">
-      <div class="filter"></div>
-      <input
-        type="date"
-        v-model="shiftInputs.startDate"
-        placeholder="Start Date"
-      />
-      <input
-        type="date"
-        v-model="shiftInputs.endDate"
-        placeholder="End Date (optional)"
-      />
-      <input
-        type="time"
-        v-model="shiftInputs.startTime"
-        placeholder="Start Time"
-      />
-      <input
-        type="number"
-        v-model="shiftInputs.duration"
-        placeholder="Duration (hours)"
-      />
-      <button class="submit-button" @click="submitShifts">
-      Submit Shifts
-    </button>
+      <div class="filter">
+      <div><input type="date" v-model="shiftInputs.startDate" placeholder="Start Date"/></div>
+      <div><input type="date" v-model="shiftInputs.endDate" placeholder="End Date (optional)"/></div>
+      <div><input type="time" v-model="shiftInputs.startTime" placeholder="Start Time"/></div>
+      <div><input type="number" v-model="shiftInputs.duration" placeholder="Duration (hours)"/></div>
+      <div><button class="submit-button" @click="submitShifts">Submit Shifts</button></div>
     </div>
-  
-    <div id="data">
-      <div v-for="user in listOfUsers" :key="user.id" class="bubble">
-        <div class="together">
-        <div class="bubble-title">{{ user.fullName }}</div>
-        <div><button
-          :class="['add-shift-button', isSelected(user.id) ? 'selected-button' : 'add-button']"
-          @click="toggleSelection(user.id)"
-        >
-          {{ isSelected(user.id) ? 'Selected' : 'Add Shift' }}
-        </button></div>
-      </div>
-      </div>
     </div>
     
+  
+  
+    
+      <div id="data" v-for="user in listOfUsers" :key="user.id">
+        <div class="together">
+          <div class="bubble">
+        <div class="bubble-title"><p>{{ user.fullName }}</p></div>
+        <div><button :class="['add-shift-button', isSelected(user.id) ? 'selected-button' : 'add-button']" @click="toggleSelection(user.id)"> {{ isSelected(user.id) ? 'Selected' : 'Add Shift' }} </button></div>
+      </div>
+      </div>
+      </div>
+    
+    
+    
+    
+    </div>
+    </div>
   </template>
   
   <script>
@@ -56,10 +43,12 @@
   import AuthService from "../services/AuthService";
   import CompanyHeader from '../components/CompanyHeader.vue';
   import ManagerNavigation from "../components/ManagerNavigation.vue";
+import ManagerGreeting from '../components/ManagerGreeting.vue';
   
   export default {
     components: { CompanyHeader,
-                  ManagerNavigation,  
+                  ManagerNavigation,
+        ManagerGreeting,  
     },
   
     data() {
@@ -157,6 +146,14 @@
   
   <style>
 
+body, html {
+      margin: 0;
+      padding: 0;
+      /* overflow: hidden; Prevent horizontal scroll */
+      height: 100%;
+      background: transparent;
+    }
+
 .yes {
     display: flex;
     flex-wrap: wrap;
@@ -165,42 +162,64 @@
     background-color: white;
   }
 
-  .together {
+
+  #data {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;  
+  padding: 20px;
+}
+
+.together {
       display: flex;
       justify-content: center; 
-      width: 100%;
-      max-width: 0 auto; 
+      width: 100%; 
     }
- 
-  #data {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 20px;
-    padding: 20px;
-  }
+
+.bubble {
+  background-color: #4a90e2; 
+  color: white;
+  border-radius: 50px; 
+  padding: 20px; 
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+  max-width: 100%;
+  width: auto; 
+  display: flex;
+  flex-direction: row; 
+  align-items: flex-start;
+  text-align: left;
+  box-sizing: border-box;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
   
-  .bubble {
-    background-color: #4a90e2;
-    color: white;
-    border-radius: 50px;
-    padding: 20px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    width: 100%;
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    text-align: left;
-    box-sizing: border-box;
-    transition: transform 0.3s, box-shadow 0.3s;
-    position: relative;
-  }
   
   .bubble-title {
-    font-weight: bold;
-    margin-bottom: 10px;
-    flex-grow: 1;
+    font-weight: bold; 
+  flex: 1 1 auto; 
+  padding: 15px;
+  margin: 10px;
+  border-radius: 5px;
+  text-align: center;
+  font-weight: bold; 
   }
+
+  .bubble:hover {
+  transform: scale(1.05); 
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+.container {
+  display: flex;
+  flex-direction: row; 
+  flex-wrap: wrap; 
+}
+
+@media (max-width: 600px) {
+  .container {
+    flex-direction: column; 
+  }
+}
   
   .add-shift-button {
     border: none;
@@ -227,22 +246,6 @@
     background-color: #c9302c; /* Darker red */
   }
   
-  .shift-form {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    animation: fadeIn 0.3s;
-    z-index: 1;
-  }
-  
   @keyframes fadeIn {
     from {
       opacity: 0;
@@ -251,5 +254,105 @@
       opacity: 1;
     }
   }
+
+  #shift-inputs {
+    margin: 0 auto;
+  width: 80%;
+  max-width: fit-content;
+  padding: 20px;
+  }
+
+.filter {
+  background-color: orange; 
+  color: white;
+  border-radius: 50px; 
+  padding: 20px; 
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);  
+  display: flex;
+  flex-wrap: wrap; 
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  box-sizing: border-box;
+  transition: transform 0.3s, box-shadow 0.3s;
+  gap: 20px;
+}
+
+input[type="text"] {
+  width: 200px;         
+  height: 50px;         
+  padding: 10px;        
+  font-size: 18px;      
+  border: 2px solid #000; 
+  border-radius: 5px; 
+  text-align: center; 
+}
+
+input[type="date"] {
+  width: 200px;         
+  height: 50px;         
+  padding: 10px;        
+  font-size: 18px;      
+  border: 2px solid #000; 
+  border-radius: 5px;
+  text-align: center;  
+}
+
+input[type="time"] {
+  width: 200px;         
+  height: 50px;         
+  padding: 10px;        
+  font-size: 18px;      
+  border: 2px solid #000; 
+  border-radius: 5px;
+  text-align: center;  
+}
+
+input[type="number"] {
+  width: 200px;         
+  height: 50px;         
+  padding: 10px;        
+  font-size: 18px;      
+  border: 2px solid #000; 
+  border-radius: 5px;
+  text-align: center;  
+}
+
+.submit-button {
+  width: 200px;         
+  height: 50px;         
+  padding: 10px;        
+  font-size: 18px;      
+  border: 2px solid #000; 
+  border-radius: 5px;
+  text-align: center;  
+}
+
+#backImage {
+  position: relative;
+  height: 100vh;
+  background-image: url("..\assets\arlington-research-kN_kViDchA0-unsplash (1).jpg"); 
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8); 
+  z-index: 0; 
+}
+
+.content {
+  position: relative;
+  z-index: 1; 
+  padding: 20px; 
+
+}
   </style>
   
