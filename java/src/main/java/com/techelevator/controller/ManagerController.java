@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
+import java.security.Principal;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @CrossOrigin
@@ -80,5 +82,42 @@ public class ManagerController {
             shift = shiftDao.updateShift(shift);
         }
         return shift;
+    }
+
+
+    @PutMapping(path = "/shifts/{id}")
+    public Shift updateShiftStatus(@RequestParam(required = false, defaultValue = "0") int status, @RequestParam(required = false, defaultValue = "false") boolean emergency, @PathVariable int id, Principal principal){
+        Shift shift = shiftDao.getShiftById(id);
+        User user = userDao.getUserByUsername(principal.getName());
+        if (shift == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Shift not found.");
+        }
+
+
+        if (emergency){
+            if(shift.getStartDateTime().isBefore(LocalDateTime.now().plusDays(1))) { // if before 1 day from now (aka within 24 hours)
+                shift.setStatus(3);
+                shift.setEmergency(true);
+                shift.setCovererId(0);
+            }
+            else {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "You can not schedule an emergency more than 24 hours out.");
+            }
+        }
+        else if(status > 0) {
+            if(status == 3 && shift.getStatus() == 2){
+                shift.setStatus(3);
+                shift.setCovererId(0);
+            }
+            else if(status == 1 && shift.getStatus() == 2) { // TODO: ask tom if approved days off can be canceled
+                shift.setStatus(1);
+                shift.setCovererId(shift.getAssignedId());
+            }
+            else {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Illegal status change.");
+            }
+        }
+
+        return shiftDao.updateShift(shift);
     }
 }
