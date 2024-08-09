@@ -15,6 +15,7 @@
         </ul>
       </nav>
     </div>
+
   
     <div id="shift-inputs">
       <div class="filter"></div>
