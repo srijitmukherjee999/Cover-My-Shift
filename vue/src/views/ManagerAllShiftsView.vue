@@ -1,178 +1,160 @@
 <template>
-    <body>
-      <div class="fixed-header"></div>
-      <CompanyHeader/>
-      <manager-greeting/>
-      <div id="backImage">
-        <div class="overlay"></div>
-        <div class="content">
-            <manager-navigation/>
-  
-          <div id="search-shifts">
-            <div class="filter">
-              <input type="text" id="assignedNameFilter" placeholder="Name" v-model="filter.assignedName" />
-              <input type="date" id="startDateTime" v-model="filter.startDateTime"  />
-              <input type="text" id="duration" v-model="filter.duration" placeholder="Duration">
-              <select id="myList" v-model="filter.status">
-                <option id="status">--None--</option>
-                <option value="uncovered request">Uncovered Request</option>
-                <option value="covered">Covered</option>
-                <option value="uncovered">Uncovered</option>
-                <option value="assigned">Assigned</option>
-              </select>
-  
-              <select id="myList" v-model="filter.emergency">
-                <option id="emergency">--None--</option>
-                <option value="true">true</option>
-                <option value="false">false</option>
-              </select>
-            </div>
+  <div>
+    <div class="fixed-header"></div>
+    <CompanyHeader />
+    <ManagerGreeting />
+    <div id="backImage">
+      <div class="overlay"></div>
+      <div class="content">
+        <ManagerNavigation />
+        <div id="search-shifts">
+          <div class="filter">
+            <input type="text" id="assignedNameFilter" placeholder="Name" v-model="filter.assignedName" />
+            <input type="date" id="startDateTime" v-model="filter.startDateTime" />
+            <input type="text" id="duration" v-model="filter.duration" placeholder="Duration" />
+            <select id="myList" v-model="filter.status">
+              <option value="--None--">--None--</option>
+              <option value="uncovered request">Uncovered Request</option>
+              <option value="covered">Covered</option>
+              <option value="uncovered">Uncovered</option>
+              <option value="assigned">Assigned</option>
+            </select>
+
+            <select id="myList" v-model="filter.emergency">
+              <option value="--None--">--None--</option>
+              <option value="true">true</option>
+              <option value="false">false</option>
+            </select>
           </div>
-  
-          <div class="scrollable-container">
-            <div class="scrollable-content">
-              <div class="content">
-                <div id="data" v-for="shift in filteredList" :key="shift.shiftId">
+        </div>
+
+        <div class="scrollable-container">
+          <div class="scrollable-content">
+            <div class="content">
+              <div id="data" v-for="shift in filteredList" :key="shift.shiftId">
+                <template v-if="coverRequestsCount[shift.shiftId] > 0">
                   <router-link :to="{ name: 'pendingCoverRequests', params: { shiftId: shift.shiftId }} ">
-                    <div class="bubble" :class="{emergency : shift.emergency && shift.status == 3, green: shift.status == 4 || shift.status == 1}" >
+                    <div class="bubble" :class="{emergency: shift.emergency && shift.status === 3, green: shift.status === 4 || shift.status === 1}">
                       <div id="shiftObjects"><p class="bubble-title">Name: {{ shift.assignedName }}</p></div>
                       <div id="shiftObjects"><p class="bubble-title">Start Time: {{ shift.startDateTime }}</p></div>
                       <div id="shiftObjects"><p class="bubble-title">Duration: {{ shift.duration }} <span>hours</span></p></div>
                       <div id="shiftObjects"><p class="bubble-title">Status: {{ convertStatus(shift.status) }}</p></div>
                       <div id="shiftObjects"><p class="bubble-title">Emergency: {{ shift.emergency }}</p></div>
+                      <div id="shiftObjects"><p class="bubble-title">Cover Requests: {{ coverRequestsCount[shift.shiftId] }}</p></div>
                     </div>
                   </router-link>
-                </div> 
-              </div>
+                </template>
+                <template v-else>
+                  <div class="bubble" :class="{emergency: shift.emergency && shift.status === 3, green: shift.status === 4 || shift.status === 1}">
+                    <div id="shiftObjects"><p class="bubble-title">Name: {{ shift.assignedName }}</p></div>
+                    <div id="shiftObjects"><p class="bubble-title">Start Time: {{ shift.startDateTime }}</p></div>
+                    <div id="shiftObjects"><p class="bubble-title">Duration: {{ shift.duration }} <span>hours</span></p></div>
+                    <div id="shiftObjects"><p class="bubble-title">Status: {{ convertStatus(shift.status) }}</p></div>
+                    <div id="shiftObjects"><p class="bubble-title">Emergency: {{ shift.emergency }}</p></div>
+                  </div>
+                </template>
+              </div> 
             </div>
           </div>
         </div>
       </div>
-    </body>
-  </template>
-  
+    </div>
+  </div>
+</template>
 
 <script>
-
 import CompanyHeader from '../components/CompanyHeader.vue';
 import ManagerGreeting from '../components/ManagerGreeting.vue';
 import ManagerNavigation from '../components/ManagerNavigation.vue';
+import ManagerService from '../services/ManagerService';
 import ShiftService from '../services/ShiftService';
 
-
 export default {
-    data() {
-        return {
-            listOfShifts: [
-                {
-                    assignedName: '',
-                    shiftId: 0,
-                    assigned: 0,
-                    startDateTime: '',
-                    duration: 0,
-                    status: 0,
-                    emergency: false,
-                    coverer: 0,
-                    covererName: '',
-                    description: ''
-                }
-            ],
-            name: '',
-            filter: {
-                assignedName: '',
-                startDateTime: '',
-                duration: '',
-                status: '--None--',
-                emergency: '--None--',
-            },
-            userRole: '',
-            isEmployee: false,
-        };
-    },
-    methods: {
-        getAllShifts() {
-            ShiftService.getShifts().then(response => {
-                this.listOfShifts = response.data;
-            });
-        },
-        getFullName() {
-            ShiftService.getUserFullName().then(response => {
-                this.name = response.data;
-                this.$store.commit("ADD_NAME", this.name);
-            });
-        },
-        convertStatus(status) {
-            if (status == 1)
-                return "assigned";
-            if (status == 2)
-                return "uncovered request";
-            if (status === 3)
-                return "uncovered";
-            if (status == 4)
-                return "covered";
-        },
-        convertStatusToNumber(status) {
-            if (status.toLowerCase().includes("assigned"))
-                return 1;
-            if (status.includes("uncovered request"))
-                return 2;
-            if (status.includes("uncovered"))
-                return 3;
-            if (status.includes("covered"))
-                return 4;
-        },
-        convertStringToBoolean(emergency) {
-            if (emergency === 'true')
-                return true;
-            if (emergency === 'false')
-                return false;
+  data() {
+    return {
+      coverRequestsCount: {},
+      listOfShifts: [],
+      name: '',
+      filter: {
+        assignedName: '',
+        startDateTime: '',
+        duration: '',
+        status: '--None--',
+        emergency: '--None--',
+      },
+      userRole: '',
+      isEmployee: false,
+    };
+  },
+  methods: {
+    async getAllShifts() {
+      try {
+        const response = await ShiftService.getShifts();
+        this.listOfShifts = response.data;
+
+        // Fetch cover requests for each shift
+        for (let shift of this.listOfShifts) {
+          await this.getCoverRequests(shift.shiftId);
         }
+      } catch (error) {
+        console.error('Error fetching shifts:', error);
+      }
     },
-    created() {
-        this.getAllShifts();
-        this.getFullName();
-        //   this.userRole =this.$store.state.user.authorities[0].name;
-        // this.isEmployee = this.userRole ==="ROLE_EMPLOYEE";
-        // if(!this.isEmployee){
-        //   this.$router.push('/login');  // this to redirect to login/register page
-        // }else{
-        //   this.getAllShifts();
-        //   this.getFullName();
-        // }
+    async getCoverRequests(shiftID) {
+        ManagerService.getCoverRequests(shiftID).then(response => {
+            this.coverRequestsCount[shiftID] = response.data.length;
+        });
     },
-    computed: {
-        shiftDetails() {
-            const shiftId = this.$route.params.id;
-            return this.listOfShifts.find(e => e.shiftId === shiftId);
-        },
-        filteredList() {
-            let filteredUsers = this.listOfShifts;
-            if (this.filter.assignedName != "") {
-                filteredUsers = filteredUsers.filter((shift) => shift.assignedName.toLowerCase().includes(this.filter.assignedName.toLowerCase()));
-            }
-            if (this.filter.startDateTime != "") {
-                filteredUsers = filteredUsers.filter((shift) => shift.startDateTime.includes(this.filter.startDateTime));
-            }
-            if (this.filter.duration != 0) {
-                filteredUsers = filteredUsers.filter((shift) => shift.duration == (this.filter.duration));
-            }
-            if ((this.filter.status != "--None--")) {
-                filteredUsers = filteredUsers.filter((shift) => this.convertStatus(shift.status) == (this.filter.status.toLowerCase()));
-            }
-            if (this.filter.emergency != '--None--') {
-                filteredUsers = filteredUsers.filter(shift => shift.emergency === this.convertStringToBoolean(this.filter.emergency));
-            }
-            return filteredUsers;
-        },
-        // userRole() {
-        //   return this.$store.state.user.authorities[0].name; // Adapt this based on your state management
-        // },
+    async getFullName() {
+      try {
+        const response = await ShiftService.getUserFullName();
+        this.name = response.data;
+        this.$store.commit('ADD_NAME', this.name);
+      } catch (error) {
+        console.error('Error fetching user name:', error);
+      }
     },
-    components: { CompanyHeader,
-                  ManagerGreeting,
-                  ManagerNavigation,
-     }  
-}
+    convertStatus(status) {
+      const statusMap = {
+        1: 'assigned',
+        2: 'uncovered request',
+        3: 'uncovered',
+        4: 'covered',
+      };
+      return statusMap[status] || '';
+    },
+    convertStatusToNumber(status) {
+      const statusMap = {
+        assigned: 1,
+        'uncovered request': 2,
+        uncovered: 3,
+        covered: 4,
+      };
+      return statusMap[status.toLowerCase()] || 0;
+    },
+    convertStringToBoolean(emergency) {
+      return emergency === 'true';
+    },
+  },
+  async created() {
+    await this.getAllShifts();
+    await this.getFullName();
+  },
+  computed: {
+    filteredList() {
+      return this.listOfShifts.filter((shift) => {
+        return (
+          (!this.filter.assignedName || shift.assignedName.toLowerCase().includes(this.filter.assignedName.toLowerCase())) &&
+          (!this.filter.startDateTime || shift.startDateTime.includes(this.filter.startDateTime)) &&
+          (!this.filter.duration || shift.duration === parseInt(this.filter.duration)) &&
+          (this.filter.status === '--None--' || this.convertStatus(shift.status) === this.filter.status) &&
+          (this.filter.emergency === '--None--' || shift.emergency === this.convertStringToBoolean(this.filter.emergency))
+        );
+      });
+    },
+  },
+  components: { CompanyHeader, ManagerGreeting, ManagerNavigation },
+};
 </script>
 
 <style scoped>
@@ -355,17 +337,17 @@ h1{
   left: 0;
   width: 100%;
   z-index: 1000;
-  background: white; /* Ensure visibility if needed */
+  background: white; 
 }
 
     .scrollable-container {
   position: fixed;
-  top: 390px; /* Adjust this based on your header height */
+  top: 390px; 
   left: 0;
   right: 0;
   bottom: 0;
   overflow: hidden;
-  z-index: 1; /* Less than header */
+  z-index: 1; 
 }
 
 .scrollable-content {
@@ -376,7 +358,7 @@ h1{
 
 .content {
   position: relative;
-  z-index: 1; /* Make sure it's behind the fixed header */
+  z-index: 1; 
 }
 
 </style>
