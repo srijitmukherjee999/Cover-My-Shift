@@ -11,6 +11,12 @@ export default{
 
     getCoverRequests(shiftId,status){
         return axios.get(`/shift/${shiftId}/cover?status=${status}`);
+    },
+    
+
+    getManagerViewCoverRequests(shiftId){
+
+        return axios.get(`shift/${shiftId}/cover`);
     }
       
 }

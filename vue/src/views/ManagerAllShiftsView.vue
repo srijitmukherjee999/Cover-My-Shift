@@ -187,7 +187,7 @@ export default {
       }
     },
     async getCoverRequests(shiftID) {
-      ManagerService.getCoverRequests(shiftID).then((response) => {
+      ManagerService.getManagerViewCoverRequests(shiftID).then((response) => {
         this.coverRequestsCount[shiftID] = response.data.length;
       });
     },

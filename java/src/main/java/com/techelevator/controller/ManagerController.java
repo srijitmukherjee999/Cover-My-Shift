@@ -42,7 +42,7 @@ public class ManagerController {
     }
 
     @GetMapping(path = "/shift/{id}/cover")
-    public List<User> getCoverRequestByShiftId(@PathVariable int id, @RequestParam(required = true) int status){
+    public List<User> getCoverRequestByShiftId(@PathVariable int id, @RequestParam(required = false, defaultValue = "1") int status){
         return userDao.getCoverRequestsByShift(id,status);
     }
     @ResponseStatus(HttpStatus.CREATED)
