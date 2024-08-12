@@ -8,7 +8,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
 
-import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,12 +23,12 @@ public class JdbcVacationDao implements VacationDao{
     }
 
     @Override
-    public Vacation getVacationById(int employeeId) {
+    public Vacation getVacationById(int id) {
         Vacation vacation = new Vacation();
         String sql = "SELECT * FROM vacation" +
-                " WHERE employee = ?;";
+                " WHERE vacation_id = ?;";
         try {
-            SqlRowSet result = jdbcTemplate.queryForRowSet(sql, employeeId);
+            SqlRowSet result = jdbcTemplate.queryForRowSet(sql, id);
             if (result.next()) {
                 vacation = mapRowToVacation(result);
             }
@@ -38,6 +37,23 @@ public class JdbcVacationDao implements VacationDao{
             throw new DaoException("Unable to connect to server or database", e);
         }
         return vacation;
+    }
+
+    @Override
+    public List<Vacation> getVacationsByEmployeeId(int employeeId){
+        List<Vacation> vacations = new ArrayList<>();
+        String sql = "SELECT * FROM vacation WHERE employee = ?;";
+
+        try {
+            SqlRowSet result = jdbcTemplate.queryForRowSet(sql, employeeId);
+            while(result.next()) {
+                vacations.add(mapRowToVacation(result));
+            }
+        }
+        catch (CannotGetJdbcConnectionException e) {
+            throw new DaoException("Unable to connect to server or database", e);
+        }
+        return vacations;
     }
 
     @Override
