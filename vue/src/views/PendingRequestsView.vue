@@ -38,8 +38,9 @@
                       @click="approveDayOffRequest(shift.shiftId)"
                     >
                       Accept
-                    </button></div>
-                    <div>
+                    </button>
+                  </div>
+                  <div>
                     <button
                       class="reject-button"
                       @click="denyDayOffRequest(shift.shiftId)"
@@ -47,13 +48,13 @@
                       Reject
                     </button>
                   </div>
-                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
+    </div>
   </section>
 </template>
 
@@ -62,6 +63,8 @@
 import CompanyHeader from "../components/CompanyHeader.vue";
 import ShiftService from "../services/ShiftService";
 import ManagerService from "../services/ManagerService";
+import ManagerGreeting from "../components/ManagerGreeting.vue";
+import ManagerNavigation from "../components/ManagerNavigation.vue";
 
 export default {
   data() {
@@ -70,7 +73,7 @@ export default {
       listOfPendingRequests: [],
     };
   },
-  components: { CompanyHeader },
+  components: { CompanyHeader, ManagerGreeting, ManagerNavigation },
   methods: {
     getFullName() {
       ShiftService.getUserFullName().then((response) => {
