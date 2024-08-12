@@ -119,9 +119,9 @@ public class EmployeeController {
 
     @GetMapping(path = "/shifts/username")
     public String getUserFullName(Principal principal){
+        //System.out.println(principal.getName() + " is calling GET /shifts/username");
        return  userDao.getUserByUsername(principal.getName()).getFullName();
     }
-
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(path = "/vacations")

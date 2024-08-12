@@ -175,7 +175,6 @@ export default {
     //         return this.$store.state.user.authorities[0].name; // Adapt this based on your state management
     //   }
     // }
-  },
 
 
 ////////////////////////////////////////////////////////////////////////
@@ -183,7 +182,9 @@ ShiftNotifications() {
     ShiftService.getShifts().then((response) => {
       const shifts = response.data;
       const now = new Date();
-      const upcomingDeadline = new Date(now.getTime() + 48 * 60 * 60 * 1000);
+      const upcomingDeadline = new Date(now.getTime() + (48 * 60 * 60 * 1000));
+
+      console.log(upcomingDeadline); ///check if you show what is needed
 
       const filteredShifts = shifts.filter((shift) => { 
         const shiftDate = new Date(shift.startDate);
@@ -198,14 +199,14 @@ ShiftNotifications() {
       }
     });
   },
-
+},
 
 //////////////////////////////////////////////////////////////////////////
 
   created() {
     this.getAllUsers();
     this.getFullName();
-    //this.ShiftNotifications();
+    this.ShiftNotifications();
 
     ///////
     // this.userRole = this.$store.state.user.authorities[0].name;
