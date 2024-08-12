@@ -463,7 +463,7 @@ html {
 
 .scrollable-container {
   position: fixed;
-  top: 340px;
+  top: 20em;
   left: 0;
   right: 0;
   bottom: 0;

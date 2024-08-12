@@ -482,7 +482,7 @@ h1 {
 
 .scrollable-container {
   position: fixed;
-  top: 29em; /* Adjust this based on your header height */
+  top: 21em; /* Adjust this based on your header height */
   left: 0;
   right: 0;
   bottom: 0;
