@@ -38,8 +38,8 @@
                   placeholder="Duration (hours)"
                 />
               </div>
-              
-              
+
+
               <div>
                 <button class="submit-button" @click="submitShifts">
                   Submit Shifts
