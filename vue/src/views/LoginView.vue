@@ -161,6 +161,7 @@ label {
   width: 20%;
   margin-top: 150px;
   min-height: 30vh;
+  
 }
 
 
@@ -199,5 +200,7 @@ label {
   z-index: 1; 
   padding: 20px;
 }
+
+
 
 </style>
