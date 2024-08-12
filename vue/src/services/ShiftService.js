@@ -60,17 +60,17 @@ export default {
 
    },
 
-      getShiftsByUncoveredRequest(status){
+   getShiftsByUncoveredRequest(status){
 
          return axios.get(`/shifts?status=${status}`);
 
-      },
+   },
 
-      createCoverRequest(id){
+   createCoverRequest(id){
 
          return axios.post(`/shift/${id}`);
 
-      }
+   }
 
 
 

@@ -175,9 +175,36 @@ export default {
     // }
   },
 
+
+////////////////////////////////////////////////////////////////////////
+ShiftNotifications() {
+    ShiftService.getShifts().then((response) => {
+      const shifts = response.data;
+      const now = new Date();
+      const upcomingDeadline = new Date(now.getTime() + 48 * 60 * 60 * 1000);
+
+      const filteredShifts = shifts.filter((shift) => { 
+        const shiftDate = new Date(shift.startDate);
+        return shift.status == 3 && shiftDate <= upcomingDeadline && shiftDate >= now;
+      });
+
+      if (filteredShifts.length > 0) {  // Show notification alert for matching shifts
+        filteredShifts.forEach((shift) => {
+          const shiftDate = new Date(shift.startDate).toLocaleString();
+          alert(`Uncovered Shift Reminder: Shift "${shift.description}" is scheduled on ${shiftDate}.`);
+        });
+      }
+    });
+  },
+
+
+//////////////////////////////////////////////////////////////////////////
+
   created() {
     this.getAllUsers();
     this.getFullName();
+    //this.ShiftNotifications();
+
     ///////
     // this.userRole = this.$store.state.user.authorities[0].name;
     // this.isManager = this.userRole === "ROLE_MANAGER";
