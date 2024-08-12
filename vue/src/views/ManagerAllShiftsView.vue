@@ -1,12 +1,14 @@
 <template>
-  <div>
-    <div class="fixed-header"></div>
-    <CompanyHeader />
-    <ManagerGreeting />
+  <section>
+    <div class="fixed-header">
+    <company-header />
+    <manager-greeting/>
     <div id="backImage">
       <div class="overlay"></div>
       <div class="content">
-        <ManagerNavigation />
+        <manager-navigation />
+
+
         <div id="search-shifts">
           <div class="filter">
             <input type="text" id="assignedNameFilter" placeholder="Name" v-model="filter.assignedName" />
@@ -27,6 +29,8 @@
             </select>
           </div>
         </div>
+      </div>
+    </div>
 
         <div class="scrollable-container">
           <div class="scrollable-content">
@@ -46,11 +50,13 @@
                 </template>
                 <template v-else>
                   <div class="bubble" :class="{emergency: shift.emergency && shift.status === 3, green: shift.status === 4 || shift.status === 1}">
+                    <div class="together">
                     <div id="shiftObjects"><p class="bubble-title">Name: {{ shift.assignedName }}</p></div>
                     <div id="shiftObjects"><p class="bubble-title">Start Time: {{ shift.startDateTime }}</p></div>
                     <div id="shiftObjects"><p class="bubble-title">Duration: {{ shift.duration }} <span>hours</span></p></div>
                     <div id="shiftObjects"><p class="bubble-title">Status: {{ convertStatus(shift.status) }}</p></div>
                     <div id="shiftObjects"><p class="bubble-title">Emergency: {{ shift.emergency }}</p></div>
+                    </div>
                   </div>
                 </template>
               </div> 
@@ -58,8 +64,7 @@
           </div>
         </div>
       </div>
-    </div>
-  </div>
+  </section>
 </template>
 
 <script>
@@ -159,14 +164,6 @@ export default {
 
 <style scoped>
 
-body, html {
-      margin: 0;
-      padding: 0;
-      
-      height: 100%;
-      background: transparent;
-    }
-
 #data {
   display: flex;
   flex-direction: column;
@@ -175,16 +172,23 @@ body, html {
   padding: 20px;
 }
 
+.together {
+      display: flex;
+      justify-content: center; 
+      width: 100%; 
+    }
+
 .bubble {
-  background-color: #4a90e2; 
+  background-color: #4a90e2;
   color: white;
-  border-radius: 50px; 
-  padding: 20px; 
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
-  width: 100%; 
+  border-radius: 50px;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  max-width: 100%;
+  width: auto;
   display: flex;
-  flex-wrap: wrap; 
-  align-items: center;
+  flex-direction: row;
+  align-items: flex-start;
   text-align: left;
   box-sizing: border-box;
   transition: transform 0.3s, box-shadow 0.3s;
@@ -336,7 +340,6 @@ h1{
   top: 0;
   left: 0;
   width: 100%;
-  z-index: 1000;
   background: white; 
 }
 

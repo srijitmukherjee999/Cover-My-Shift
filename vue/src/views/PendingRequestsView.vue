@@ -1,173 +1,157 @@
 <template>
-  <company-header/>
-
-  <div class="yes">
-    <h1>Hello Manager {{ name }}</h1>
-  </div>
-
-  <div>
-    <nav class="navigation">
-      <ul>
-        <li><router-link v-bind:to="{ name: 'manager' }">MY HOME</router-link></li>
-        <li><router-link v-bind:to="{ name: 'pendingrequests' }">PENDING REQUESTS</router-link></li>
-        <li><router-link v-bind:to="{ name: 'allShifts' }">ALL SHIFTS</router-link></li>
-      </ul>
-    </nav>
-  </div>
-
-  <div id="data">
-    <div v-for="shift in listOfPendingRequests" v-bind:key="shift.shiftId" class="bubble">
-      <div class="bubble-title">{{ shift.assignedName }}</div>
-      <div class="bubble-info">
-        <p>{{ shift.startDateTime }}</p>
-        <p>{{ shift.duration }} hours</p>
-        <p>{{ shift.emergency ? 'Emergency' : 'Regular' }}</p>
+  <section>
+    <div class="fixed-header">
+      <company-header />
+      <manager-greeting />
+      <div id="backImage">
+        <div class="overlay"></div>
+        <div class="content">
+          <manager-navigation />
+        </div>
       </div>
-      <div class="bubble-actions">
-        <button class="accept-button" @click="approveDayOffRequest(shift.shiftId)">Accept</button>
-        <button class="reject-button" @click="denyDayOffRequest(shift.shiftId)">Reject</button>
+
+      <div class="scrollable-container">
+        <div class="scrollable-content">
+          <div class="content">
+            <div
+              id="data"
+              v-for="shift in listOfPendingRequests"
+              v-bind:key="shift.shiftId"
+            >
+              <div class="together">
+                <div class="bubble">
+                  <div id="shiftObjects1" class="bubble-title">
+                    <p>{{ shift.assignedName }}</p>
+                  </div>
+                  <div id="shiftObjects2" class="bubble-title">
+                    <p>{{ shift.startDateTime }}</p>
+                  </div>
+                  <div id="shiftObjects3" class="bubble-title">
+                    <p>{{ shift.duration }} hours</p>
+                  </div>
+                  <div id="shiftObjects4" class="bubble-title">
+                    <p>{{ shift.emergency ? "Emergency" : "Regular" }}</p>
+                  </div>
+                  <div class="bubble-actions">
+                    <button
+                      class="accept-button"
+                      @click="approveDayOffRequest(shift.shiftId)"
+                    >
+                      Accept
+                    </button></div>
+                    <div>
+                    <button
+                      class="reject-button"
+                      @click="denyDayOffRequest(shift.shiftId)"
+                    >
+                      Reject
+                    </button>
+                  </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
-  </div>
+  </section>
 </template>
 
   
 <script>
-import CompanyHeader from '../components/CompanyHeader.vue';
-import ShiftService from '../services/ShiftService';
-import ManagerService from '../services/ManagerService'
+import CompanyHeader from "../components/CompanyHeader.vue";
+import ShiftService from "../services/ShiftService";
+import ManagerService from "../services/ManagerService";
 
 export default {
-  data(){
+  data() {
     return {
-      name: '',
+      name: "",
       listOfPendingRequests: [],
-     
-    }
+    };
   },
   components: { CompanyHeader },
   methods: {
-    getFullName(){
-      ShiftService.getUserFullName().then(response => {
+    getFullName() {
+      ShiftService.getUserFullName().then((response) => {
         this.name = response.data;
         this.$store.commit("ADD_NAME", this.name);
       });
     },
-    getShiftPendingRequests(){
-      ShiftService.getShiftsByUncoveredRequest(2).then(response => {
+    getShiftPendingRequests() {
+      ShiftService.getShiftsByUncoveredRequest(2).then((response) => {
         this.listOfPendingRequests = response.data;
       });
     },
     acceptShift(shiftId, employeeId) {
-    const approvalObject = this.createApprovalObject(shiftId, employeeId, true);
-    ManagerService.acceptRejectRequest(approvalObject).then(response => {
-      if (response.status === 200) {
-        alert(`Accepted shift with ID: ${shiftId}`);
-        this.getMyShiftPendingRequests();
-      }
-    });
-  },
-  rejectShift(shiftId, employeeId) {
-    const rejectionObject = this.createApprovalObject(shiftId, employeeId, false);
-    ManagerService.acceptRejectRequest(rejectionObject).then(response => {
-      if (response.status === 200) {
-        alert(`Rejected shift with ID: ${shiftId}`);
-        this.getMyShiftPendingRequests();
-      }
-    });
-  },
-  createApprovalObject(shiftId, employeeId, isApproved) {
-    return {
-      shiftId: shiftId,
-      employeeId: employeeId,
-      approved: isApproved,
-      message: 'yes'
-    };
+      const approvalObject = this.createApprovalObject(
+        shiftId,
+        employeeId,
+        true
+      );
+      ManagerService.acceptRejectRequest(approvalObject).then((response) => {
+        if (response.status === 200) {
+          alert(`Accepted shift with ID: ${shiftId}`);
+          this.getMyShiftPendingRequests();
+        }
+      });
+    },
+    rejectShift(shiftId, employeeId) {
+      const rejectionObject = this.createApprovalObject(
+        shiftId,
+        employeeId,
+        false
+      );
+      ManagerService.acceptRejectRequest(rejectionObject).then((response) => {
+        if (response.status === 200) {
+          alert(`Rejected shift with ID: ${shiftId}`);
+          this.getMyShiftPendingRequests();
+        }
+      });
+    },
+    createApprovalObject(shiftId, employeeId, isApproved) {
+      return {
+        shiftId: shiftId,
+        employeeId: employeeId,
+        approved: isApproved,
+        message: "yes",
+      };
     },
 
-  approveDayOffRequest(id){
-    ManagerService.acceptDayOffRequest(id, 3)
-      .then(response => {
-        if(response.status === 200){
-          alert("Accepted");
-          this.getShiftPendingRequests();
-        }
-      })
-      .catch(error => {
-        console.error("Error approving day off request:", error);
-      });
+    approveDayOffRequest(id) {
+      ManagerService.acceptDayOffRequest(id, 3)
+        .then((response) => {
+          if (response.status === 200) {
+            alert("Accepted");
+            this.getShiftPendingRequests();
+          }
+        })
+        .catch((error) => {
+          console.error("Error approving day off request:", error);
+        });
+    },
+    denyDayOffRequest(id) {
+      ManagerService.acceptDayOffRequest(id, 1)
+        .then((response) => {
+          if (response.status === 200) {
+            alert("Rejected");
+            this.getShiftPendingRequests();
+          }
+        })
+        .catch((error) => {
+          console.error("Error denying day off request:", error);
+        });
+    },
   },
-  denyDayOffRequest(id){
-    ManagerService.acceptDayOffRequest(id, 1)
-      .then(response => {
-        if(response.status === 200 ){ 
-          alert("Rejected");
-          this.getShiftPendingRequests();
-        }
-      })
-      .catch(error => {
-        console.error("Error denying day off request:", error);
-      });
-  }
-
-
-
-  },
-  created(){
+  created() {
     this.getFullName();
     this.getShiftPendingRequests();
-  }
-}
+  },
+};
 </script>
 
   
 <style scoped>
-.yes {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-evenly;
-  padding: 10px;
-  background-color: white;
-}
-
-.navigation {
-  padding: 10px;
-  margin: 20px;
-  border-radius: 5px;
-}
-
-.navigation a {
-  text-decoration: none;
-  color: #000000;
-}
-
-.navigation ul {
-  list-style: none;
-  padding: 0;
-  margin: center;
-  text-align: center;
-}
-
-.navigation li {
-  display: inline;
-  margin-right: 15px;
-  font-size: larger;
-  background-color: white;
-  color: black;
-  border-radius: 50px;
-  padding: 20px;
-  box-shadow: 0 4px 8px;
-  width: 100%;
-  transition: transform 0.3s, box-shadow 0.3s;
-  font: bold;
-}
-
-.navigation li:hover {
-  transform: scale(1.05);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
-  background-color: lightgray;
-}
-
 #data {
   display: flex;
   flex-direction: column;
@@ -176,25 +160,36 @@ export default {
   padding: 20px;
 }
 
+.together {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
 .bubble {
   background-color: #4a90e2;
   color: white;
   border-radius: 50px;
   padding: 20px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  width: 100%;
+  max-width: 100%;
+  width: auto;
   display: flex;
-  flex-direction: column;
-  gap: 10px;
+  flex-direction: row;
+  align-items: flex-start;
   text-align: left;
   box-sizing: border-box;
   transition: transform 0.3s, box-shadow 0.3s;
-  position: relative;
 }
 
 .bubble-title {
   font-weight: bold;
-  margin-bottom: 10px;
+  flex: 1 1 auto;
+  padding: 15px;
+  margin: 10px;
+  border-radius: 5px;
+  text-align: center;
+  font-weight: bold;
 }
 
 .bubble-info {
@@ -235,5 +230,74 @@ export default {
 
 .reject-button:hover {
   background-color: #c9302c;
+}
+
+.container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 600px) {
+  .container {
+    flex-direction: column;
+  }
+}
+
+section,
+html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  background: transparent;
+}
+
+#backImage {
+  position: relative;
+  height: 100vh;
+  background-image: url("../assets/arlington-research-kN_kViDchA0-unsplash (1).jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  z-index: 1; /* Less than header */
+}
+
+.fixed-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  background: white;
+}
+
+.scrollable-container {
+  position: fixed;
+  top: 390px; /* Adjust this based on your header height */
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow: hidden;
+  z-index: 1; /* Less than header */
+}
+
+.scrollable-content {
+  height: 100%;
+  overflow-y: auto;
+  padding: 10px;
+}
+
+.content {
+  position: relative;
+  z-index: 1; /* Make sure it's behind the fixed header */
 }
 </style>
