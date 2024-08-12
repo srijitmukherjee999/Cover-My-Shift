@@ -111,7 +111,7 @@ public class EmployeeController {
 
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @DeleteMapping(path = "shift/{id}")
+    @DeleteMapping(path = "/shift/{id}")
     public void deleteCoverRequest(@PathVariable int id, Principal principal){
         coverRequestDao.deleteCoverRequest(id, userDao.getUserByUsername(principal.getName()).getId());
     }
@@ -124,9 +124,19 @@ public class EmployeeController {
 
 
     @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping(path = "/vacation")
-    public Vacation createVacationRequest(@Valid @RequestBody Vacation vacation, Principal principal){
+    @PostMapping(path = "/vacations")
+    public Vacation createVacationRequest(@Valid @RequestBody Vacation vacation){
          return vacationDao.createVacation(vacation);
+    }
+
+    @GetMapping(path = "/vacations")
+    public List<Vacation> getVacations(){
+        return vacationDao.getVacations();
+    }
+
+    @GetMapping(path = "/vacations/{id}")
+    public List<Vacation> getVacationById(@PathVariable int id){
+        return vacationDao.getVacationsByEmployeeId(id);
     }
 
 //    @GetMapping(path = "/user/fullName")

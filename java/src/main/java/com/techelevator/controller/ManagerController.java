@@ -48,12 +48,14 @@ public class ManagerController {
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(path = "/shift")
     public void addShiftToList(@Valid @RequestBody Shift shift){
+        LocalDateTime start = shift.getStartDateTime();
+        for( Vacation v : vacationDao.getVacationsByEmployeeId(shift.getAssignedId())){
+            // for every vacation: if it's not before the start date or after the end date, it's during a vacation
+            if(!(start.isBefore(v.getStartDate().atTime(0, 0)) || start.isAfter(v.getEndDate().atTime(23, 59)))){
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Shift would take place during vacation id " + v.getVacationId());
+            }
+        }
         shiftDao.createShift(shift);
-    }
-
-    @GetMapping(path= "/vacations")
-    public List<Vacation> getVacations(){
-        return vacationDao.getVacations();
     }
 
     @PutMapping(path = "/vacation/{id}")
@@ -86,30 +88,18 @@ public class ManagerController {
 
 
     @PutMapping(path = "/shifts/{id}")
-    public Shift updateShiftStatus(@RequestParam(required = false, defaultValue = "0") int status, @RequestParam(required = false, defaultValue = "false") boolean emergency, @PathVariable int id, Principal principal){
+    public Shift updateShiftStatus(@RequestParam(defaultValue = "0") int status, @PathVariable int id){
         Shift shift = shiftDao.getShiftById(id);
-        User user = userDao.getUserByUsername(principal.getName());
         if (shift == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Shift not found.");
         }
 
-
-        if (emergency){
-            if(shift.getStartDateTime().isBefore(LocalDateTime.now().plusDays(1))) { // if before 1 day from now (aka within 24 hours)
-                shift.setStatus(3);
-                shift.setEmergency(true);
-                shift.setCovererId(0);
-            }
-            else {
-                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "You can not schedule an emergency more than 24 hours out.");
-            }
-        }
-        else if(status > 0) {
+        if(status > 0) {
             if(status == 3 && shift.getStatus() == 2){
                 shift.setStatus(3);
                 shift.setCovererId(0);
             }
-            else if(status == 1 && shift.getStatus() == 2) { // TODO: ask tom if approved days off can be canceled
+            else if(status == 1 && shift.getStatus() == 2) {
                 shift.setStatus(1);
                 shift.setCovererId(shift.getAssignedId());
             }
