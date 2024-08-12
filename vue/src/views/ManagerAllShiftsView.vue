@@ -97,7 +97,7 @@
                       </p>
                     </div>
                     <div id="shiftObjects6">
-                      <button v-if="shift.status === 3" @click="newPage(shift.shiftId)" class="bubble-title">
+                      <button v-if="shift.status === 3" @click="newPage(shift.shiftId)" class="button-title">
                         Cover Requests:
                         {{ coverRequestsCount[shift.shiftId] }}
                       </button>
@@ -317,6 +317,26 @@ export default {
   margin: 0;
   padding: 0;
   margin-right: 20px;
+}
+
+#shiftObjects6 {
+  width: 150px;
+  height: 5px;
+  max-width: 100%;
+  width: auto;
+}
+
+#shiftObjects6:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+  background-color: lightgray;
+}
+
+.button-title {
+  font-weight: bold;
+  flex: 1 1 auto;
+  border-radius: 5px;
+  text-align: center;
 }
 
 .emergency {
