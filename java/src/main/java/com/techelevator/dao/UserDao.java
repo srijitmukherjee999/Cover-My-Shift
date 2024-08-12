@@ -18,6 +18,6 @@ public interface UserDao {
 
     User updateUser(User user);
 
-    List<User> getCoverRequestsByShift(int shiftId);
+    List<User> getCoverRequestsByShift(int shiftId, int status);
 
 }

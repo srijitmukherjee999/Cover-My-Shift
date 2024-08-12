@@ -42,8 +42,8 @@ public class ManagerController {
     }
 
     @GetMapping(path = "/shift/{id}/cover")
-    public List<User> getCoverRequestByShiftId(@PathVariable int id){
-        return userDao.getCoverRequestsByShift(id);
+    public List<User> getCoverRequestByShiftId(@PathVariable int id, @RequestParam(required = false, defaultValue = "1") int status){
+        return userDao.getCoverRequestsByShift(id,status);
     }
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(path = "/shift")
@@ -79,10 +79,13 @@ public class ManagerController {
         coverRequestDao.updateCoverRequest(coverRequest);
         if(approval.isApproved()) {
             shift.setCovererId(approval.getEmployeeId());
+            shift.setAssignedId(approval.getEmployeeId());
             shift.setStatus(4);
+            coverRequest.setStatus(2);
             coverRequestDao.denyCoverRequestsByShiftId(shift.getShiftId());
             shift = shiftDao.updateShift(shift);
         }
+        coverRequest.setStatus(3);
         return shift;
     }
 

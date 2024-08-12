@@ -41,7 +41,7 @@
                 <option value="true">true</option>
                 <option value="false">false</option>
               </select>
-              <button @click="clearForm">Clear</button>
+              <button type="button" @click="clearForm">Clear</button>
             </div>
           </div>
         </div>
@@ -50,7 +50,6 @@
           <div class="scrollable-content">
             <div class="content">
               <div id="data" v-for="shift in filteredList" :key="shift.shiftId">
-                <!-- <router-link :to="{ name: 'shiftdetails', params: { id: shift.shiftId }} "> -->
                 <div class="together">
                   <div
                     class="bubble"
@@ -83,7 +82,7 @@
 
                     <div id="shiftObjects5">
                       <button
-                        class="bubble-title"
+                        class="button-title"
                         @click="updateShiftStatusToUncovered(shift.shiftId)"
                         v-if="shift.assignedName == name && shift.status === 1"
                       >
@@ -91,7 +90,6 @@
                       </button>
                     </div>
                   </div>
-                  <!-- </router-link> -->
                 </div>
               </div>
             </div>
@@ -311,13 +309,31 @@ export default {
   margin: 10px;
   border-radius: 5px;
   text-align: center;
-  font-weight: bold;
 }
 
 .bubble p {
   margin: 0;
   padding: 0;
   margin-right: 20px;
+}
+
+#shiftObjects5 {
+  width: 150px;
+  height: 5px;
+  max-width: 100%;
+  width: auto;
+}
+
+#shiftObjects5:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+.button-title {
+  font-weight: bold;
+  flex: 1 1 auto;
+  border-radius: 5px;
+  text-align: center;
 }
 
 .emergency {
@@ -372,7 +388,7 @@ input[type="date"] {
   text-align: center;
 }
 
-button {
+[type="button"] {
   width: 200px;
   height: 50px;
   padding: 10px;
@@ -382,7 +398,7 @@ button {
   text-align: center;
 }
 
-button:hover {
+[type="button"]:hover {
   transform: scale(1.05);
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
   background-color: lightgray;
@@ -457,7 +473,7 @@ h1 {
 
 .scrollable-container {
   position: fixed;
-  top: 390px; /* Adjust this based on your header height */
+  top: 340px; /* Adjust this based on your header height */
   left: 0;
   right: 0;
   bottom: 0;

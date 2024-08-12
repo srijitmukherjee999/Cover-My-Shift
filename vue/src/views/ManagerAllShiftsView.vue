@@ -60,12 +60,12 @@
           <div class="content">
             <div id="data" v-for="shift in filteredList" :key="shift.shiftId">
               <template v-if="coverRequestsCount[shift.shiftId] > 0">
-                <router-link
-                  :to="{
+                <!-- <router-link -->
+                  <!-- :to="{
                     name: 'pendingCoverRequests',
                     params: { shiftId: shift.shiftId },
-                  }"
-                >
+                  }" -->
+                <!-- > -->
                   <div
                     class="bubble"
                     :class="{
@@ -97,13 +97,13 @@
                       </p>
                     </div>
                     <div id="shiftObjects6">
-                      <p class="bubble-title">
+                      <button v-if="shift.status === 3" @click="newPage(shift.shiftId)" class="button-title">
                         Cover Requests:
                         {{ coverRequestsCount[shift.shiftId] }}
-                      </p>
+                      </button>
                     </div>
                   </div>
-                </router-link>
+                <!-- </router-link> -->
               </template>
               <template v-else>
                 <div
@@ -173,6 +173,10 @@ export default {
     };
   },
   methods: {
+
+    newPage(shiftId) {
+      this.$router.push(`/shift/${shiftId}/cover`)
+    },
     async getAllShifts() {
       try {
         const response = await ShiftService.getShifts();
@@ -187,7 +191,7 @@ export default {
       }
     },
     async getCoverRequests(shiftID) {
-      ManagerService.getCoverRequests(shiftID).then((response) => {
+      ManagerService.getManagerViewCoverRequests(shiftID).then((response) => {
         this.coverRequestsCount[shiftID] = response.data.length;
       });
     },
@@ -226,6 +230,7 @@ export default {
     await this.getAllShifts();
     await this.getFullName();
   },
+
   computed: {
     filteredList() {
       return this.listOfShifts.filter((shift) => {
@@ -312,6 +317,26 @@ export default {
   margin: 0;
   padding: 0;
   margin-right: 20px;
+}
+
+#shiftObjects6 {
+  width: 150px;
+  height: 5px;
+  max-width: 100%;
+  width: auto;
+}
+
+#shiftObjects6:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+  background-color: lightgray;
+}
+
+.button-title {
+  font-weight: bold;
+  flex: 1 1 auto;
+  border-radius: 5px;
+  text-align: center;
 }
 
 .emergency {

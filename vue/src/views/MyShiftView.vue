@@ -395,7 +395,6 @@ h1 {
   flex: 1 1 auto;
   border-radius: 5px;
   text-align: center;
-  font-weight: bold;
 }
 
 .fixed-header {
@@ -409,7 +408,7 @@ h1 {
 
 .scrollable-container {
   position: fixed;
-  top: 390px; /* Adjust this based on your header height */
+  top: 310px; /* Adjust this based on your header height */
   left: 0;
   right: 0;
   bottom: 0;

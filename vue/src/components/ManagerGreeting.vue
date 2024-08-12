@@ -55,4 +55,9 @@ export default {
     z-index: 2;
   }
 
+  h1{
+  font-style: italic;
+  animation: fadeIn 4s;
+}
+
 </style>
