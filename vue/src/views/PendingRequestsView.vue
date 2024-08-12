@@ -210,11 +210,13 @@ export default {
 .accept-button {
   background-color: #5cb85c;
   border: none;
-  border-radius: 20px;
-  padding: 10px 20px;
+  border-radius: 50px;
+  padding: 20px;
   cursor: pointer;
   color: white;
   font-weight: bold;
+  gap: 20px;
+  margin: 10px;
 }
 
 .accept-button:hover {
@@ -224,11 +226,13 @@ export default {
 .reject-button {
   background-color: #d9534f;
   border: none;
-  border-radius: 20px;
-  padding: 10px 20px;
+  border-radius: 50px;
+  padding: 20px;
   cursor: pointer;
   color: white;
   font-weight: bold;
+  gap: 20px;
+  margin: 10px;
 }
 
 .reject-button:hover {
