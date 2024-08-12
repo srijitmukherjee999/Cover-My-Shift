@@ -52,69 +52,65 @@
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+      </div>
 
-            <div class="scrollable-container">
-              <div class="scrollable-content">
-                <div class="content">
-                  <div
-                    id="data"
-                    v-if="showButton"
-                    v-for="shift in listOfShiftsByStatus"
-                    v-bind:key="shift"
-                  >
-                    <!-- <router-link :to="{ name: 'shiftdetails', params: { id: shift.shiftId }} "> -->
-                    <div class="together">
-                      <div
-                        class="bubble"
-                        :class="{
-                          emergency: shift.emergency && shift.status == 3,
-                          green: shift.status == 4 || shift.status == 1,
-                        }"
-                      >
-                        <div id="shiftObjects1">
-                          <p class="bubble-title">
-                            Name: {{ shift.assignedName }}
-                          </p>
-                        </div>
+      <div class="scrollable-container">
+        <div class="scrollable-content">
+          <div class="content">
+            <div
+              id="data"
+              v-if="showButton"
+              v-for="shift in listOfShiftsByStatus"
+              v-bind:key="shift"
+            >
+              <!-- <router-link :to="{ name: 'shiftdetails', params: { id: shift.shiftId }} "> -->
+              <div class="together">
+                <div
+                  class="bubble"
+                  :class="{
+                    emergency: shift.emergency && shift.status == 3,
+                    green: shift.status == 4 || shift.status == 1,
+                  }"
+                >
+                  <div id="shiftObjects1">
+                    <p class="bubble-title">Name: {{ shift.assignedName }}</p>
+                  </div>
 
-                        <div id="shiftObjects2">
-                          <p class="bubble-title">
-                            Start Time: {{ shift.startDateTime }}
-                          </p>
-                        </div>
+                  <div id="shiftObjects2">
+                    <p class="bubble-title">
+                      Start Time: {{ shift.startDateTime }}
+                    </p>
+                  </div>
 
-                        <div id="shiftObjects3">
-                          <p class="bubble-title">
-                            Duration: {{ shift.duration }} <span>hours</span>
-                          </p>
-                        </div>
+                  <div id="shiftObjects3">
+                    <p class="bubble-title">
+                      Duration: {{ shift.duration }} <span>hours</span>
+                    </p>
+                  </div>
 
-                        <div id="shiftObjects4">
-                          <p class="bubble-title">
-                            Status: {{ convertStatus(shift.status) }}
-                          </p>
-                        </div>
+                  <div id="shiftObjects4">
+                    <p class="bubble-title">
+                      Status: {{ convertStatus(shift.status) }}
+                    </p>
+                  </div>
 
-                        <div id="shiftObjects5">
-                          <p class="bubble-title">
-                            Emergency: {{ shift.emergency }}
-                          </p>
-                        </div>
+                  <div id="shiftObjects5">
+                    <p class="bubble-title">Emergency: {{ shift.emergency }}</p>
+                  </div>
 
-                        <div id="shiftObjects6">
-                          <button
-                            class="button-title"
-                            @click="coverThisShift(shift.shiftId)"
-                          >
-                            Cover This Shift
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                    <!-- </router-link> -->
+                  <div id="shiftObjects6">
+                    <button
+                      class="button-title"
+                      @click="coverThisShift(shift.shiftId)"
+                    >
+                      Cover This Shift
+                    </button>
                   </div>
                 </div>
               </div>
+              <!-- </router-link> -->
             </div>
           </div>
         </div>

@@ -13,7 +13,7 @@
       <div class="scrollable-container">
         <div class="scrollable-content">
           <div class="content">
-            <h2>Pending Cover Requests for Shift ID: {{ shiftId }}</h2>
+            <h2>Pending Cover Requests:</h2>
 
             <div id="data" v-for="request in coverRequests" :key="request.id">
               <div class="together">
