@@ -1,6 +1,6 @@
 <template>
   <div class="fixed-header">
-    <CompanyHeader/>
+    <company-header/>
     <ManagerGreeting/>
     <ManagerNavigation/>
     <div>
