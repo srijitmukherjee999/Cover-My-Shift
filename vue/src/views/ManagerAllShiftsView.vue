@@ -60,12 +60,12 @@
           <div class="content">
             <div id="data" v-for="shift in filteredList" :key="shift.shiftId">
               <template v-if="coverRequestsCount[shift.shiftId] > 0">
-                <router-link
-                  :to="{
+                <!-- <router-link -->
+                  <!-- :to="{
                     name: 'pendingCoverRequests',
                     params: { shiftId: shift.shiftId },
-                  }"
-                >
+                  }" -->
+                <!-- > -->
                   <div
                     class="bubble"
                     :class="{
@@ -97,13 +97,13 @@
                       </p>
                     </div>
                     <div id="shiftObjects6">
-                      <p class="bubble-title">
+                      <button v-if="shift.status === 3" @click="newPage(shift.shiftId)" class="bubble-title">
                         Cover Requests:
                         {{ coverRequestsCount[shift.shiftId] }}
-                      </p>
+                      </button>
                     </div>
                   </div>
-                </router-link>
+                <!-- </router-link> -->
               </template>
               <template v-else>
                 <div
@@ -173,6 +173,10 @@ export default {
     };
   },
   methods: {
+
+    newPage(shiftId) {
+      this.$router.push(`/shift/${shiftId}/cover`)
+    },
     async getAllShifts() {
       try {
         const response = await ShiftService.getShifts();
@@ -226,6 +230,7 @@ export default {
     await this.getAllShifts();
     await this.getFullName();
   },
+
   computed: {
     filteredList() {
       return this.listOfShifts.filter((shift) => {

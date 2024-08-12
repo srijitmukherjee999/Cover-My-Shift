@@ -320,6 +320,8 @@ export default {
 #shiftObjects5 {
   width: 150px;
   height: 5px;
+  max-width: 100%;
+  width: auto;
 }
 
 #shiftObjects5:hover {

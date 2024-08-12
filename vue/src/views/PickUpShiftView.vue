@@ -440,4 +440,34 @@ h1 {
   gap: 20px;
   padding: 20px;
 }
+
+.fixed-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: rgb(255, 255, 255);
+  /* Ensure visibility if needed */
+}
+
+.scrollable-container {
+  position: fixed;
+  top: 340px; /* Adjust this based on your header height */
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow: hidden;
+  z-index: 1; /* Less than header */
+}
+
+.scrollable-content {
+  height: 100%;
+  overflow-y: auto;
+  padding: 10px;
+}
+
+.content {
+  position: relative;
+  z-index: 1; /* Make sure it's behind the fixed header */
+}
 </style>
