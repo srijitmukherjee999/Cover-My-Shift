@@ -300,6 +300,15 @@ export default {
   .container {
     flex-direction: column;
   }
+  .scrollable-container {
+  position: fixed;
+  top: 40em; /* Adjust this based on your header height */
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow: hidden;
+  z-index: 1; /* Less than header */
+}
 }
 
 .bubble-title {
@@ -473,7 +482,7 @@ h1 {
 
 .scrollable-container {
   position: fixed;
-  top: 340px; /* Adjust this based on your header height */
+  top: 29em; /* Adjust this based on your header height */
   left: 0;
   right: 0;
   bottom: 0;

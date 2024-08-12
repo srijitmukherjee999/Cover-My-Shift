@@ -452,12 +452,6 @@ html {
   z-index: 1;
 }
 
-.content {
-  position: relative;
-  z-index: 1;
-  padding: 20px;
-}
-
 .fixed-header {
   position: fixed;
   top: 0;

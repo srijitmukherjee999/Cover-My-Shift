@@ -354,12 +354,6 @@ h1 {
   z-index: 0;
 }
 
-.content {
-  position: relative;
-  z-index: 1;
-  padding: 20px;
-}
-
 #emergency-button {
   padding: 20px;
   margin: 20px;
@@ -452,7 +446,7 @@ h1 {
 
 .scrollable-container {
   position: fixed;
-  top: 340px; /* Adjust this based on your header height */
+  top: 390px; /* Adjust this based on your header height */
   left: 0;
   right: 0;
   bottom: 0;

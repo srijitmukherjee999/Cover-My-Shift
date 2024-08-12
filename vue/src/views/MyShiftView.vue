@@ -308,12 +308,6 @@ h1 {
   z-index: 0; /* Place the overlay above the background but below content */
 }
 
-.content {
-  position: relative;
-  z-index: 1; /* Ensure content is above the overlay */
-  padding: 20px; /* Add padding as needed */
-}
-
 #data {
   display: flex;
   flex-direction: column;
@@ -408,7 +402,7 @@ h1 {
 
 .scrollable-container {
   position: fixed;
-  top: 310px; /* Adjust this based on your header height */
+  top: 360px; /* Adjust this based on your header height */
   left: 0;
   right: 0;
   bottom: 0;

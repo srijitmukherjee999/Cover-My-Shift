@@ -60,4 +60,12 @@ export default {
   animation: fadeIn 4s;
 }
 
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
 </style>
