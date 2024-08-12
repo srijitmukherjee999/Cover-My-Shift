@@ -252,6 +252,22 @@ input[type="date"] {
   text-align: center;
 }
 
+[type="button"] {
+  width: 200px;
+  height: 50px;
+  padding: 10px;
+  font-size: 18px;
+  border: 2px solid #000;
+  border-radius: 5px;
+  text-align: center;
+}
+
+[type="button"]:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+  background-color: lightgray;
+}
+
 #myList {
   width: 200px;
   height: 50px;
