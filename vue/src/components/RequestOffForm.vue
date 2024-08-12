@@ -62,14 +62,6 @@ methods:{
 
 <style scoped>
 
-section, html {
-      height: 100%;
-      margin: 0;
-      display: flex;
-      justify-content: center; 
-      align-items: center;     
-    }
-
 #form-body {
   padding: 20px;
     display: flex;
@@ -80,7 +72,7 @@ section, html {
 
 form {
     display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
   align-content: center;
   gap: 20px;
@@ -90,46 +82,47 @@ form {
     background-color: orange; 
   color: white;
   border-radius: 50px; 
-  padding: 35px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
-  width: 150%;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   display: flex;
   flex-wrap: wrap;
-  flex-direction: column;
   justify-content: center;
-  align-content: center;  
+  align-content: center; 
+  text-align: center; 
   box-sizing: border-box;
-  transition: transform 0.3s, box-shadow 0.3s;    
+  transition: transform 0.3s, box-shadow 0.3s;
+  gap: 20px;    
 }
 
 input[type="text"] {
-  width: 400px;         
-  height: 50px;         
-  padding: 10px;        
-  font-size: 18px;      
-  border: 2px solid #000; 
-  border-radius: 5px; 
+  width: 200px;
+  height: 50px;
+  padding: 10px;
+  font-size: 18px;
+  border: 2px solid #000;
+  border-radius: 5px;
+  text-align: center;
+}
+
+
+input[type="date"] {
+  width: 200px;
+  height: 50px;
+  padding: 10px;
+  font-size: 18px;
+  border: 2px solid #000;
+  border-radius: 5px;
   text-align: center; 
 }
 
-input[type="date"] {
-  width: 400px;         
-  height: 50px;         
-  padding: 10px;        
-  font-size: 18px;      
-  border: 2px solid #000; 
-  border-radius: 5px;
-  text-align: center;  
-}
-
 button[type="submit"] {
-  width: 400px;         
-  height: 50px;         
-  padding: 10px;        
-  font-size: 18px;      
-  border: 2px solid #000; 
-  border-radius: 5px; 
-  font-size: large;
+  width: 200px;
+  height: 50px;
+  padding: 10px;
+  font-size: 18px;
+  border: 2px solid #000;
+  border-radius: 5px;
+  text-align: center;
 }
 
 button:hover {

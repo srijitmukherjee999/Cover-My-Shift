@@ -226,7 +226,7 @@ ShiftNotifications() {
   
   <style scoped>
 #data {
-  display: flex;
+  display: inline-block;
   flex-direction: column;
   align-items: center;
   gap: 20px;
@@ -235,8 +235,9 @@ ShiftNotifications() {
 
 .together {
   display: flex;
-  justify-content: center;
   width: 100%;
+  margin: 20px;
+  justify-content: space-around;
 }
 
 .bubble {
