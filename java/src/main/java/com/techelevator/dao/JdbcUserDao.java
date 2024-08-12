@@ -108,11 +108,11 @@ public class JdbcUserDao implements UserDao {
         }
     }
 
-    public List<User> getCoverRequestsByShift(int shiftId){
+    public List<User> getCoverRequestsByShift(int shiftId, int status){
         List<User> users = new ArrayList<>();
-        String sql = "SELECT user_id, username, password_hash, full_name, role, active, shift_id FROM cover_request JOIN users ON users.user_id = cover_request.coverer_id WHERE shift_id = ?";
+        String sql = "SELECT user_id, username, password_hash, full_name, role, active, shift_id FROM cover_request JOIN users ON users.user_id = cover_request.coverer_id WHERE shift_id = ? AND status = ?";
         try {
-            SqlRowSet results = jdbcTemplate.queryForRowSet(sql, shiftId);
+            SqlRowSet results = jdbcTemplate.queryForRowSet(sql, shiftId,status);
             while (results.next()) {
                 User user = mapRowToUser(results);
                 users.add(user);

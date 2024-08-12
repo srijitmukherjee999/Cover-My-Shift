@@ -9,8 +9,8 @@ export default{
         return axios.put( `/shifts/${id}?status=${status}`);
     },
 
-    getCoverRequests(shiftId){
-        return axios.get(`/shift/${shiftId}/cover`)
+    getCoverRequests(shiftId,status){
+        return axios.get(`/shift/${shiftId}/cover?status=${status}`);
     }
       
 }

@@ -41,7 +41,7 @@ public class JdbcCoverRequestDao implements CoverRequestDao {
         String insertUserSql = "INSERT INTO cover_request (shift_id, coverer_id,status) values (?, ?,?)";
 
         try {
-            jdbcTemplate.update(insertUserSql, shiftId, employeeId,3);
+            jdbcTemplate.queryForObject(insertUserSql, int.class, shiftId, employeeId,1);
         } catch (CannotGetJdbcConnectionException e) {
             throw new DaoException("Unable to connect to server or database", e);
         } catch (DataIntegrityViolationException e) {

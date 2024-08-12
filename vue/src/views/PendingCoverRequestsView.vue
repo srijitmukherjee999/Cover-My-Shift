@@ -54,7 +54,7 @@ export default {
   },
   methods: {
     getCoverRequests() {
-      ManagerService.getCoverRequests(this.shiftId).then(response => {
+      ManagerService.getCoverRequests(this.shiftId,1).then(response => {
         this.coverRequests = response.data;
       })
       .catch(error => {
