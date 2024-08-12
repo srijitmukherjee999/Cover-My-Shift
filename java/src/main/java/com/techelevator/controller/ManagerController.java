@@ -48,6 +48,13 @@ public class ManagerController {
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(path = "/shift")
     public void addShiftToList(@Valid @RequestBody Shift shift){
+        LocalDateTime start = shift.getStartDateTime();
+        for( Vacation v : vacationDao.getVacationsByEmployeeId(shift.getAssignedId())){
+            // for every vacation: if it's not before the start date or after the end date, it's during a vacation
+            if(!(start.isBefore(v.getStartDate().atTime(0, 0)) || start.isAfter(v.getEndDate().atTime(23, 59)))){
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Shift would take place during vacation id " + v.getVacationId());
+            }
+        }
         shiftDao.createShift(shift);
     }
 
