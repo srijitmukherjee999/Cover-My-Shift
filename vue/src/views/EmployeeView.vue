@@ -23,7 +23,7 @@
       <option value="assigned">Assigned</option>
     </select>
 
-    
+  
     <select id = "myList2" v-model="filter.emergency" >Emergency
       <option  id="emergency">--None--</option>
       <option value="true">true</option>
