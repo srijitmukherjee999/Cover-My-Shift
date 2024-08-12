@@ -395,7 +395,6 @@ h1 {
   flex: 1 1 auto;
   border-radius: 5px;
   text-align: center;
-  font-weight: bold;
 }
 
 .fixed-header {
