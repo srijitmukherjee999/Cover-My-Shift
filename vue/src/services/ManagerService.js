@@ -2,7 +2,7 @@ import axios from "axios";
 
 export default{
     acceptRejectRequest(approvalDto){
-        return axios.put('/manage/shifts', approvalDto)
+        return axios.put('/manage/shifts', approvalDto, { method: 'PUT'})
     },
 
     acceptDayOffRequest(id,status){
