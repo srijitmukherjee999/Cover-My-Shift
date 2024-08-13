@@ -86,7 +86,7 @@ export default {
     },
 
     getPendingVacationRequests(){
-      ShiftService.getVacationByStatus(1).then(response => {
+      ShiftService.getVacationByStatus(1,true).then(response => {
 
         this.listOfPendingVacationRequests = response.data;
 

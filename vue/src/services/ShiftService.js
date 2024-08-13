@@ -70,8 +70,8 @@ export default {
       return axios.post('/vacations', vacation)
    },
 
-   getVacationByStatus(status){
-      return axios.get(`/vacations?status=${status}`);
+   getVacationByStatus(status,mine){
+      return axios.get(`/vacations?status=${status}&mine=${mine}`);
    }
 
 
