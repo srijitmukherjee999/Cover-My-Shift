@@ -143,6 +143,18 @@ public class JdbcShiftDao implements ShiftDao{
         }
     }
 
+    @Override
+    public void cleanupShift(){
+        try {
+            jdbcTemplate.update("DELETE FROM shift WHERE start_date_time < (CURRENT_DATE - 7);");
+            jdbcTemplate.update("UPDATE shift SET emergency = true WHERE start_date_time < (LOCALTIMESTAMP + interval '1 day');");
+        } catch (CannotGetJdbcConnectionException e) {
+            throw new DaoException("Unable to connect to server or database", e);
+        } catch (DataIntegrityViolationException e) {
+            throw new DaoException("Data integrity violation", e);
+        }
+    }
+
 
     /*if(rowSet.getDate("start_date_time") !=null) {
         shift.setStartDateTime(rowSet.getTimestamp("start_date_time").toLocalDateTime());

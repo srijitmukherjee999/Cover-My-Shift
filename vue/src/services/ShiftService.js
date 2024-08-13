@@ -74,6 +74,10 @@ export default {
       return axios.get(`user/${userId}/hours`, week);
    },
 
+   getVacationByStatus(status,mine){
+      return axios.get(`/vacations?status=${status}&mine=${mine}`);
+   }
+
 
 
 }

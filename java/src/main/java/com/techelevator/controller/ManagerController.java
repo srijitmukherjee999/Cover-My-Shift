@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
+import java.security.Principal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
@@ -34,6 +35,12 @@ public class ManagerController {
     public User getUserById(@PathVariable int userId) {
         return userDao.getUserById(userId);
     }
+
+    @GetMapping(path = "/user/username")
+    public User getUserByUsername(Principal principal){
+        return userDao.getUserByUsername(principal.getName());
+    }
+
 
     @GetMapping(path = "/user/{userId}/hours")
     public int getHoursById(@PathVariable int userId, @RequestParam String week) {

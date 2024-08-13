@@ -7,46 +7,55 @@
         <div class="overlay"></div>
         <div class="content">
           <employee-navigation />
-          <request-off-form />
-
+          <!-- <request-off-form /> -->
+          <section>
+    <div id="form-body">
+  <form class="request-off-form" v-on:submit.prevent="addNewRequest" v-if="showForm">
+      <input type="date" class="start-date-input" placeholder="Date" v-model="newRequest.startDate">
+      <input type="date" class="end-date-input" placeholder="Date" v-model="newRequest.endDate">
+      <input type="text" class="description-input" placeholder="description" v-model="newRequest.description">
+      <button type="submit" >Submit Request</button>
+    </form>
+    
+    <button class="requestOffButton" v-else @click="toggleForm">Request Time Off</button>
+    
+</div>
+</section>
           <h2>Your Pending Vacation Requests:</h2>
         </div>
 
-        <!-- <div class="scrollable-container">
+        <div class="scrollable-container">
           <div class="scrollable-content">
             <div class="content">
               <div
                 id="data"
-                v-for="shift in listOfPendingRequests"
-                v-bind:key="shift.shiftId"
+                v-for=" vacation in listOfPendingVacationRequests"
+                v-bind:key="vacation.vacationId"
               >
                 <div class="together">
                   <div
                     class="bubble"
-                    :class="{
-                      emergency: shift.emergency && shift.status == 3,
-                      green: shift.status == 4 || shift.status == 1,
-                    }"
+                    
                   >
                     <div id="shiftObjects">
-                      <p class="bubble-title">Name: {{ shift.assignedName }}</p>
+                      <p class="bubble-title"> {{ vacation.employeeName }}</p>
                     </div>
 
                     <div id="shiftObjects">
                       <p class="bubble-title">
-                        Start Time: {{ shift.startDateTime }}
+                         {{ vacation.startDate  }}
                       </p>
                     </div>
 
                     <div id="shiftObjects">
                       <p class="bubble-title">
-                        Duration: {{ shift.duration }} <span>hours</span>
+                        {{vacation.endDate }} 
                       </p>
                     </div>
 
                     <div id="shiftObjects">
                       <p class="bubble-title">
-                        Emergency: {{ shift.emergency }}
+                        Description: {{ vacation.description }}
                       </p>
                     </div>
                   </div>
@@ -54,7 +63,7 @@
               </div>
             </div>
           </div>
-        </div> -->
+        </div>
       </div>
     </div>
   </section>
@@ -64,31 +73,26 @@
 import CompanyHeader from "../components/CompanyHeader.vue";
 import EmployeeGreeting from "../components/EmployeeGreeting.vue";
 import EmployeeNavigation from "../components/EmployeeNavigation.vue";
-import RequestOffForm from "../components/RequestOffForm.vue";
+
 import ShiftService from "../services/ShiftService";
 export default {
   data() {
     return {
       name: "",
+      listOfPendingVacationRequests: [],
+      showForm: true,
+        newRequest: {
+            startDate: '',
+            endDate: '',
+            description: '',
+            status: 1,
+        },
+       
 
-      // listOfPendingRequests: [
-      //   {
-      //     assignedName: "",
-      //     shiftId: 0,
-      //     assigned: 0,
-      //     startDateTime: "",
-      //     duration: 0,
-      //     status: 0,
-      //     emergency: false,
-      //     coverer: 0,
-      //     covererName: "",
-      //     description: "",
-      //   },
-      // ],
     };
   },
   components: {
-    RequestOffForm,
+   
     CompanyHeader,
     EmployeeGreeting,
     EmployeeNavigation,
@@ -102,22 +106,72 @@ export default {
       });
     },
 
-    // getMyShiftPendingRequests() {
-    //   ShiftService.getMyShiftsByUncoveredRequest(true, 2).then((response) => {
-    //     this.listOfPendingRequests = response.data;
-    //   });
-    // },
+    getPendingVacationRequests(){
+      ShiftService.getVacationByStatus(1,true).then(response => {
+
+        this.listOfPendingVacationRequests = response.data;
+
+      })
+    },
+    addNewRequest() {
+
+    const vacationRequest = {
+    employeeId: this.$store.state.user.id,
+    startDate: this.newRequest.startDate,
+    endDate: this.newRequest.endDate,
+    status: 1,
+    description: this.newRequest.description
+};
+
+ShiftService.createVacationRequest(vacationRequest).then(response => {
+    if (response.status === 201) {
+        alert("Vacation request submitted and is pending management review.");
+        this.clearForm();
+    } else {
+        alert("There was an error submitting your request.");
+    }
+}).catch(error => {
+    console.error("Error creating vacation request:", error);
+    alert("There was an error submitting your request.");
+});
+this.getPendingVacationRequests();
+},
+clearForm() {
+this.newRequest = {
+    startDate: '',
+    endDate: '',
+    description: ''
+};
+this.showForm = false;
+},
+toggleForm() {
+this.showForm = !this.showForm;
+},
+
+    
     convertStatus(status) {
       if (status == 1) return "assigned";
       if (status == 2) return "uncovered request";
       if (status === 3) return "uncovered";
       if (status == 4) return "covered";
     },
+    formatDate(dateTime) {
+      const options = {
+        weekday: 'long', // "Monday"
+        year: 'numeric', // "2024"
+        month: 'long', // "August"
+        day: 'numeric', // "20"
+        hour: 'numeric', // "4 PM"
+        minute: 'numeric', // "00"
+        hour12: true, // Use 12-hour time format
+      };
+      return new Date(dateTime).toLocaleString('en-US', options);
+    },
     
   },
   created() {
     this.getFullName();
-    // this.getMyShiftPendingRequests();
+    this.getPendingVacationRequests();
   },
 };
 </script>
@@ -260,5 +314,90 @@ h2 {
 .content {
   position: relative;
   z-index: 1;
+}
+
+#form-body {
+  padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+form {
+    display: flex;
+  flex-direction: row;
+  align-items: center;
+  align-content: center;
+  gap: 20px;
+}
+
+.request-off-form {
+    background-color: orange; 
+  color: white;
+  border-radius: 50px; 
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-content: center; 
+  text-align: center; 
+  box-sizing: border-box;
+  transition: transform 0.3s, box-shadow 0.3s;
+  gap: 20px;    
+}
+
+input[type="text"] {
+  width: 200px;
+  height: 50px;
+  padding: 10px;
+  font-size: 18px;
+  border: 2px solid #000;
+  border-radius: 5px;
+  text-align: center;
+}
+
+
+input[type="date"] {
+  width: 200px;
+  height: 50px;
+  padding: 10px;
+  font-size: 18px;
+  border: 2px solid #000;
+  border-radius: 5px;
+  text-align: center; 
+}
+
+button[type="submit"] {
+  width: 200px;
+  height: 50px;
+  padding: 10px;
+  font-size: 18px;
+  border: 2px solid #000;
+  border-radius: 5px;
+  text-align: center;
+}
+
+button:hover {
+    transform: scale(1.05); 
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+  background-color: lightgray;
+}
+
+.requestOffButton {
+    display: inline;
+    margin: auto;
+    font-size: larger;
+    color: Orange;
+    font-weight: bold;
+    border-radius: 50px;
+    padding: 20px;
+    box-shadow: 0 4px 8px;
+    max-width: 100%; 
+    transition: transform 0.3s, box-shadow 0.3s;
+    font: bold;
+    border-color: orange;
+    border-width: 20px;
 }
 </style>
