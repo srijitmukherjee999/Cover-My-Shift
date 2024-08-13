@@ -124,7 +124,8 @@ label {
   font-size: 9rem; 
   box-sizing: border-box;
   text-shadow: 10px;
-  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif; 
+  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+  animation: glow 2.5s infinite alternate; 
 }
 
 @media (max-width: 1024px) {
@@ -202,6 +203,11 @@ label {
   padding: 20px;
 }
 
+@keyframes glow {
+    0% { text-shadow: 0 0 5px silver; }
+    50% { text-shadow: 0 0 20px silver, 0 0 30px silver; }
+    100% { text-shadow: 0 0 5px silver; }
+}
 
 
 </style>
