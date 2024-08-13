@@ -37,10 +37,14 @@
               </select>
               <button type="button" @click="clearForm">Clear</button>
             </div>
+            <button v-if="showButton" @click="getMyShiftPendingRequests" >My Pending Requests</button>
+            <button v-else @click="toggleButton" >My Shifts</button>
           </div>
         </div>
 
-        <div class="scrollable-container">
+
+
+        <div v-if="showButton" class="scrollable-container">
           <div class="scrollable-content">
             <div class="content">
               <div
@@ -87,6 +91,51 @@
             </div>
           </div>
         </div>
+        
+
+        <div v-if="!showButton" class="scrollable-container">
+          <div class="scrollable-content">
+            <div class="content">
+              <div
+                id="data"
+                v-for="shift in listOfPendingRequests"
+                v-bind:key="shift.shiftId"
+              >
+                <div class="together">
+                  <div
+                    class="bubble"
+                    :class="{
+                      emergency: shift.emergency && shift.status == 3,
+                      green: shift.status == 4 || shift.status == 1,
+                    }"
+                  >
+                    <div id="shiftObjects">
+                      <p class="bubble-title">Name: {{ shift.assignedName }}</p>
+                    </div>
+
+                    <div id="shiftObjects">
+                      <p class="bubble-title">
+                        Start Time: {{ shift.startDateTime }}
+                      </p>
+                    </div>
+
+                    <div id="shiftObjects">
+                      <p class="bubble-title">
+                        Duration: {{ shift.duration }} <span>hours</span>
+                      </p>
+                    </div>
+
+                    <div id="shiftObjects">
+                      <p class="bubble-title">
+                        Emergency: {{ shift.emergency }}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -118,6 +167,7 @@ export default {
           description: "",
         },
       ],
+      listOfPendingRequests: [],
       myFilter: {
         
         startDateTime: "",
@@ -125,12 +175,20 @@ export default {
         status: "--None--",
         emergency: "--None--",
       },
+      showButton: true
     };
   },
   methods: {
     getMyShifts() {
       ShiftService.getMyShifts(true).then((response) => {
         this.listOfMyShifts = response.data;
+      });
+    },
+    getMyShiftPendingRequests() {
+      console.log("hello")
+      ShiftService.getMyShiftsByUncoveredRequest(true, 2).then((response) => {
+        this.listOfPendingRequests = response.data;
+        this.showButton = false;
       });
     },
     convertStatus(status) {
@@ -167,6 +225,10 @@ export default {
         emergency: "--None--",
       };
     },
+    toggleButton(){
+      this.showButton = !this.showButton;
+      this.listOfPendingRequests = [];
+    }
   },
   computed: {
     filteredMyList() {
@@ -203,6 +265,7 @@ export default {
   created() {
     this.getMyShifts();
     this.getFullName();
+    
   },
 };
 </script>
