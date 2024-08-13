@@ -138,8 +138,12 @@ public class EmployeeController {
     }
 
     @GetMapping(path = "/vacations")
-    public List<Vacation> getVacations(){
-        return vacationDao.getVacations();
+    public List<Vacation> getVacations(@RequestParam(required = false, defaultValue = "0") int status){
+        List<Vacation> vacations = vacationDao.getVacations();
+        if(status > 0) { // if filtering by status...
+            vacations.removeIf(v -> v.getStatus() != status); // if status is not specified status, remove
+        }
+        return vacations;
     }
 
     @GetMapping(path = "/vacations/{id}")

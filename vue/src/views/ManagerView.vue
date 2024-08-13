@@ -93,6 +93,7 @@ export default {
   data() {
     return {
       name: "",
+    
       shiftInputs: {
         startDate: "",
         endDate: "",
@@ -136,8 +137,24 @@ export default {
       return this.selectedUsers.includes(userId);
     },
 
+    showNewShiftAddedAlert(userId){
+       const listOfSelectedUsers = [];
+       listOfSelectedUsers.push(userId);
+
+      listOfSelectedUsers.forEach(userId => {
+
+        alert(`Shift/s has been added to employee ${userId}`);
+      })
+
+      
+
+    },
+
     submitShifts() {
+     
+      let x = 0 ;
       this.selectedUsers.forEach((userId) => {
+       
         let startDate = new Date(this.shiftInputs.startDate);
         const endDate = this.shiftInputs.endDate
           ? new Date(this.shiftInputs.endDate)
@@ -159,14 +176,20 @@ export default {
 
           ShiftService.createShift(newShift).then((response) => {
             if (response.status === 201) {
-              alert(`Shift has been added to employee ${userId}`);
+              if(x == 0){
+             this.showNewShiftAddedAlert(userId);
+             x++;
+              }
+             
             }
           });
 
           startDate.setDate(startDate.getDate() + 1);
+          
         }
       });
 
+      this.shiftInputs = {};
       this.selectedUsers = [];
     },
 
@@ -211,19 +234,18 @@ ShiftNotifications() {
         const shifts = response.data;
         const now = new Date();
         const deadline = new Date(now.getTime() + (48 * 60 * 60 * 1000));
-        console.log(deadline); // print to check
-        console.log("hello"); // check if you show what is needed
+        
 
         const filteredShifts = shifts.filter((shift) => { 
             const shiftDate = new Date(shift.startDateTime);
-            console.log(shift.startDateTime);
+          
             return shift.status == 3 && shiftDate <= deadline && shiftDate >= now;
         });
-        console.log(filteredShifts.length);
+       
 
         if (filteredShifts.length > 0) {  
             // Show a single alert with the count of uncovered shifts
-            alert(`You have ${filteredShifts.length} uncovered shift(s) upcoming.`);
+            alert(`There are ${filteredShifts.length} uncovered shift(s) upcoming.`);
         }
     });
 }

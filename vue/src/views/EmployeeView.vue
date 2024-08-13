@@ -59,18 +59,18 @@
                     }"
                   >
                     <div id="shiftObjects1">
-                      <p class="bubble-title">Name: {{ shift.assignedName }}</p>
+                      <p class="bubble-title">{{ shift.assignedName }}</p>
                     </div>
 
                     <div id="shiftObjects2">
                       <p class="bubble-title">
-                        Start Time: {{ shift.startDateTime }}
+                        {{ formatDate(shift.startDateTime) }}
                       </p>
                     </div>
 
                     <div id="shiftObjects3">
                       <p class="bubble-title">
-                        Duration: {{ shift.duration }} <span>hours</span>
+                        {{ shift.duration }} <span>Hours</span>
                       </p>
                     </div>
 
@@ -188,6 +188,18 @@ export default {
         status: "--None--",
         emergency: "--None--",
       };
+    },
+    formatDate(dateTime) {
+      const options = {
+        weekday: 'long', // "Monday"
+        year: 'numeric', // "2024"
+        month: 'long', // "August"
+        day: 'numeric', // "20"
+        hour: 'numeric', // "4 PM"
+        minute: 'numeric', // "00"
+        hour12: true, // Use 12-hour time format
+      };
+      return new Date(dateTime).toLocaleString('en-US', options);
     },
   },
 
