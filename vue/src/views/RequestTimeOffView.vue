@@ -113,6 +113,7 @@ export default {
       if (status === 3) return "uncovered";
       if (status == 4) return "covered";
     },
+    
   },
   created() {
     this.getFullName();
@@ -242,7 +243,7 @@ h2 {
 
 .scrollable-container {
   position: fixed;
-  top: 620px; /* Adjust this based on your header height */
+  top: 25em; /* Adjust this based on your header height */
   left: 0;
   right: 0;
   bottom: 0;
