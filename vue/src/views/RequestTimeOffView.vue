@@ -126,15 +126,17 @@ export default {
 ShiftService.createVacationRequest(vacationRequest).then(response => {
     if (response.status === 201) {
         alert("Vacation request submitted and is pending management review.");
-        this.clearForm();
+        this.clearForm();    
+        this.getPendingVacationRequests();
+
     } else {
         alert("There was an error submitting your request.");
     }
+
 }).catch(error => {
     console.error("Error creating vacation request:", error);
     alert("There was an error submitting your request.");
 });
-this.getPendingVacationRequests();
 },
 clearForm() {
 this.newRequest = {

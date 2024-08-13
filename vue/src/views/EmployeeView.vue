@@ -308,21 +308,6 @@ export default {
   flex-wrap: wrap;
 }
 
-@media (max-width: 600px) {
-  .container {
-    flex-direction: column;
-  }
-  .scrollable-container {
-  position: fixed;
-  top: 40em; /* Adjust this based on your header height */
-  left: 0;
-  right: 0;
-  bottom: 0;
-  overflow: hidden;
-  z-index: 1; /* Less than header */
-}
-}
-
 .bubble-title {
   font-weight: bold;
   flex: 1 1 auto;
@@ -368,25 +353,24 @@ export default {
 }
 
 #search-shifts {
+  position: relative;
+  width: 90%; /* Adjust width as needed */
   margin: auto;
-  width: 80%;
-  padding: 20px;
-}
-
-.filter {
+  padding: 10px;
   background-color: orange;
   color: white;
   border-radius: 50px;
-  padding: 20px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  z-index: 10; /* Ensure it's on top of other elements */
+}
+
+.filter {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
   text-align: center;
-  box-sizing: border-box;
-  transition: transform 0.3s, box-shadow 0.3s;
-  gap: 20px;
+  gap: 10px; /* Adjust gap as needed */
 }
 
 input[type="text"] {
@@ -471,6 +455,7 @@ h1 {
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
+  background-attachment: fixed; /* Fixed by default */
 }
 
 .overlay {
@@ -478,7 +463,7 @@ h1 {
   top: 0;
   left: 0;
   width: 100%;
-  height: 100vh;
+  height: 100%;
   background: rgba(0, 0, 0, 0.8);
   z-index: 1;
 }
@@ -489,16 +474,16 @@ h1 {
   left: 0;
   width: 100%;
   background: rgb(255, 255, 255);
-  /* Ensure visibility if needed */
+  z-index: 2;
 }
 
 .scrollable-container {
   position: fixed;
-  top: 21em; /* Adjust this based on your header height */
+  top: 19em; /* Adjust this based on your header height */
   left: 0;
   right: 0;
   bottom: 0;
-  overflow: hidden;
+  overflow-y: auto;
   z-index: 1; /* Less than header */
 }
 
@@ -511,6 +496,90 @@ h1 {
 .content {
   position: relative;
   z-index: 1; /* Make sure it's behind the fixed header */
+}
+
+section {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+@media (max-width: 600px) {
+
+  section {
+    overflow: auto; /* Enable scrolling */
+  }
+
+
+  .scrollable-container {
+    position: relative; /* Adjust positioning to allow scrolling */
+    overflow-y: auto; /* Allow scrolling */
+    top: 0; /* Reset top position */
+  }
+  #search-shifts {
+    display: flex;
+    width: 55%; /* Make the search shifts section take more width on smaller screens */
+    padding: 2px;
+    z-index: 2;
+  }
+
+  .filter {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: flex-start;
+    padding: 10px;
+  }
+
+  input[type="text"], input[type="date"], select, [type="button"] {
+    width: 100%;
+    height: auto; /* Adjust height for better fit */
+    margin-bottom: 2px; /* Add margin for spacing between elements */
+  }
+
+  .bubble {
+    flex-direction: column; /* Stack elements vertically in smaller screens */
+    padding: 15px;
+  }
+
+  .bubble-title {
+    font-size: 16px; /* Smaller text size */
+    padding: 10px;
+  }
+
+  #backImage {
+  background-attachment: scroll;
+  background-repeat: repeat;
+}
+}
+
+/* For even smaller screens */
+@media (max-width: 400px) {
+
+  section {
+    overflow: auto; /* Enable scrolling */
+  }
+  .bubble-title {
+    font-size: 14px; /* Further reduce text size */
+  }
+
+  .filter input[type="text"], 
+  .filter input[type="date"], 
+  .filter select, 
+  .filter [type="button"] {
+    font-size: 16px; /* Adjust font size for better readability */
+  }
+
+  #backImage {
+    background-attachment: scroll;
+    background-repeat: repeat; /* Ensure scroll behavior on very small screens */
+  }
+
+  .scrollable-container {
+    position: relative; /* Adjust positioning to allow scrolling */
+    overflow-y: auto; /* Allow scrolling */
+    top: 0; /* Reset top position */
+  }
 }
 </style>
 
