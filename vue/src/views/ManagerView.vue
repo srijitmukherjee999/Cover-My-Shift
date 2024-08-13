@@ -201,35 +201,64 @@ export default {
 
 
 ////////////////////////////////////////////////////////////////////////
-      ShiftNotifications() {
+
+
+
+// ShiftNotifications() {
+//     ShiftService.getShifts().then((response) => {
+//       let count = 0;
+//       const shifts = response.data;
+//       const now = new Date();
+//       const deadline = new Date(now.getTime() + (48 * 60 * 60 * 1000));
+//       console.log(deadline); // print to check
+//       console.log("hello"); ///check if you show what is needed
+
+//       const filteredShifts = shifts.filter((shift) => { 
+//         const shiftDate = new Date(shift.startDateTime);
+//         console.log(shift.startDateTime);
+//         return shift.status == 3 && shiftDate <= deadline && shiftDate >= now;
+//       });
+//       console.log(filteredShifts.length);
+
+//       if (filteredShifts.length > 0) {  // Show notification alert for matching shifts
+//           filteredShifts.forEach((shift) => {
+//           const shiftDate = new Date(shift.startDateTime).toLocaleString();
+//           alert(`Uncovered Shift Reminder: Shift "${shift.description}" is scheduled on ${shiftDate}.`);
+//         });
+//       }
+//     });
+//   },
+
+ShiftNotifications() {
     ShiftService.getShifts().then((response) => {
-      const shifts = response.data;
-      const now = new Date();
-      const upcomingDeadline = new Date(now.getTime() + (48 * 60 * 60 * 1000));
+        const shifts = response.data;
+        const now = new Date();
+        const deadline = new Date(now.getTime() + (48 * 60 * 60 * 1000));
+        
 
-      console.log(upcomingDeadline); ///check if you show what is needed
-
-      const filteredShifts = shifts.filter((shift) => { 
-        const shiftDate = new Date(shift.startDate);
-        return shift.status == 3 && shiftDate <= upcomingDeadline && shiftDate >= now;
-      });
-
-      if (filteredShifts.length > 0) {  // Show notification alert for matching shifts
-        filteredShifts.forEach((shift) => {
-          const shiftDate = new Date(shift.startDate).toLocaleString();
-          alert(`Uncovered Shift Reminder: Shift "${shift.description}" is scheduled on ${shiftDate}.`);
+        const filteredShifts = shifts.filter((shift) => { 
+            const shiftDate = new Date(shift.startDateTime);
+          
+            return shift.status == 3 && shiftDate <= deadline && shiftDate >= now;
         });
-      }
+       
+
+        if (filteredShifts.length > 0) {  
+            // Show a single alert with the count of uncovered shifts
+            alert(`There are ${filteredShifts.length} uncovered shift(s) upcoming.`);
+        }
     });
-  },
+}
+
 },
 
-//////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////
 
   created() {
     this.getAllUsers();
     this.getFullName();
     this.ShiftNotifications();
+   // setInterval(this.checkUncoveredShifts, 60 * 60 * 1000);  //to check every Hour
 
     ///////
     // this.userRole = this.$store.state.user.authorities[0].name;
