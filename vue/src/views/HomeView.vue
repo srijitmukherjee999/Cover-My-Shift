@@ -167,7 +167,7 @@ export default {
   width: auto;
   max-width: 100%;
   margin-top: 5em;
-  color:#4a90e2; 
+  color:#4a91e29c; 
   
 }
 
