@@ -178,13 +178,34 @@ export default {
 
 
 ////////////////////////////////////////////////////////////////////////
+
+// ShiftNotifications() {
+//       const now = new Date();
+//       const deadLine = new Date(now.getTime() + 48 * 60 * 60 * 1000); // 48 hours later
+
+//       ShiftService.getShifts().then((response) => {
+//         const shifts = response.data;
+//         this.uncoveredShifts = shifts.filter((shift) => {
+//           const shiftDate = new Date(shift.startDateTime);
+//           return shiftDate >= now && shiftDate <= deadLine && shift.covererId === null;   // Check if the shift is the next 48 hrs and no coverer
+//         });
+
+//         if (this.uncoveredShifts.length > 0) {
+//           alert(`There are ${this.uncoveredShifts.length} uncovered shifts within the next 48 hours.`);
+//           //alert(`Uncovered Shift Reminder: Shift "${shift.description}" is scheduled on ${shiftDate}.`);
+
+//         }
+//       });
+// },
+
+
 ShiftNotifications() {
     ShiftService.getShifts().then((response) => {
       const shifts = response.data;
       const now = new Date();
       const upcomingDeadline = new Date(now.getTime() + (48 * 60 * 60 * 1000));
 
-      console.log(upcomingDeadline); ///check if you show what is needed
+      console.log("hello"); ///check if you show what is needed
 
       const filteredShifts = shifts.filter((shift) => { 
         const shiftDate = new Date(shift.startDate);
@@ -207,6 +228,7 @@ ShiftNotifications() {
     this.getAllUsers();
     this.getFullName();
     this.ShiftNotifications();
+    setInterval(this.checkUncoveredShifts, 60 * 60 * 1000);  //to check every Hour
 
     ///////
     // this.userRole = this.$store.state.user.authorities[0].name;
