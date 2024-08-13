@@ -138,10 +138,15 @@ public class EmployeeController {
     }
 
     @GetMapping(path = "/vacations")
-    public List<Vacation> getVacations(@RequestParam(required = false, defaultValue = "0") int status){
+    public List<Vacation> getVacations(@RequestParam(required = false, defaultValue = "0") int status, @RequestParam(required=false, defaultValue = "false") boolean mine, Principal principal){
         List<Vacation> vacations = vacationDao.getVacations();
+        User user = userDao.getUserByUsername(principal.getName());
+
         if(status > 0) { // if filtering by status...
             vacations.removeIf(v -> v.getStatus() != status); // if status is not specified status, remove
+        }
+        if(mine){
+            vacations.removeIf(v -> v.getEmployeeId() != user.getId()); 
         }
         return vacations;
     }

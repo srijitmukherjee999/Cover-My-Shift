@@ -311,11 +311,9 @@ ShiftNotifications() {
 .bubble-title {
   font-weight: bold;
   flex: 1 1 auto;
-  padding: 15px;
-  margin: 10px;
+  padding: 20px;
   border-radius: 5px;
   text-align: center;
-  font-weight: bold;
 }
 
 .bubble:hover {
@@ -338,7 +336,7 @@ ShiftNotifications() {
 .add-shift-button {
   border: none;
   border-radius: 20px;
-  padding: 10px 20px;
+  padding: 20px;
   cursor: pointer;
   transition: background-color 0.3s, box-shadow 0.3s;
   margin-left: auto;

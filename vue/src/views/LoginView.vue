@@ -26,7 +26,7 @@
               <input type="password" id="password" v-model="user.password" required />
             </div>
               <button type="submit">Sign in</button>
-            <p><router-link v-bind:to="{ name: 'register' }">Need an account? Sign up.</router-link></p>
+            <p><router-link class="message" v-bind:to="{ name: 'register' }">Need an account? Sign up.</router-link></p>
         </form>
       </div>
     </div>
@@ -124,7 +124,8 @@ label {
   font-size: 9rem; 
   box-sizing: border-box;
   text-shadow: 10px;
-  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif; 
+  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+  animation: glow 2.5s infinite alternate; 
 }
 
 @media (max-width: 1024px) {
@@ -156,7 +157,7 @@ label {
   align-items: center;
   justify-content: center;
   margin: auto;
-  background-color: #4a90e2;
+  background-color: #4a91e2bc;
   box-shadow: 0 0 10px;
   border-radius: 8px;
   width: 20%;
@@ -202,6 +203,15 @@ label {
   padding: 20px;
 }
 
+@keyframes glow {
+    0% { text-shadow: 0 0 5px silver; }
+    50% { text-shadow: 0 0 20px silver, 0 0 30px silver; }
+    100% { text-shadow: 0 0 5px silver; }
+}
+
+.message {
+  color: black;
+}
 
 
 </style>

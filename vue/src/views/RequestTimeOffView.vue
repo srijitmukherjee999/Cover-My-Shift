@@ -12,41 +12,38 @@
           <h2>Your Pending Vacation Requests:</h2>
         </div>
 
-        <!-- <div class="scrollable-container">
+        <div class="scrollable-container">
           <div class="scrollable-content">
             <div class="content">
               <div
                 id="data"
-                v-for="shift in listOfPendingRequests"
-                v-bind:key="shift.shiftId"
+                v-for=" vacation in listOfPendingVacationRequests"
+                v-bind:key="vacation.vacationId"
               >
                 <div class="together">
                   <div
                     class="bubble"
-                    :class="{
-                      emergency: shift.emergency && shift.status == 3,
-                      green: shift.status == 4 || shift.status == 1,
-                    }"
+                    
                   >
                     <div id="shiftObjects">
-                      <p class="bubble-title">Name: {{ shift.assignedName }}</p>
+                      <p class="bubble-title">Name: {{ vacation.employeeName }}</p>
                     </div>
 
                     <div id="shiftObjects">
                       <p class="bubble-title">
-                        Start Time: {{ shift.startDateTime }}
+                        Start Date: {{ vacation.startDate }}
                       </p>
                     </div>
 
                     <div id="shiftObjects">
                       <p class="bubble-title">
-                        Duration: {{ shift.duration }} <span>hours</span>
+                        End Date: {{ vacation.endDate }} <span>hours</span>
                       </p>
                     </div>
 
                     <div id="shiftObjects">
                       <p class="bubble-title">
-                        Emergency: {{ shift.emergency }}
+                        Description: {{ vacation.description }}
                       </p>
                     </div>
                   </div>
@@ -54,7 +51,7 @@
               </div>
             </div>
           </div>
-        </div> -->
+        </div>
       </div>
     </div>
   </section>
@@ -70,21 +67,7 @@ export default {
   data() {
     return {
       name: "",
-
-      // listOfPendingRequests: [
-      //   {
-      //     assignedName: "",
-      //     shiftId: 0,
-      //     assigned: 0,
-      //     startDateTime: "",
-      //     duration: 0,
-      //     status: 0,
-      //     emergency: false,
-      //     coverer: 0,
-      //     covererName: "",
-      //     description: "",
-      //   },
-      // ],
+      listOfPendingVacationRequests: []
     };
   },
   components: {
@@ -102,11 +85,15 @@ export default {
       });
     },
 
-    // getMyShiftPendingRequests() {
-    //   ShiftService.getMyShiftsByUncoveredRequest(true, 2).then((response) => {
-    //     this.listOfPendingRequests = response.data;
-    //   });
-    // },
+    getPendingVacationRequests(){
+      ShiftService.getVacationByStatus(1,true).then(response => {
+
+        this.listOfPendingVacationRequests = response.data;
+
+      })
+    },
+
+    
     convertStatus(status) {
       if (status == 1) return "assigned";
       if (status == 2) return "uncovered request";
@@ -117,7 +104,7 @@ export default {
   },
   created() {
     this.getFullName();
-    // this.getMyShiftPendingRequests();
+    this.getPendingVacationRequests();
   },
 };
 </script>
