@@ -29,6 +29,7 @@ export default {
             description: '',
             status: 1,
         },
+        listOfMyPendingVacationRequests: []
 
     };
 
@@ -56,6 +57,7 @@ methods: {
             console.error("Error creating vacation request:", error);
             alert("There was an error submitting your request.");
         });
+        this.getVacationByPending();
     },
     clearForm() {
         this.newRequest = {
@@ -67,6 +69,16 @@ methods: {
     },
     toggleForm() {
         this.showForm = !this.showForm;
+    },
+
+    getVacationByPending(){
+
+      ShiftService.getVacationByStatus(1,true).then( response => {
+
+            this.listOfMyPendingVacationRequests = response.data;
+
+      })
+
     }
 }
 
