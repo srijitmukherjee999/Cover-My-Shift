@@ -126,14 +126,15 @@ public class EmployeeController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(path = "/vacations")
-    public Vacation createVacationRequest(@Valid @RequestBody Vacation vacation){
+    public Vacation createVacationRequest(@Valid @RequestBody Vacation vacation, Principal principal){
         if(!vacation.getStartDate().isBefore(vacation.getEndDate())){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The vacation's start date must be before the end date.");
         }
         if(vacation.getStartDate().isBefore(LocalDate.now())){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "You can not create a vacation in the past.");
         }
-         return vacationDao.createVacation(vacation);
+        vacation.setEmployeeId(userDao.getUserByUsername(principal.getName()).getId());
+        return vacationDao.createVacation(vacation);
     }
 
     @GetMapping(path = "/vacations")

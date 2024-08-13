@@ -62,13 +62,15 @@ public class ManagerController {
     }
 
     @PutMapping(path = "/vacation/{id}")
-    public Vacation updateVacationStatus(@PathVariable int id, @Valid @RequestBody Vacation update){
-        update.setVacationId(id);
-        try{
-            return vacationDao.updateVacation(update);
-        }catch(DaoException e){
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Vacation #" + id + "not found!!!");
+    public Vacation updateVacationStatus(@PathVariable int id, @RequestParam(required = false, defaultValue = "0") int status, @Valid @RequestBody(required = false) Vacation update){
+        if(status == 2 || status == 3){ // if status is specified in the params, only update that
+            Vacation vacation = vacationDao.getVacationByVacationId(id);
+            vacation.setStatus(status);
         }
+        else if (update != null){
+            update.setVacationId(id);
+        }
+        return vacationDao.updateVacation(update);
     }
 
     @PutMapping(path = "/manage/shifts")
