@@ -13,6 +13,7 @@
       <div class="scrollable-container">
         <div class="scrollable-content">
           <div class="content">
+            <!-- Shift Requests -->
             <div
               id="data"
               v-for="shift in listOfPendingRequests"
@@ -39,11 +40,46 @@
                     >
                       Accept
                     </button>
-                  </div>
-                  <div>
                     <button
                       class="reject-button"
                       @click="denyDayOffRequest(shift.shiftId)"
+                    >
+                      Reject
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Vacation Requests -->
+            <div
+              id="data"
+              v-for="vacation in listOfVacationRequests"
+              v-bind:key="vacation.vacationId"
+            >
+              <div class="together">
+                <div class="bubble">
+                  <div id="vacationObjects1" class="bubble-title">
+                    <p>{{ vacationUsers[vacation.employeeId]?.getFullName }}</p>
+                  </div>
+                  <div id="vacationObjects2" class="bubble-title">
+                    <p>{{ vacation.startDate }}</p>
+                  </div>
+                  <div id="vacationObjects3" class="bubble-title">
+                    <p>{{ vacation.endDate }}</p>
+                  </div>
+                  <div id="vacationObjects4" class="bubble-title">
+                    <p>{{ vacation.description }}</p>
+                  </div>
+                  <div class="bubble-actions">
+                    <button
+                      class="accept-button"
+                      @click="approveVacationRequest(vacation)"
+                    >
+                      Accept
+                    </button>
+                    <button
+                      class="reject-button"
+                      @click="denyVacationRequest(vacation)"
                     >
                       Reject
                     </button>
@@ -58,7 +94,6 @@
   </section>
 </template>
 
-  
 <script>
 import CompanyHeader from "../components/CompanyHeader.vue";
 import ShiftService from "../services/ShiftService";
@@ -71,6 +106,8 @@ export default {
     return {
       name: "",
       listOfPendingRequests: [],
+      listOfVacationRequests: [],
+      vacationUsers: {},
     };
   },
   components: { CompanyHeader, ManagerGreeting, ManagerNavigation },
@@ -81,46 +118,23 @@ export default {
         this.$store.commit("ADD_NAME", this.name);
       });
     },
+    fetchVacationUsers() {
+      this.listOfVacationRequests.forEach((vacation) => {
+        ShiftService.getUserByUserId(vacation.employeeId).then((response) => {
+          this.vacationUsers = response.data;
+        });
+      });
+    },
     getShiftPendingRequests() {
       ShiftService.getShiftsByUncoveredRequest(2).then((response) => {
         this.listOfPendingRequests = response.data;
       });
     },
-    acceptShift(shiftId, employeeId) {
-      const approvalObject = this.createApprovalObject(
-        shiftId,
-        employeeId,
-        true
-      );
-      ManagerService.acceptRejectRequest(approvalObject).then((response) => {
-        if (response.status === 200) {
-          alert(`Accepted shift with ID: ${shiftId}`);
-          this.getMyShiftPendingRequests();
-        }
+    getVacationRequests() {
+      ManagerService.getVacationRequests().then((response) => {
+        this.listOfVacationRequests = response.data;
       });
     },
-    rejectShift(shiftId, employeeId) {
-      const rejectionObject = this.createApprovalObject(
-        shiftId,
-        employeeId,
-        false
-      );
-      ManagerService.acceptRejectRequest(rejectionObject).then((response) => {
-        if (response.status === 200) {
-          alert(`Rejected shift with ID: ${shiftId}`);
-          this.getMyShiftPendingRequests();
-        }
-      });
-    },
-    createApprovalObject(shiftId, employeeId, isApproved) {
-      return {
-        shiftId: shiftId,
-        employeeId: employeeId,
-        approved: isApproved,
-        message: "yes",
-      };
-    },
-
     approveDayOffRequest(id) {
       ManagerService.acceptDayOffRequest(id, 3)
         .then((response) => {
@@ -145,14 +159,51 @@ export default {
           console.error("Error denying day off request:", error);
         });
     },
+    approveVacationRequest(vacationId) {
+      const approvalObject = this.createApprovalObject(vacationId, 2); // 2 for accepted
+      ManagerService.acceptRejectVacationRequest(approvalObject)
+        .then((response) => {
+          if (response.status === 200) {
+            alert("Vacation Request Accepted");
+            this.getVacationRequests();
+          }
+        })
+        .catch((error) => {
+          console.error("Error approving vacation request:", error);
+        });
+    },
+    denyVacationRequest(vacationId) {
+      const rejectionObject = this.createApprovalObject(vacationId, 3); // 3 for rejected
+      ManagerService.acceptRejectVacationRequest(rejectionObject)
+        .then((response) => {
+          if (response.status === 200) {
+            alert("Vacation Request Rejected");
+            this.getVacationRequests();
+          }
+        })
+        .catch((error) => {
+          console.error("Error rejecting vacation request:", error);
+        });
+    },
+    createApprovalObject(vacationId, status) {
+      return {
+        vacationId: vacationId,
+        approved: status,
+        message: "Handled by manager",
+      };
+    },
   },
   created() {
     this.getFullName();
     this.getShiftPendingRequests();
+
+    ManagerService.getVacationRequests().then((response) => {
+      this.listOfVacationRequests = response.data;
+      this.fetchVacationUsers();
+    });
   },
 };
 </script>
-
   
 <style scoped>
 #data {
