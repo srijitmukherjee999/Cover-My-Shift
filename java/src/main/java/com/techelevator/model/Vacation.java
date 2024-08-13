@@ -5,6 +5,7 @@ import java.time.LocalDate;
 public class Vacation {
     private int vacationId;
     private int employeeId;
+    private String employeeName;
     private LocalDate startDate;
     private LocalDate endDate;
     private int status;
@@ -12,9 +13,10 @@ public class Vacation {
 
     public Vacation (){}
 
-    public Vacation(int vacationId, int employeeId, LocalDate startDate, LocalDate endDate, int status, String description) {
+    public Vacation(int vacationId, int employeeId, String employeeName, LocalDate startDate, LocalDate endDate, int status, String description) {
         this.vacationId = vacationId;
         this.employeeId = employeeId;
+        this.employeeName = employeeName;
         this.startDate = startDate;
         this.endDate = endDate;
         this.status = status;
@@ -35,6 +37,14 @@ public class Vacation {
 
     public void setEmployeeId(int employeeId) {
         this.employeeId = employeeId;
+    }
+
+    public String getEmployeeName() {
+        return employeeName;
+    }
+
+    public void setEmployeeName(String employeeName) {
+        this.employeeName = employeeName;
     }
 
     public LocalDate getStartDate() {
