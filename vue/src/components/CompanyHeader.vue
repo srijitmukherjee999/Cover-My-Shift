@@ -51,6 +51,7 @@ button:focus {
   color: #4a90e2;
   display: flex;
   justify-content: space-between;
+  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
 }
 
 </style>
