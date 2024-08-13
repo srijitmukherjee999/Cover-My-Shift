@@ -23,7 +23,7 @@ export default{
         return axios.get('/vacations');
     },
 
-    acceptRejectVacationRequest(vacationId, vacation){
-        return axios.put(`/vacation/${vacationId}`, vacation)
-    }
+    acceptRejectVacationRequest(vacationId, status){
+        return axios.put(`/vacation/${vacationId}?status=${status}`);
+    }    
 }
