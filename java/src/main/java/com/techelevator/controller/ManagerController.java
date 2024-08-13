@@ -63,14 +63,16 @@ public class ManagerController {
 
     @PutMapping(path = "/vacation/{id}")
     public Vacation updateVacationStatus(@PathVariable int id, @RequestParam(required = false, defaultValue = "0") int status, @Valid @RequestBody(required = false) Vacation update){
+        Vacation vacation = null;
         if(status == 2 || status == 3){ // if status is specified in the params, only update that
-            Vacation vacation = vacationDao.getVacationByVacationId(id);
+            vacation = vacationDao.getVacationByVacationId(id);
             vacation.setStatus(status);
         }
         else if (update != null){
             update.setVacationId(id);
+            vacation = update;
         }
-        return vacationDao.updateVacation(update);
+        return vacationDao.updateVacation(vacation);
     }
 
     @PutMapping(path = "/manage/shifts")

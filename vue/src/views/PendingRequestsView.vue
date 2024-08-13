@@ -160,30 +160,28 @@ export default {
         });
     },
     approveVacationRequest(vacationId) {
-      const approvalObject = this.createApprovalObject(vacationId, 2); // 2 for accepted
-      ManagerService.acceptRejectVacationRequest(vacationId, approvalObject)
-        .then((response) => {
-          if (response.status === 200) {
-            alert("Vacation Request Accepted");
-            this.getVacationRequests();
-          }
-        })
-        .catch((error) => {
-          console.error("Error approving vacation request:", error);
-        });
+      ManagerService.acceptRejectVacationRequest(vacationId, 2)  // 2 for accept
+          .then((response) => {
+              if (response.status === 200) {
+                  alert("Vacation Request Accepted");
+                  this.getVacationRequests();
+              }
+          })
+          .catch((error) => {
+              console.error("Error approving vacation request:", error);
+          });
     },
     denyVacationRequest(vacationId) {
-      const rejectionObject = this.createApprovalObject(vacationId, 3); // 3 for rejected
-      ManagerService.acceptRejectVacationRequest(rejectionObject)
-        .then((response) => {
-          if (response.status === 200) {
-            alert("Vacation Request Rejected");
-            this.getVacationRequests();
-          }
-        })
-        .catch((error) => {
-          console.error("Error rejecting vacation request:", error);
-        });
+      ManagerService.acceptRejectVacationRequest(vacationId, 3)  // 3 for reject
+          .then((response) => {
+              if (response.status === 200) {
+                  alert("Vacation Request Rejected");
+                  this.getVacationRequests();
+              }
+          })
+          .catch((error) => {
+              console.error("Error rejecting vacation request:", error);
+          });
     },
     createApprovalObject(vacationId, incomingStatus) {
       return {
