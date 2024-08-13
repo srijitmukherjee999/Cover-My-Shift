@@ -61,11 +61,12 @@ public class ManagerController {
     @PutMapping(path = "/vacation/{id}")
     public Vacation updateVacationStatus(@PathVariable int id, @Valid @RequestBody Vacation update){
         update.setVacationId(id);
-        try{
-            return vacationDao.updateVacation(update);
-        }catch(DaoException e){
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Vacation #" + id + "not found!!!");
-        }
+        return vacationDao.updateVacation(update);
+//        try{
+//            return vacationDao.updateVacation(update);
+//        }catch(DaoException e){
+//            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Vacation #" + id + "not found!!!");
+//        }
     }
 
     @PutMapping(path = "/manage/shifts")
