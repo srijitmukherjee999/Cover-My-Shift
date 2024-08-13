@@ -76,7 +76,11 @@ export default {
 
    getVacationByStatus(status,mine){
       return axios.get(`/vacations?status=${status}&mine=${mine}`);
-   }
+   },
+
+   getUserFromUsername(){
+      return axios.get(`/user/username`);
+   },
 
 
 

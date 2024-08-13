@@ -2,7 +2,7 @@
   <section>
     <div class="yes">
          <h1>Hello {{ name }}</h1>
-        <h1>Hours Worked: {{getHoursWorked(this.$store.state.currentUser.id, getFirstDayOfWeek)}}</h1>
+        <h1>Hours Worked: {{getHoursWorked(user.id, date)}}</h1>
  </div>
   </section>
 </template>
@@ -15,6 +15,8 @@ export default {
 data(){
   return{
     name:'',
+    user: {},
+    date: '',
   }
 },
 methods: {
@@ -32,13 +34,24 @@ getHoursWorked(userId, week){
 },
 getFirstDayOfWeek(){
   var curr = new Date; // get current date
-  return curr.getDate() - curr.getDay(); // First day is the day of the month - the day of the week
+  this.date = curr.getDate() - curr.getDay(); 
+  // First day is the day of the month - the day of the week
+  console.log(this.date)
 },
+
+getUserId(){
+  ShiftService.getUserFromUsername().then(response => {
+    this.user = response.data;
+  })
+}
 
 
 },
 created(){
   this.getFullName();
+  this.getFirstDayOfWeek();
+  this.getUserId();
+  
 }
 
 
