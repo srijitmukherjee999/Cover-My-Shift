@@ -37,10 +37,16 @@
               </select>
               <button type="button" @click="clearForm">Clear</button>
             </div>
+            <div id="pendShiftButton">
+            <button class="myPend" v-if="showButton" @click="getMyShiftPendingRequests" >My Pending Requests</button>
+            <button class="myShifts" v-else @click="toggleButton" >My Shifts</button>
+          </div>
           </div>
         </div>
 
-        <div class="scrollable-container">
+
+
+        <div v-if="showButton" class="scrollable-container">
           <div class="scrollable-content">
             <div class="content">
               <div
@@ -87,6 +93,51 @@
             </div>
           </div>
         </div>
+        
+
+        <div v-if="!showButton" class="scrollable-container">
+          <div class="scrollable-content">
+            <div class="content">
+              <div
+                id="data"
+                v-for="shift in listOfPendingRequests"
+                v-bind:key="shift.shiftId"
+              >
+                <div class="together">
+                  <div
+                    class="bubble"
+                    :class="{
+                      emergency: shift.emergency && shift.status == 3,
+                      green: shift.status == 4 || shift.status == 1,
+                    }"
+                  >
+                    <div id="shiftObjects">
+                      <p class="bubble-title">Name: {{ shift.assignedName }}</p>
+                    </div>
+
+                    <div id="shiftObjects">
+                      <p class="bubble-title">
+                        Start Time: {{ shift.startDateTime }}
+                      </p>
+                    </div>
+
+                    <div id="shiftObjects">
+                      <p class="bubble-title">
+                        Duration: {{ shift.duration }} <span>hours</span>
+                      </p>
+                    </div>
+
+                    <div id="shiftObjects">
+                      <p class="bubble-title">
+                        Emergency: {{ shift.emergency }}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -118,6 +169,7 @@ export default {
           description: "",
         },
       ],
+      listOfPendingRequests: [],
       myFilter: {
         
         startDateTime: "",
@@ -125,12 +177,20 @@ export default {
         status: "--None--",
         emergency: "--None--",
       },
+      showButton: true
     };
   },
   methods: {
     getMyShifts() {
       ShiftService.getMyShifts(true).then((response) => {
         this.listOfMyShifts = response.data;
+      });
+    },
+    getMyShiftPendingRequests() {
+      console.log("hello")
+      ShiftService.getMyShiftsByUncoveredRequest(true, 2).then((response) => {
+        this.listOfPendingRequests = response.data;
+        this.showButton = false;
       });
     },
     convertStatus(status) {
@@ -167,6 +227,10 @@ export default {
         emergency: "--None--",
       };
     },
+    toggleButton(){
+      this.showButton = !this.showButton;
+      this.listOfPendingRequests = [];
+    }
   },
   computed: {
     filteredMyList() {
@@ -203,6 +267,7 @@ export default {
   created() {
     this.getMyShifts();
     this.getFullName();
+    
   },
 };
 </script>
@@ -402,7 +467,7 @@ h1 {
 
 .scrollable-container {
   position: fixed;
-  top: 22em; /* Adjust this based on your header height */
+  top: 32em; /* Adjust this based on your header height */
   left: 0;
   right: 0;
   bottom: 0;
@@ -420,4 +485,51 @@ h1 {
   position: relative;
   z-index: 1; /* Make sure it's behind the fixed header */
 }
+
+#pendShiftButton {
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+  margin: 20px;
+  text-align: center;
+  border-radius: 5px;
+  border-color: red;
+}
+
+#pendShiftButton:hover {
+  transform: scale(1.05);
+}
+
+.myPend {
+  display: inline;
+  margin: auto;
+  font-size: larger;
+  color: orange;
+  font-weight: bold;
+  border-radius: 50px;
+  padding: 20px;
+  box-shadow: 0 4px 8px;
+  max-width: 100%;
+  transition: transform 0.3s, box-shadow 0.3s;
+  font: bold;
+  border-color: orange;
+  border-width: 20px;
+}
+
+.myShifts {
+  display: inline;
+  margin: auto;
+  font-size: larger;
+  color: orange;
+  font-weight: bold;
+  border-radius: 50px;
+  padding: 20px;
+  box-shadow: 0 4px 8px;
+  max-width: 100%;
+  transition: transform 0.3s, box-shadow 0.3s;
+  font: bold;
+  border-color: orange;
+  border-width: 20px;
+}
+
 </style>

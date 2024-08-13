@@ -1,16 +1,15 @@
 package com.techelevator.controller;
 
 import com.techelevator.dao.*;
-import com.techelevator.exception.DaoException;
 import com.techelevator.model.*;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
-import java.security.Principal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeParseException;
 import java.util.List;
 
 @CrossOrigin
@@ -32,8 +31,38 @@ public class ManagerController {
     }
 
     @GetMapping(path = "/user/{userId}")
-    public User getNameByAssignedId(@PathVariable int userId) {
+    public User getUserById(@PathVariable int userId) {
         return userDao.getUserById(userId);
+    }
+
+    @GetMapping(path = "/user/{userId}/hours")
+    public int getHoursById(@PathVariable int userId, @RequestParam String week) {
+        if(userDao.getUserById(userId) == null){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Employee with ID " + userId + " does not exist.");
+        }
+        if(week == null){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Please provide a starting date for the week.");
+        }
+
+        LocalDateTime startOfWeek;
+        LocalDateTime endOfWeek;
+
+        // if no date can be parsed from the string, show bad request
+        try {
+            startOfWeek = LocalDate.parse(week).atTime(0, 0);
+            endOfWeek = LocalDate.parse(week).plusDays(7).atTime(23, 59);
+        } catch (DateTimeParseException e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Please provide a valid date formatted as [yyyy-mm-dd].");
+        }
+
+        int hoursWorked = 0;
+        for(Shift shift : shiftDao.getShiftsByCoverer(userId)){ // iterate through all shifts this user is covering
+            // if shift is between startOfWeek and endOfWeek, add duration to the sum
+            if(shift.getStartDateTime().isAfter(startOfWeek) && shift.getStartDateTime().isBefore(endOfWeek)) {
+                hoursWorked += shift.getDuration();
+            }
+        }
+        return hoursWorked;
     }
 
     @GetMapping(path = "/users")
@@ -48,6 +77,9 @@ public class ManagerController {
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(path = "/shift")
     public void addShiftToList(@Valid @RequestBody Shift shift){
+        if(shift.getDuration() <= 0){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Shift duration must be greater than 0.");
+        }
         LocalDateTime start = shift.getStartDateTime();
         for( Vacation v : vacationDao.getVacationsByEmployeeId(shift.getAssignedId())){
             // for every vacation: if it's not before the start date or after the end date, it's during a vacation
@@ -59,13 +91,17 @@ public class ManagerController {
     }
 
     @PutMapping(path = "/vacation/{id}")
-    public Vacation updateVacationStatus(@PathVariable int id, @Valid @RequestBody Vacation update){
-        update.setVacationId(id);
-        try{
-            return vacationDao.updateVacation(update);
-        }catch(DaoException e){
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Vacation #" + id + "not found!!!");
+    public Vacation updateVacationStatus(@PathVariable int id, @RequestParam(required = false, defaultValue = "0") int status, @Valid @RequestBody(required = false) Vacation update){
+        Vacation vacation = null;
+        if(status == 2 || status == 3){ // if status is specified in the params, only update that
+            vacation = vacationDao.getVacationByVacationId(id);
+            vacation.setStatus(status);
         }
+        else if (update != null){
+            update.setVacationId(id);
+            vacation = update;
+        }
+        return vacationDao.updateVacation(vacation);
     }
 
     @PutMapping(path = "/manage/shifts")

@@ -25,7 +25,7 @@
                     <p>{{ shift.assignedName }}</p>
                   </div>
                   <div id="shiftObjects2" class="bubble-title">
-                    <p>{{ shift.startDateTime }}</p>
+                    <p>{{ formatDate(shift.startDateTime) }}</p>
                   </div>
                   <div id="shiftObjects3" class="bubble-title">
                     <p>{{ shift.duration }} hours</p>
@@ -73,13 +73,13 @@
                   <div class="bubble-actions">
                     <button
                       class="accept-button"
-                      @click="approveVacationRequest(vacation)"
+                      @click="approveVacationRequest(vacation.vacationId)"
                     >
                       Accept
                     </button>
                     <button
                       class="reject-button"
-                      @click="denyVacationRequest(vacation)"
+                      @click="denyVacationRequest(vacation.vacationId)"
                     >
                       Reject
                     </button>
@@ -160,38 +160,47 @@ export default {
         });
     },
     approveVacationRequest(vacationId) {
-      const approvalObject = this.createApprovalObject(vacationId, 2); // 2 for accepted
-      ManagerService.acceptRejectVacationRequest(approvalObject)
-        .then((response) => {
-          if (response.status === 200) {
-            alert("Vacation Request Accepted");
-            this.getVacationRequests();
-          }
-        })
-        .catch((error) => {
-          console.error("Error approving vacation request:", error);
-        });
+      ManagerService.acceptRejectVacationRequest(vacationId, 2)  // 2 for accept
+          .then((response) => {
+              if (response.status === 200) {
+                  alert("Vacation Request Accepted");
+                  this.getVacationRequests();
+              }
+          })
+          .catch((error) => {
+              console.error("Error approving vacation request:", error);
+          });
     },
     denyVacationRequest(vacationId) {
-      const rejectionObject = this.createApprovalObject(vacationId, 3); // 3 for rejected
-      ManagerService.acceptRejectVacationRequest(rejectionObject)
-        .then((response) => {
-          if (response.status === 200) {
-            alert("Vacation Request Rejected");
-            this.getVacationRequests();
-          }
-        })
-        .catch((error) => {
-          console.error("Error rejecting vacation request:", error);
-        });
+      ManagerService.acceptRejectVacationRequest(vacationId, 3)  // 3 for reject
+          .then((response) => {
+              if (response.status === 200) {
+                  alert("Vacation Request Rejected");
+                  this.getVacationRequests();
+              }
+          })
+          .catch((error) => {
+              console.error("Error rejecting vacation request:", error);
+          });
     },
-    createApprovalObject(vacationId, status) {
+    createApprovalObject(vacationId, incomingStatus) {
       return {
         vacationId: vacationId,
-        approved: status,
-        message: "Handled by manager",
+        status: incomingStatus,
       };
     },
+    formatDate(dateTime) {
+    const options = {
+      weekday: 'long', // "Monday"
+      year: 'numeric', // "2024"
+      month: 'long', // "August"
+      day: 'numeric', // "20"
+      hour: 'numeric', // "4 PM"
+      minute: 'numeric', // "00"
+      hour12: true, // Use 12-hour time format
+    };
+    return new Date(dateTime).toLocaleString('en-US', options);
+  },
   },
   created() {
     this.getFullName();
