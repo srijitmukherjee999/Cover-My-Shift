@@ -156,7 +156,8 @@ label {
   max-width: 1200px;
   margin: 2% auto; 
   font-size: 9rem; 
-  box-sizing: border-box; 
+  box-sizing: border-box;
+  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif; 
 }
 
 @media (max-width: 1024px) {
@@ -194,6 +195,7 @@ label {
   width: 20%;
   margin-top: 150px auto;
   min-height: 30vh;
+  
 }
 
 @media (max-width: 768px) {

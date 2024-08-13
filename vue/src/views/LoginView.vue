@@ -123,7 +123,8 @@ label {
   margin: 2% auto; 
   font-size: 9rem; 
   box-sizing: border-box;
-  text-shadow: 10px; 
+  text-shadow: 10px;
+  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif; 
 }
 
 @media (max-width: 1024px) {
