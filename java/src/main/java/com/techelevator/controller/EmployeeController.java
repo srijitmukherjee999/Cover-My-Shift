@@ -11,6 +11,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
 import java.security.Principal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -126,6 +127,12 @@ public class EmployeeController {
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(path = "/vacations")
     public Vacation createVacationRequest(@Valid @RequestBody Vacation vacation){
+        if(!vacation.getStartDate().isBefore(vacation.getEndDate())){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The vacation's start date must be before the end date.");
+        }
+        if(vacation.getStartDate().isBefore(LocalDate.now())){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "You can not create a vacation in the past.");
+        }
          return vacationDao.createVacation(vacation);
     }
 
