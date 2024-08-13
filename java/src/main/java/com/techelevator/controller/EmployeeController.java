@@ -146,7 +146,7 @@ public class EmployeeController {
             vacations.removeIf(v -> v.getStatus() != status); // if status is not specified status, remove
         }
         if(mine){
-            vacations.removeIf(v -> v.getEmployeeId() != user.getId()); 
+            vacations.removeIf(v -> v.getEmployeeId() != user.getId());
         }
         return vacations;
     }
