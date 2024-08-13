@@ -141,9 +141,12 @@ export default {
        const listOfSelectedUsers = [];
        listOfSelectedUsers.push(userId);
 
-      
+      listOfSelectedUsers.forEach(userId => {
 
-      alert(`Shift/s has been added to employee ${userId}`);
+        alert(`Shift/s has been added to employee ${userId}`);
+      })
+
+      
 
     },
 
