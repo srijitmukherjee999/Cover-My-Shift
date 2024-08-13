@@ -14,15 +14,6 @@ INSERT INTO shift (assigned, start_date_time, duration, status, emergency, cover
 ((SELECT user_id FROM users WHERE username = 'klee'), '2024-08-08 07:00:00', 9, 3, FALSE, NULL, 'Uncovered overtime shift'),
 ((SELECT user_id FROM users WHERE username = 'pwhite'), '2024-08-09 08:00:00', 8, 4, TRUE, (SELECT user_id FROM users WHERE username = 'asmith'), 'Emergency shift covered by Alice Smith');
 
-
-
-INSERT INTO hours (employee, week_year, hours_worked) VALUES
-((SELECT user_id FROM users WHERE username = 'jdoe'), 202432, 40),
-((SELECT user_id FROM users WHERE username = 'asmith'), 202432, 35),
-((SELECT user_id FROM users WHERE username = 'mjones'), 202432, 0),
-((SELECT user_id FROM users WHERE username = 'klee'), 202432, 45),
-((SELECT user_id FROM users WHERE username = 'pwhite'), 202432, 38);
-
 INSERT INTO vacation (employee, start_date, end_date, status, description) VALUES
 ((SELECT user_id FROM users WHERE username = 'jdoe'), '2024-08-01', '2024-08-05', 1, 'Description1'),
 ((SELECT user_id FROM users WHERE username = 'asmith'), '2024-08-10', '2024-08-20', 2,'Description2'),
