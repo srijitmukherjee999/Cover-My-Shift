@@ -59,7 +59,7 @@
               <div class="together">
                 <div class="bubble">
                   <div id="vacationObjects1" class="bubble-title">
-                    <p>{{ vacationUsers[vacation.employeeId]?.getFullName }}</p>
+                    <p>{{ vacation.employeeName }}</p>
                   </div>
                   <div id="vacationObjects2" class="bubble-title">
                     <p>{{ vacation.startDate }}</p>
@@ -107,7 +107,7 @@ export default {
       name: "",
       listOfPendingRequests: [],
       listOfVacationRequests: [],
-      vacationUsers: {},
+      vacationUsers: [],
     };
   },
   components: { CompanyHeader, ManagerGreeting, ManagerNavigation },
