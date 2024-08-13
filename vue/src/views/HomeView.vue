@@ -82,7 +82,7 @@ export default {
 }
 
 .login:hover {
-    background: #d83a56;
+    background: silver;
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
 }
 
@@ -130,6 +130,7 @@ export default {
   box-sizing: border-box;
   text-shadow: 10px; 
   font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+  animation: glow 2.5s infinite alternate; 
 }
 
 @media (max-width: 1024px) {
@@ -160,12 +161,13 @@ export default {
   align-items: center;
   justify-content: center;
   margin: 20em;
-  background-color: #4a90e2;
+  background-color: white;
   box-shadow: 0 0 10px;
   border-radius: 50px;
   width: auto;
   max-width: 100%;
   margin-top: 5em;
+  color:#4a90e2; 
   
 }
 
@@ -173,6 +175,12 @@ export default {
 .text-center h3 {
   font-size: 2rem;
   padding: 5px; 
+}
+
+@keyframes glow {
+    0% { text-shadow: 0 0 5px silver; }
+    50% { text-shadow: 0 0 20px silver, 0 0 30px silver; }
+    100% { text-shadow: 0 0 5px silver; }
 }
 
 </style>
