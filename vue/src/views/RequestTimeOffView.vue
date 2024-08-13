@@ -9,10 +9,10 @@
           <employee-navigation />
           <request-off-form />
 
-          <h2>Your Pending Requests:</h2>
+          <h2>Your Pending Vacation Requests:</h2>
         </div>
 
-        <div class="scrollable-container">
+        <!-- <div class="scrollable-container">
           <div class="scrollable-content">
             <div class="content">
               <div
@@ -54,7 +54,7 @@
               </div>
             </div>
           </div>
-        </div>
+        </div> -->
       </div>
     </div>
   </section>
@@ -71,20 +71,20 @@ export default {
     return {
       name: "",
 
-      listOfPendingRequests: [
-        {
-          assignedName: "",
-          shiftId: 0,
-          assigned: 0,
-          startDateTime: "",
-          duration: 0,
-          status: 0,
-          emergency: false,
-          coverer: 0,
-          covererName: "",
-          description: "",
-        },
-      ],
+      // listOfPendingRequests: [
+      //   {
+      //     assignedName: "",
+      //     shiftId: 0,
+      //     assigned: 0,
+      //     startDateTime: "",
+      //     duration: 0,
+      //     status: 0,
+      //     emergency: false,
+      //     coverer: 0,
+      //     covererName: "",
+      //     description: "",
+      //   },
+      // ],
     };
   },
   components: {
@@ -102,11 +102,11 @@ export default {
       });
     },
 
-    getMyShiftPendingRequests() {
-      ShiftService.getMyShiftsByUncoveredRequest(true, 2).then((response) => {
-        this.listOfPendingRequests = response.data;
-      });
-    },
+    // getMyShiftPendingRequests() {
+    //   ShiftService.getMyShiftsByUncoveredRequest(true, 2).then((response) => {
+    //     this.listOfPendingRequests = response.data;
+    //   });
+    // },
     convertStatus(status) {
       if (status == 1) return "assigned";
       if (status == 2) return "uncovered request";
@@ -117,7 +117,7 @@ export default {
   },
   created() {
     this.getFullName();
-    this.getMyShiftPendingRequests();
+    // this.getMyShiftPendingRequests();
   },
 };
 </script>
