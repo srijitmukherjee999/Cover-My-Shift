@@ -93,6 +93,7 @@ export default {
   data() {
     return {
       name: "",
+    
       shiftInputs: {
         startDate: "",
         endDate: "",
@@ -136,8 +137,21 @@ export default {
       return this.selectedUsers.includes(userId);
     },
 
+    showNewShiftAddedAlert(userId){
+       const listOfSelectedUsers = [];
+       listOfSelectedUsers.push(userId);
+
+      
+
+      alert(`Shift/s has been added to employee ${userId}`);
+
+    },
+
     submitShifts() {
+     
+      let x = 0 ;
       this.selectedUsers.forEach((userId) => {
+       
         let startDate = new Date(this.shiftInputs.startDate);
         const endDate = this.shiftInputs.endDate
           ? new Date(this.shiftInputs.endDate)
@@ -159,14 +173,20 @@ export default {
 
           ShiftService.createShift(newShift).then((response) => {
             if (response.status === 201) {
-              alert(`Shift has been added to employee ${userId}`);
+              if(x == 0){
+             this.showNewShiftAddedAlert(userId);
+             x++;
+              }
+             
             }
           });
 
           startDate.setDate(startDate.getDate() + 1);
+          
         }
       });
 
+      this.shiftInputs = {};
       this.selectedUsers = [];
     },
 
@@ -178,7 +198,7 @@ export default {
 
 
 ////////////////////////////////////////////////////////////////////////
-ShiftNotifications() {
+      ShiftNotifications() {
     ShiftService.getShifts().then((response) => {
       const shifts = response.data;
       const now = new Date();
