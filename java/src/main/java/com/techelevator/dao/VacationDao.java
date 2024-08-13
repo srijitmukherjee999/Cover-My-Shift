@@ -13,4 +13,6 @@ public interface VacationDao {
     void deleteVacation(int id);
 
     Vacation getVacationByVacationId( int vacationID);
+
+    void cleanupVacation();
 }
