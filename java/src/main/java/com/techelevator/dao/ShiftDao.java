@@ -8,8 +8,11 @@ public interface ShiftDao {
 
     Shift getShiftById(int shiftId);
     List<Shift> getAllShift();
-    List<Shift> getShiftsByUser(int userId);
+    List<Shift> getShiftsByAssigned(int userId);
     void createShift(Shift shift);
+
+    List<Shift> getShiftsByCoverer(int userId);
+
     Shift updateShift(Shift shift);
 
 }
