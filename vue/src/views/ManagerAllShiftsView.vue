@@ -74,16 +74,16 @@
                     }"
                   >
                     <div id="shiftObjects1">
-                      <p class="bubble-title">Name: {{ shift.assignedName }}</p>
+                      <p class="bubble-title">{{ shift.assignedName }}</p>
                     </div>
                     <div id="shiftObjects2">
                       <p class="bubble-title">
-                        Start Time: {{ shift.startDateTime }}
+                        {{ formatDate(shift.startDateTime) }}
                       </p>
                     </div>
                     <div id="shiftObjects3">
                       <p class="bubble-title">
-                        Duration: {{ shift.duration }} <span>hours</span>
+                        {{ shift.duration }} <span>Hours</span>
                       </p>
                     </div>
                     <div id="shiftObjects4">
@@ -91,11 +91,7 @@
                         Status: {{ convertStatus(shift.status) }}
                       </p>
                     </div>
-                    <div id="shiftObjects5">
-                      <p class="bubble-title">
-                        Emergency: {{ shift.emergency }}
-                      </p>
-                    </div>
+                  
                     <div id="shiftObjects6">
                       <button v-if="shift.status === 3" @click="newPage(shift.shiftId)" class="button-title">
                         Cover Requests:
@@ -115,26 +111,21 @@
                 >
                   <div class="together">
                     <div id="shiftObjects7">
-                      <p class="bubble-title">Name: {{ shift.assignedName }}</p>
+                      <p class="bubble-title">{{ shift.assignedName }}</p>
                     </div>
                     <div id="shiftObjects8">
                       <p class="bubble-title">
-                        Start Time: {{ shift.startDateTime }}
+                        {{ formatDate(shift.startDateTime) }}
                       </p>
                     </div>
                     <div id="shiftObjects9">
                       <p class="bubble-title">
-                        Duration: {{ shift.duration }} <span>hours</span>
+                        {{ shift.duration }} <span>Hours</span>
                       </p>
                     </div>
                     <div id="shiftObjects10">
                       <p class="bubble-title">
                         Status: {{ convertStatus(shift.status) }}
-                      </p>
-                    </div>
-                    <div id="shiftObjects11">
-                      <p class="bubble-title">
-                        Emergency: {{ shift.emergency }}
                       </p>
                     </div>
                   </div>
@@ -173,6 +164,19 @@ export default {
     };
   },
   methods: {
+
+    formatDate(dateTime) {
+    const options = {
+      weekday: 'long', // "Monday"
+      year: 'numeric', // "2024"
+      month: 'long', // "August"
+      day: 'numeric', // "20"
+      hour: 'numeric', // "4 PM"
+      minute: 'numeric', // "00"
+      hour12: true, // Use 12-hour time format
+    };
+    return new Date(dateTime).toLocaleString('en-US', options);
+  },
 
     newPage(shiftId) {
       this.$router.push(`/shift/${shiftId}/cover`)

@@ -50,6 +50,7 @@
                 </div>
               </div>
             </div>
+
             <!-- Vacation Requests -->
             <div
               id="data"
@@ -70,7 +71,15 @@
                   <div id="vacationObjects4" class="bubble-title">
                     <p>{{ vacation.description }}</p>
                   </div>
-                  <div class="bubble-actions">
+
+                  <!-- Conditional Rendering based on Status -->
+                  <div v-if="vacation.status === 2" class="bubble-status">
+                    <p>Accepted Vacation</p>
+                  </div>
+                  <div v-else-if="vacation.status === 3" class="bubble-status">
+                    <p>Rejected Vacation</p>
+                  </div>
+                  <div v-else class="bubble-actions">
                     <button
                       class="accept-button"
                       @click="approveVacationRequest(vacation.vacationId)"
@@ -87,12 +96,14 @@
                 </div>
               </div>
             </div>
+
           </div>
         </div>
       </div>
     </div>
   </section>
 </template>
+
 
 <script>
 import CompanyHeader from "../components/CompanyHeader.vue";
@@ -190,17 +201,17 @@ export default {
       };
     },
     formatDate(dateTime) {
-    const options = {
-      weekday: 'long', // "Monday"
-      year: 'numeric', // "2024"
-      month: 'long', // "August"
-      day: 'numeric', // "20"
-      hour: 'numeric', // "4 PM"
-      minute: 'numeric', // "00"
-      hour12: true, // Use 12-hour time format
-    };
-    return new Date(dateTime).toLocaleString('en-US', options);
-  },
+      const options = {
+        weekday: 'long', // "Monday"
+        year: 'numeric', // "2024"
+        month: 'long', // "August"
+        day: 'numeric', // "20"
+        hour: 'numeric', // "4 PM"
+        minute: 'numeric', // "00"
+        hour12: true, // Use 12-hour time format
+      };
+      return new Date(dateTime).toLocaleString('en-US', options);
+    },
   },
   created() {
     this.getFullName();
@@ -367,4 +378,20 @@ html {
   position: relative;
   z-index: 1; /* Make sure it's behind the fixed header */
 }
+
+.bubble-status {
+  font-weight: bold;
+  flex: 1 1 auto;
+  padding: 15px;
+  margin: 10px;
+  border-radius: 5px;
+  text-align: center;
+  color: white;
+}
+
+.bubble-status p {
+  margin: 0;
+  font-size: 16px;
+}
+
 </style>
