@@ -17,6 +17,10 @@ public class JdbcVacationDao implements VacationDao{
     private final JdbcTemplate jdbcTemplate;
     private final UserDao userDao;
 
+    private final String SQL_SELECT_TEMPLATE = "SELECT vacation_id, employee, users.full_name AS employee_name, start_date, end_date, status, description" +
+            " FROM vacation" +
+            " JOIN users ON vacation.employee = users.user_id";
+
     public JdbcVacationDao(JdbcTemplate jdbcTemplate, UserDao userDao) {
         this.jdbcTemplate = jdbcTemplate;
         this.userDao = userDao;
@@ -25,8 +29,7 @@ public class JdbcVacationDao implements VacationDao{
     @Override
     public Vacation getVacationById(int id) {
         Vacation vacation = new Vacation();
-        String sql = "SELECT * FROM vacation" +
-                " WHERE vacation_id = ?;";
+        String sql = SQL_SELECT_TEMPLATE + " WHERE vacation_id = ?;";
         try {
             SqlRowSet result = jdbcTemplate.queryForRowSet(sql, id);
             if (result.next()) {
@@ -42,7 +45,7 @@ public class JdbcVacationDao implements VacationDao{
     @Override
     public List<Vacation> getVacationsByEmployeeId(int employeeId){
         List<Vacation> vacations = new ArrayList<>();
-        String sql = "SELECT * FROM vacation WHERE employee = ?;";
+        String sql = SQL_SELECT_TEMPLATE + " WHERE employee = ?;";
 
         try {
             SqlRowSet result = jdbcTemplate.queryForRowSet(sql, employeeId);
@@ -59,7 +62,7 @@ public class JdbcVacationDao implements VacationDao{
     @Override
     public List<Vacation> getVacations() {
         List<Vacation> vacationList = new ArrayList<>();
-        String sql = "SELECT * FROM vacation;";
+        String sql = SQL_SELECT_TEMPLATE;
         try{
             SqlRowSet result = jdbcTemplate.queryForRowSet(sql);
             while(result.next()){
@@ -129,7 +132,7 @@ public class JdbcVacationDao implements VacationDao{
 
     @Override
     public Vacation getVacationByVacationId(int vacationID) {
-        String sql = "SELECT * FROM vacation WHERE vacation_id = ?;" ;
+        String sql = SQL_SELECT_TEMPLATE + " WHERE vacation_id = ?;";
         Vacation vac = null;
 
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql,vacationID);
@@ -143,6 +146,7 @@ public class JdbcVacationDao implements VacationDao{
         Vacation vacation = new Vacation();
         vacation.setVacationId(rowSet.getInt("vacation_id"));
         vacation.setEmployeeId(rowSet.getInt("employee"));
+        vacation.setEmployeeName(rowSet.getString("employee_name"));
         vacation.setStartDate(rowSet.getDate("start_date").toLocalDate());
         vacation.setEndDate(rowSet.getDate("end_date").toLocalDate());
         vacation.setStatus(rowSet.getInt("status"));
