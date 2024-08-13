@@ -34,28 +34,42 @@ export default {
 
 },
 
-methods:{
+methods: {
+    addNewRequest() {
 
-    addNewRequest(){
-        ShiftService.sendTimeOffRequest(this.newRequest).then(response => {
-            if(response.status === 201){
-                alert("Pending Management Review")
+        const vacationRequest = {
+            employeeId: this.$store.state.user.id,
+            startDate: this.newRequest.startDate,
+            endDate: this.newRequest.endDate,
+            status: 1,
+            description: this.newRequest.description
+        };
+
+        ShiftService.createVacationRequest(vacationRequest).then(response => {
+            if (response.status === 201) {
+                alert("Vacation request submitted and is pending management review.");
+                this.clearForm();
+            } else {
+                alert("There was an error submitting your request.");
             }
+        }).catch(error => {
+            console.error("Error creating vacation request:", error);
+            alert("There was an error submitting your request.");
         });
-         this.clearForm();
-         
     },
-    clearForm(){
-        this.newRequest = {}
+    clearForm() {
+        this.newRequest = {
+            startDate: '',
+            endDate: '',
+            description: ''
+        };
         this.showForm = false;
     },
-    toggleForm(){
+    toggleForm() {
         this.showForm = !this.showForm;
     }
-    
-
-
 }
+
 
 }
 </script>

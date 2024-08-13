@@ -113,6 +113,7 @@ export default {
       if (status === 3) return "uncovered";
       if (status == 4) return "covered";
     },
+    
   },
   created() {
     this.getFullName();
