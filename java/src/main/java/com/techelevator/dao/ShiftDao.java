@@ -15,4 +15,5 @@ public interface ShiftDao {
 
     Shift updateShift(Shift shift);
 
+    void cleanupShift();
 }

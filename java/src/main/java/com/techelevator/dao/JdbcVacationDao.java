@@ -144,6 +144,17 @@ public class JdbcVacationDao implements VacationDao{
         return vac;
     }
 
+    @Override
+    public void cleanupVacation(){
+        try {
+            jdbcTemplate.update("DELETE FROM vacation WHERE end_date < CURRENT_DATE;");
+        } catch (CannotGetJdbcConnectionException e) {
+            throw new DaoException("Unable to connect to server or database", e);
+        } catch (DataIntegrityViolationException e) {
+            throw new DaoException("Data integrity violation", e);
+        }
+    }
+
     public Vacation mapRowToVacation(SqlRowSet rowSet){
         Vacation vacation = new Vacation();
         vacation.setVacationId(rowSet.getInt("vacation_id"));

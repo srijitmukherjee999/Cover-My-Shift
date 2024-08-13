@@ -48,7 +48,7 @@
         </div>
 
           <button type="submit">Create Account</button>
-          <p><router-link v-bind:to="{ name: 'login' }">Already have an account? Log in.</router-link></p>
+          <p><router-link class="message" v-bind:to="{ name: 'login' }">Already have an account? Log in.</router-link></p>
         </form>
     </div>
     </div>
@@ -190,7 +190,7 @@ label {
   align-items: center;
   justify-content: center;
   margin: auto;
-  background-color: #4a90e2;
+  background-color: #4a91e2b4;
   box-shadow: 0 0 10px;
   border-radius: 8px;
   width: 20%;
@@ -243,6 +243,10 @@ label {
     0% { text-shadow: 0 0 5px silver; }
     50% { text-shadow: 0 0 20px silver; }
     100% { text-shadow: 0 0 5px silver; }
+}
+
+.message {
+  color: black;
 }
 
 </style>
