@@ -2,7 +2,7 @@
   <section>
     <div class="yes">
          <h1>Hello {{ name }}</h1>
-        <h1>Hours Worked: 40</h1>
+        <h1>Hours Worked: {{getHoursWorked(this.$store.state.currentUser.id, getFirstDayOfWeek)}}</h1>
  </div>
   </section>
 </template>
@@ -14,20 +14,25 @@ import ShiftService from '../services/ShiftService';
 export default {
 data(){
   return{
-    name:''
+    name:'',
   }
 },
 methods: {
  
-  getFullName(){
-
-ShiftService.getUserFullName().then( response => {
-
-         this.name = response.data;
-
-        this.$store.commit("ADD_NAME", this.name);
-})
-
+getFullName(){
+  ShiftService.getUserFullName().then( response => {
+          this.name = response.data;
+          this.$store.commit("ADD_NAME", this.name);
+  })
+},
+getHoursWorked(userId, week){
+  ShiftService.getUserByUserId(userId, week).then(response => {
+    this.hours = response.data;
+  })
+},
+getFirstDayOfWeek(){
+  var curr = new Date; // get current date
+  return curr.getDate() - curr.getDay(); // First day is the day of the month - the day of the week
 },
 
 

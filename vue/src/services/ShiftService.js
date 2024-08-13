@@ -67,7 +67,11 @@ export default {
    },
 
    createVacationRequest(vacation) {
-      return axios.post('/vacations', vacation)
+      return axios.post('/vacations', vacation);
+   },
+
+   getHoursWorkedByUserId(userId, week){
+      return axios.get(`user/${userId}/hours`, week);
    },
 
 
