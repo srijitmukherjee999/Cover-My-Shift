@@ -17,6 +17,13 @@ export default{
     getManagerViewCoverRequests(shiftId){
 
         return axios.get(`shift/${shiftId}/cover`);
-    }
+    },
       
+    getVacationRequests(){
+        return axios.get('/vacations');
+    },
+
+    acceptRejectVacationRequest(vacationId, vacation){
+        return axios.put(`/vacation/${vacationId}`, vacation)
+    }
 }
