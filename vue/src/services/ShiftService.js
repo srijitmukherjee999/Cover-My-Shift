@@ -70,8 +70,8 @@ export default {
       return axios.post('/vacations', vacation);
    },
 
-   getHoursWorkedByUserId(userId, week){
-      return axios.get(`user/${userId}/hours`, week);
+   getHoursWorkedByUserId(userId, date){
+      return axios.get(`user/${userId}/hours?week=${date}`);
    },
 
    getVacationByStatus(status,mine){

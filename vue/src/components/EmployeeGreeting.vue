@@ -2,7 +2,7 @@
   <section>
     <div class="yes">
          <h1>Hello {{ name }}</h1>
-        <h1>Hours Worked: {{getHoursWorked(user.id, date)}}</h1>
+        <h1>Hours Worked: {{hours}}</h1>
  </div>
   </section>
 </template>
@@ -17,6 +17,7 @@ data(){
     name:'',
     user: {},
     date: '',
+    hours: 0,
   }
 },
 methods: {
@@ -27,17 +28,17 @@ getFullName(){
           this.$store.commit("ADD_NAME", this.name);
   })
 },
-getHoursWorked(userId, week){
-  ShiftService.getUserByUserId(userId, week).then(response => {
+getHoursWorked(userId, date){
+  ShiftService.getHoursWorkedByUserId(userId, date).then(response => {
     this.hours = response.data;
   })
 },
-getFirstDayOfWeek(){
-  var curr = new Date; // get current date
-  this.date = curr.getDate() - curr.getDay(); 
-  // First day is the day of the month - the day of the week
-  console.log(this.date)
-},
+getFirstDayOfWeek() {
+      const curr = new Date();
+      const first = curr.getDate() - curr.getDay();
+      const firstDay = new Date(curr.setDate(first));
+      this.date = firstDay.toISOString().split('T')[0]; // Format date as yyyy-mm-dd
+    },
 
 getUserId(){
   ShiftService.getUserFromUsername().then(response => {
