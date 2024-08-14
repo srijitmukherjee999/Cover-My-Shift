@@ -148,14 +148,14 @@ export default {
       const firstDay = new Date(newDate.setDate(first));
       return firstDay.toISOString().split('T')[0];
     },
-  },
 
-  cleanup(){
+    cleanup(){
       ShiftService.getCleanup().then(response => {
 
         response.data;
       })
     },
+  },
 
   created() {
     this.cleanup();
