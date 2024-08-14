@@ -11,32 +11,16 @@
           <div id="shift-inputs">
             <div class="filter">
               <div>
-                <input
-                  type="date"
-                  v-model="shiftInputs.startDate"
-                  placeholder="Start Date"
-                />
+                <input type="date" v-model="shiftInputs.startDate" placeholder="Start Date" :min="dateNow"/>
               </div>
               <div>
-                <input
-                  type="date"
-                  v-model="shiftInputs.endDate"
-                  placeholder="End Date (optional)"
-                />
+                <input type="date" v-model="shiftInputs.endDate" placeholder="End Date (optional)" :min="dateNow"/>
               </div>
               <div>
-                <input
-                  type="time"
-                  v-model="shiftInputs.startTime"
-                  placeholder="Start Time"
-                />
+                <input type="time" v-model="shiftInputs.startTime" placeholder="Start Time" />
               </div>
               <div>
-                <input
-                  type="number"
-                  v-model="shiftInputs.duration"
-                  placeholder="Duration (hours)"
-                />
+                <input type="number" v-model="shiftInputs.duration" placeholder="Duration (hours)" />
               </div>
 
 
@@ -56,17 +40,17 @@
             <div id="data" v-for="user in listOfUsers" :key="user.id">
               <div class="together">
                 <div class="bubble">
-                  <div class="bubble-title">
+                  <div class="bubble-title" v-bind:class="{grey: isShiftBetweenVacation()}" >
                     <p>{{ user.fullName }}</p>
                   </div>
                   <div>
-                    <button
-                      :class="[
-                        'add-shift-button',
-                        isSelected(user.id) ? 'selected-button' : 'add-button',
-                      ]"
-                      @click="toggleSelection(user.id)"
-                    >
+                    <p v-bind:key="user.hours">{{ user.hours }}</p>
+                  </div>
+                  <div>
+                    <button :class="[
+                      'add-shift-button',
+                      isSelected(user.id) ? 'selected-button' : 'add-button',
+                    ]" @click="toggleSelection(user.id)">
                       {{ isSelected(user.id) ? "Selected" : "Add Shift" }}
                     </button>
                   </div>
@@ -80,12 +64,13 @@
   </section>
 </template>
   
-  <script>
+<script>
 import ShiftService from "../services/ShiftService.js";
 import AuthService from "../services/AuthService";
 import CompanyHeader from "../components/CompanyHeader.vue";
 import ManagerNavigation from "../components/ManagerNavigation.vue";
 import ManagerGreeting from "../components/ManagerGreeting.vue";
+import ManagerService from '../services/ManagerService.js';
 
 export default {
   components: { CompanyHeader, ManagerNavigation, ManagerGreeting },
@@ -93,7 +78,7 @@ export default {
   data() {
     return {
       name: "",
-    
+
       shiftInputs: {
         startDate: "",
         endDate: "",
@@ -104,6 +89,16 @@ export default {
       selectedUsers: [],
       userRole: "",
       isManager: false,
+      listOfVacations: [{
+        vacationId: 0,
+        employeeId: 0,
+        employeeName: '',
+        startDate: '',
+        endDate: '',
+        status: 0,
+        description: ''
+
+      }]
     };
   },
 
@@ -113,6 +108,7 @@ export default {
         this.listOfUsers = response.data.map((user) => ({
           ...user,
           showShiftForm: false,
+          hours: "",
         }));
       });
     },
@@ -130,6 +126,7 @@ export default {
         this.name = response.data;
 
         this.$store.commit("ADD_NAME", this.name);
+      
       });
     },
 
@@ -137,28 +134,54 @@ export default {
       return this.selectedUsers.includes(userId);
     },
 
-    showNewShiftAddedAlert(userId){
-       const listOfSelectedUsers = [];
-       listOfSelectedUsers.push(userId);
+    showNewShiftAddedAlert(userId) {
+      const listOfSelectedUsers = [];
+      listOfSelectedUsers.push(userId);
 
       listOfSelectedUsers.forEach(userId => {
 
         alert(`Shift/s has been added to employee ${userId}`);
       })
+    },
 
+    isShiftBetweenVacation(){
       
+      let start = new Date(this.shiftInputs.startDate);
+      let end = start;
+      
+     this.listOfVacations.forEach(e => {
+        console.log(start + ':' + (start>= e.startDate && start <= e.endDate))
+      if((start>= e.startDate && start <= e.endDate) || (end >= e.startDate && end<=e.endDate) || (start<= e.startDate && end >= e.endDate) ){
+        console.log("Hello")
+        return true
+      }else{
+        console.log("END")
+        return false
+      }
 
+     })
+      return false;
+    
+    },
+
+
+    getListOfVacations(){
+      ManagerService.getListOfVacations().then(response => {
+
+            this.listOfVacations = response.data;
+      }
+      )
     },
 
     submitShifts() {
-     
-      let x = 0 ;
+
+      let x = 0;
       this.selectedUsers.forEach((userId) => {
-       
+
         let startDate = new Date(this.shiftInputs.startDate);
-        const endDate = this.shiftInputs.endDate
+        const endDate = this.shiftInputs.endDate // if end date isnt specified, end date is a copy of start date so the loop runs once
           ? new Date(this.shiftInputs.endDate)
-          : startDate;
+          : new Date(startDate); 
 
         while (startDate <= endDate) {
           const startDateTime = new Date(startDate);
@@ -176,16 +199,16 @@ export default {
 
           ShiftService.createShift(newShift).then((response) => {
             if (response.status === 201) {
-              if(x == 0){
-             this.showNewShiftAddedAlert(userId);
-             x++;
+              if (x == 0) {
+                this.showNewShiftAddedAlert(userId);
+                x++;
               }
-             
             }
+
           });
 
           startDate.setDate(startDate.getDate() + 1);
-          
+
         }
       });
 
@@ -193,72 +216,60 @@ export default {
       this.selectedUsers = [];
     },
 
-    //     computed: {
-    //       userRole() {
-    //         return this.$store.state.user.authorities[0].name; // Adapt this based on your state management
-    //   }
-    // }
+    getFirstDayOfWeek(date) {
+      const newDate = new Date(date);
+      const first = newDate.getDate() - newDate.getDay();
+      const firstDay = new Date(newDate.setDate(first));
+      return firstDay.toISOString().split('T')[0];
+    },
 
-
-////////////////////////////////////////////////////////////////////////
-
-
-
-// ShiftNotifications() {
-//     ShiftService.getShifts().then((response) => {
-//       let count = 0;
-//       const shifts = response.data;
-//       const now = new Date();
-//       const deadline = new Date(now.getTime() + (48 * 60 * 60 * 1000));
-//       console.log(deadline); // print to check
-//       console.log("hello"); ///check if you show what is needed
-
-//       const filteredShifts = shifts.filter((shift) => { 
-//         const shiftDate = new Date(shift.startDateTime);
-//         console.log(shift.startDateTime);
-//         return shift.status == 3 && shiftDate <= deadline && shiftDate >= now;
-//       });
-//       console.log(filteredShifts.length);
-
-//       if (filteredShifts.length > 0) {  // Show notification alert for matching shifts
-//           filteredShifts.forEach((shift) => {
-//           const shiftDate = new Date(shift.startDateTime).toLocaleString();
-//           alert(`Uncovered Shift Reminder: Shift "${shift.description}" is scheduled on ${shiftDate}.`);
-//         });
-//       }
-//     });
-//   },
-
-ShiftNotifications() {
-    ShiftService.getShifts().then((response) => {
+    ShiftNotifications() {
+      ShiftService.getShifts().then((response) => {
         const shifts = response.data;
         const now = new Date();
         const deadline = new Date(now.getTime() + (48 * 60 * 60 * 1000));
-        
 
-        const filteredShifts = shifts.filter((shift) => { 
-            const shiftDate = new Date(shift.startDateTime);
-          
-            return shift.status == 3 && shiftDate <= deadline && shiftDate >= now;
+
+        const filteredShifts = shifts.filter((shift) => {
+          const shiftDate = new Date(shift.startDateTime);
+
+          return shift.status == 3 && shiftDate <= deadline && shiftDate >= now;
         });
-       
 
-        if (filteredShifts.length > 0) {  
-            // Show a single alert with the count of uncovered shifts
-            alert(`There are ${filteredShifts.length} uncovered shift(s) upcoming.`);
+
+        if (filteredShifts.length > 0) {
+          // Show a single alert with the count of uncovered shifts
+          alert(`There are ${filteredShifts.length} uncovered shift(s) upcoming.`);
         }
-    });
-}
+      });
+    }
 
-},
+  },
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////
+  computed: {
+
+    dateNow() {
+      const today = new Date(); //current date and time object
+      const year = today.getFullYear(); // get year based on date
+      const month = String(today.getMonth() + 1).padStart(2, '0'); // get month
+      const day = String(today.getDate()).padStart(2, '0'); //get day
+
+      return `${year}-${month}-${day}`;
+    },
+
+    startAndEnd() { // computed property for if the start or end changes, used for watcher
+      return [this.shiftInputs.startDate, this.shiftInputs.endDate];
+    }
+  },
 
   created() {
     this.getAllUsers();
     this.getFullName();
     this.ShiftNotifications();
+    this.getListOfVacations();
+
    // setInterval(this.checkUncoveredShifts, 60 * 60 * 1000);  //to check every Hour
+    // setInterval(this.checkUncoveredShifts, 60 * 60 * 1000);  //to check every Hour
 
     ///////
     // this.userRole = this.$store.state.user.authorities[0].name;
@@ -270,13 +281,46 @@ ShiftNotifications() {
     //   this.getFullName();
     // }
   },
- 
+
+  watch: {
+    startAndEnd() {
+      if(this.shiftInputs.startDate == ""){ // if no start date, set hours to blank and return
+        for(const user of this.listOfUsers){
+          user.hours = ""
+        }
+        return;
+      }
+      let startDate = new Date(this.shiftInputs.startDate);
+      const endDate = this.shiftInputs.endDate // if end date isnt specified, end date is a copy of start date so the loop runs once
+        ? new Date(this.shiftInputs.endDate)
+        : new Date(startDate); 
+      let weeks = [];
+
+      while (startDate <= endDate) { // get all unique starts of week in a date range
+        let firstDay = this.getFirstDayOfWeek(startDate)
+        if(weeks.indexOf(firstDay) == -1){
+          weeks.push(firstDay);
+        }
+        startDate.setDate(startDate.getDate() + 1);
+      }
+      console.log(weeks);
+
+      for(const user of this.listOfUsers){
+        user.hours = "";
+        for(const w of weeks){ // for all unique starts of weeks, show hours worked for that week
+          ShiftService.getHoursWorkedByUserId(user.id, w).then(response => {
+            user.hours += "Hours for week of " + w + ": " + response.data + "\n";
+          })
+        }
+      }
+    }
+  }
 };
-  
-  
+
+
 </script>
   
-  <style scoped>
+<style scoped>
 #data {
   display: inline-block;
   flex-direction: column;
@@ -337,25 +381,30 @@ ShiftNotifications() {
 }
 
 .add-button {
-  background-color: #5cb85c; /* Green */
+  background-color: #5cb85c;
+  /* Green */
 }
 
 .add-button:hover {
-  background-color: #4cae4c; /* Darker green */
+  background-color: #4cae4c;
+  /* Darker green */
 }
 
 .cancel-button {
-  background-color: #d9534f; /* Red */
+  background-color: #d9534f;
+  /* Red */
 }
 
 .cancel-button:hover {
-  background-color: #c9302c; /* Darker red */
+  background-color: #c9302c;
+  /* Darker red */
 }
 
 @keyframes fadeIn {
   from {
     opacity: 0;
   }
+
   to {
     opacity: 1;
   }
@@ -366,7 +415,8 @@ ShiftNotifications() {
   width: 80%;
   max-width: fit-content;
   position: relative;
-  z-index: 2; /* Ensure it is above the overlay but below scrolling content */
+  z-index: 2;
+  /* Ensure it is above the overlay but below scrolling content */
 }
 
 .filter {
@@ -452,7 +502,15 @@ input[type="number"] {
   width: 100%;
   height: 100%;
   background: rgba(0, 0, 0, 0.8);
-  z-index: 1; /* Less than header */
+  z-index: 1;
+  /* Less than header */
+}
+
+
+.grey{
+
+  color: grey;
+
 }
 
 .fixed-header {
@@ -466,7 +524,8 @@ input[type="number"] {
 
 .scrollable-container {
   position: fixed;
-  top: 20em; /* Adjust this based on your header height */
+  top: 20em;
+  /* Adjust this based on your header height */
   left: 0;
   right: 0;
   bottom: 0;

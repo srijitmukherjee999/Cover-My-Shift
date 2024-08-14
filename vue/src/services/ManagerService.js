@@ -25,5 +25,9 @@ export default{
 
     acceptRejectVacationRequest(vacationId, status){
         return axios.put(`/vacation/${vacationId}?status=${status}`);
-    }    
+    },
+    
+    getListOfVacations(){
+        return axios.get(`/vacations`);
+    }
 }
