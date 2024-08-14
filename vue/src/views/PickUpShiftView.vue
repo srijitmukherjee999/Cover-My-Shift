@@ -59,13 +59,7 @@
       <div class="scrollable-container">
         <div class="scrollable-content">
           <div class="content">
-            <div
-              id="data"
-              v-if="showButton"
-              v-for="shift in listOfShiftsByStatus"
-              v-bind:key="shift"
-            >
-              <!-- <router-link :to="{ name: 'shiftdetails', params: { id: shift.shiftId }} "> -->
+            <div id="data" v-if="showButton" v-for="shift in listOfShiftsByStatus" v-bind:key="shift">
               <div class="together">
                 <div
                   class="bubble"
@@ -96,13 +90,10 @@
                     </p>
                   </div>
 
-                  <!-- <div id="shiftObjects5">
-                    <p class="bubble-title">Emergency: {{ shift.emergency }}</p>
-                  </div> -->
-
                   <div id="shiftObjects6">
                     <button
                       class="button-title"
+                       :disabled="isShiftCovered(shift.shiftId)" 
                       @click="coverThisShift(shift.shiftId)"
                     >
                       Cover This Shift
@@ -110,7 +101,6 @@
                   </div>
                 </div>
               </div>
-              <!-- </router-link> -->
             </div>
           </div>
         </div>
@@ -120,33 +110,23 @@
 </template>
 
 
+
 <script>
 import CompanyHeader from "../components/CompanyHeader.vue";
 import EmployeeGreeting from "../components/EmployeeGreeting.vue";
 import EmployeeNavigation from "../components/EmployeeNavigation.vue";
 import ShiftService from "../services/ShiftService";
+
 export default {
   components: { CompanyHeader, EmployeeGreeting, EmployeeNavigation },
 
   data() {
     return {
       showButton: true,
-      listOfShiftsByStatus: [
-        {
-          assignedName: "",
-          shiftId: 0,
-          assigned: 0,
-          startDateTime: "",
-          duration: 0,
-          status: 0,
-          emergency: false,
-          coverer: 0,
-          covererName: "",
-          description: "",
-        },
-      ],
+      listOfShiftsByStatus: [],
       name: "",
       emergencyShifts: [],
+      coverRequests: [],
     };
   },
   methods: {
@@ -165,7 +145,6 @@ export default {
     getFullName() {
       ShiftService.getUserFullName().then((response) => {
         this.name = response.data;
-
         this.$store.commit("ADD_NAME", this.name);
       });
     },
@@ -176,7 +155,6 @@ export default {
       });
     },
 
-    /** <button @click="deleteShift(shift.shiftId)">Delete Shift</button>*/
     deleteShift(shiftId) {
       ShiftService.deleteUserShift(shiftId)
         .then((response) => {
@@ -196,33 +174,44 @@ export default {
       this.showButton = !this.showButton;
       this.emergencyShifts = [];
     },
+    formatDate(dateTime) {
+      const options = {
+        weekday: "long",
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+        hour: "numeric",
+        minute: "numeric",
+        hour12: true,
+      };
+      return new Date(dateTime).toLocaleString("en-US", options);
+    },
     coverThisShift(shiftId) {
       ShiftService.createCoverRequest(shiftId).then((response) => {
         if (response.status === 201) {
           alert(
-            "You have requested to cover this shift.Pending Management decision"
+            "You have requested to cover this shift. Pending Management decision"
           );
           this.getShifts(3);
+          this.getCoverRequests();
         }
       });
     },
-    formatDate(dateTime) {
-      const options = {
-        weekday: 'long', // "Monday"
-        year: 'numeric', // "2024"
-        month: 'long', // "August"
-        day: 'numeric', // "20"
-        hour: 'numeric', // "4 PM"
-        minute: 'numeric', // "00"
-        hour12: true, // Use 12-hour time format
-      };
-      return new Date(dateTime).toLocaleString('en-US', options);
+    getCoverRequests() {
+      ShiftService.getCoverRequestByCovererId().then((response) => {
+        this.coverRequests = response.data;
+      });
     },
+    isShiftCovered(shiftId) {
+      return this.coverRequests.some((request) => request.shiftId === shiftId);
+    },
+
   },
 
   created() {
     this.getShifts(3);
     this.getFullName();
+    this.getCoverRequests();
   },
 };
 </script>
