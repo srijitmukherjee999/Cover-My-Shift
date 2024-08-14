@@ -157,9 +157,10 @@ public class EmployeeController {
     public List<Vacation> getVacationById(@PathVariable int id){
         return vacationDao.getVacationsByEmployeeId(id);
     }
-    @GetMapping(path = "/shift/coverrequest/{id}")
-    public List<CoverRequest> getCoverRequestByCovererId(@PathVariable int id){
-        return coverRequestDao.getCoverRequestByCovererId(id);
+    @GetMapping(path = "/shift/coverrequest")
+    public List<CoverRequest> getCoverRequestByCovererId(Principal principal){
+      int  userId = userDao.getUserByUsername(principal.getName()).getId();
+        return coverRequestDao.getCoverRequestByCovererId(userId);
     }
 
 //    @GetMapping(path = "/user/fullName")

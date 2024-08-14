@@ -537,16 +537,16 @@ section {
   #search-shifts {
     display: flex;
     width: 65%; /* Make the search shifts section take more width on smaller screens */
-    padding: px;
+    padding: 20px;
     z-index: 2;
   }
 
   .filter {
     display: flex;
     flex-direction: row;
-    justify-content: flex-start;
+    justify-content: center;
     align-items: flex-start;
-    padding: 10px;
+    padding: 5px;
   }
 
   input[type="text"], input[type="date"], select, [type="button"] {
@@ -568,6 +568,18 @@ section {
   #backImage {
   background-attachment: scroll;
   background-repeat: repeat;
+  background: transparent;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  z-index: 1;
+  overflow: auto;
 }
 }
 
@@ -596,6 +608,7 @@ section {
     background-attachment: scroll;
     background-repeat: repeat; /* Ensure scroll behavior on very small screens */
     overflow: auto;
+    background: transparent;
   }
 
   .overlay {

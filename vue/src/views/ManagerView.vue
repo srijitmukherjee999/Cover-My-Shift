@@ -292,12 +292,6 @@ export default {
   flex-wrap: wrap;
 }
 
-@media (max-width: 600px) {
-  .container {
-    flex-direction: column;
-  }
-}
-
 .add-shift-button {
   border: none;
   border-radius: 20px;
@@ -412,14 +406,6 @@ input[type="number"] {
   text-align: center;
 }
 
-section,
-html {
-  margin: 0;
-  padding: 0;
-  height: 100%;
-  background: transparent;
-}
-
 #backImage {
   position: relative;
   height: 100vh;
@@ -427,6 +413,7 @@ html {
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
+  background-attachment: fixed; /* Fixed by default */
 }
 
 .overlay {
@@ -445,8 +432,8 @@ html {
   top: 0;
   left: 0;
   width: 100%;
-  z-index: 1000;
   background: white;
+  z-index: 2;
 }
 
 .scrollable-container {
@@ -456,21 +443,152 @@ html {
   left: 0;
   right: 0;
   bottom: 0;
-  overflow: hidden;
-  z-index: 1;
-  /* Less than header */
+  overflow: auto;
+  z-index: 1; /* Less than header */
 }
 
 .scrollable-content {
   height: 100%;
-  overflow-y: auto;
+  overflow: auto;
   padding: 10px;
 }
 
 .content {
   position: relative;
+  z-index: 1; /* Make sure it's behind the fixed header */
+}
+
+section {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+@media (max-width: 600px) {
+
+section {
+  
+  overflow: auto; /* Enable scrolling */
+  
+}
+
+.fixed-header {
+  position: relative;
+  overflow: auto;
+  height: 100vh;
+}
+
+
+.scrollable-container {
+  position: relative; /* Adjust positioning to allow scrolling */
+  overflow: auto; /* Allow scrolling */
+  top: 0; /* Reset top position */
+  padding-bottom: 120px;
+  margin-bottom: 50px;
+}
+#search-shifts {
+  display: flex;
+  width: 65%; /* Make the search shifts section take more width on smaller screens */
+  padding: 20px;
+  z-index: 2;
+}
+
+.filter {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 20px;
+}
+
+input[type="text"], input[type="date"], select, [type="button"] {
+  width: 100%;
+  height: auto; /* Adjust height for better fit */
+  margin-bottom: 2px; /* Add margin for spacing between elements */
+}
+
+.bubble {
+  flex-direction: column; /* Stack elements vertically in smaller screens */
+  padding: 20px;
+}
+
+.bubble-title {
+  font-size: 16px; /* Smaller text size */
+  padding: 10px;
+}
+
+#backImage {
+background-attachment: scroll;
+background-repeat: repeat;
+background: transparent;
+height: 100%;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: transparent;
   z-index: 1;
-  /* Make sure it's behind the fixed header */
+  overflow: auto;
+}
+}
+
+/* For even smaller screens */
+@media (max-width: 400px) {
+
+section {
+  overflow: auto; /* Enable scrolling */
+  height: 100%;
+}
+
+.content {
+  position: relative;
+  z-index: 1; /* Make sure it's behind the fixed header */
+  overflow: auto;
+}
+
+.fixed-header {
+  overflow: auto;
+}
+.bubble-title {
+  font-size: 14px; /* Further reduce text size */
+}
+
+.filter input[type="text"], 
+.filter input[type="date"], 
+.filter select, 
+.filter [type="button"] {
+  font-size: 16px; /* Adjust font size for better readability */
+}
+
+#backImage {
+  background-attachment: scroll;
+  background-repeat: repeat; /* Ensure scroll behavior on very small screens */
+  overflow: auto;
+  background: transparent;
+  height: 100%;
+}
+
+.overlay {
+position: absolute;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background: transparent;
+z-index: 0;
+overflow: auto;
+}
+
+.scrollable-container {
+  position: relative; /* Adjust positioning to allow scrolling */
+  overflow: auto; /* Allow scrolling */
+  top: 0; /* Reset top position */
+  padding-bottom: 120px;
+}
 }
 </style>
 
