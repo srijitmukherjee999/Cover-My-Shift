@@ -161,29 +161,6 @@ label {
   animation: glow 2.5s infinite alternate;  
 }
 
-@media (max-width: 1024px) {
-  #company {
-    width: 85%; 
-    font-size: 1.75rem;
-    padding: 20px; 
-  }
-}
-
-
-@media (max-width: 768px) {
-  #company {
-    font-size: 1.5rem; 
-    padding: 15px; 
-  }
-}
-
-@media (max-width: 480px) {
-  #company {
-    font-size: 1rem; 
-    padding: 10px; 
-  }
-}
-
 .text-center {
   display: flex;
   flex-direction: column;
@@ -199,18 +176,124 @@ label {
   
 }
 
-@media (max-width: 768px) {
-  .text-center {
-    font-size: 1.5rem; 
-    padding: 15px; 
+@media (max-width: 600px) {
+  #company {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    width: 100%; 
+    font-size: 5rem;
+    padding: 20px; 
   }
+
+  #login {
+    display: flex;
+  width: 65%; /* Make the search shifts section take more width on smaller screens */
+  padding: 20px;
+  z-index: 2;
+  }
+
+  .text-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #4a91e2bc;
+  box-shadow: 0 0 10px;
+  border-radius: 50px;
+  width: 100%;
+  margin-top: 150px;
+  min-height: 30vh;
+  padding-right: 50px;
+  
 }
 
-@media (max-width: 480px) {
-  .text-center {
-    font-size: 1rem; 
-    padding: 10px; 
+
+.form-input-group {
+  display: flex;
+  flex-direction: column;
+  display: block;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+#backImage {
+  background-attachment: scroll;
+  background-repeat: repeat; /* Ensure scroll behavior on very small screens */
+  overflow: auto;
+  background: transparent;
+  height: 100%;
+}
+
+.overlay {
+position: absolute;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background: transparent;
+z-index: 0;
+overflow: auto;
+}
+
+}
+
+@media (max-width: 400px) {
+  #company {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    font-size: 4rem; 
+    padding: 15px; 
   }
+
+  #login {
+    display: flex;
+  width: 65%; /* Make the search shifts section take more width on smaller screens */
+  padding: 20px;
+  z-index: 2;
+  }
+  .text-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: auto;
+  background-color: #4a91e2bc;
+  box-shadow: 0 0 10px;
+  border-radius: 5px;
+  width: 100%;
+  
+}
+
+.form-input-group {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  align-items: center;
+  margin-bottom: 1rem;
+  width: 100%;
+}
+
+#backImage {
+  background-attachment: scroll;
+  background-repeat: repeat; /* Ensure scroll behavior on very small screens */
+  overflow: auto;
+  background: transparent;
+  height: 100%;
+}
+
+.overlay {
+position: absolute;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background: transparent;
+z-index: 0;
+overflow: auto;
+}
 }
 
 #backImage {
@@ -230,7 +313,7 @@ label {
   width: 100%;
   height: 100%;
   background: rgba(0, 0, 0, 0.8); 
-  z-index: 0; 
+  z-index: 1; 
 }
 
 .content {
