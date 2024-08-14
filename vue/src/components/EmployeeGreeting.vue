@@ -21,40 +21,40 @@ data(){
   }
 },
 methods: {
- 
-getFullName(){
-  ShiftService.getUserFullName().then( response => {
-          this.name = response.data;
-          this.$store.commit("ADD_NAME", this.name);
-  })
-},
-getHoursWorked(userId, date){
-  ShiftService.getHoursWorkedByUserId(userId, date).then(response => {
+  async getFullName() {
+    const response = await ShiftService.getUserFullName();
+    this.name = response.data;
+    this.$store.commit("ADD_NAME", this.name);
+  },
+  async getHoursWorked(userId, date) {
+    console.log('Calling getHoursWorked with userId:', userId, 'and date:', date);
+    const response = await ShiftService.getHoursWorkedByUserId(userId, date);
+    console.log('Hours worked response:', response.data);
     this.hours = response.data;
-  })
-},
-getFirstDayOfWeek() {
-      const curr = new Date();
-      const first = curr.getDate() - curr.getDay();
-      const firstDay = new Date(curr.setDate(first));
-      this.date = firstDay.toISOString().split('T')[0]; // Format date as yyyy-mm-dd
-    },
-
-getUserId(){
-  ShiftService.getUserFromUsername().then(response => {
+  },
+  getFirstDayOfWeek() {
+    const curr = new Date();
+    const first = curr.getDate() - curr.getDay();
+    const firstDay = new Date(curr.setDate(first));
+    this.date = firstDay.toISOString().split('T')[0];
+    console.log('First day of the week:', this.date);
+  },
+  async getUserId() {
+    const response = await ShiftService.getUserFromUsername();
     this.user = response.data;
-  })
-}
-
-
+    console.log('User data:', this.user);
+  }
 },
-created(){
-  this.getFullName();
-  this.getFirstDayOfWeek();
-  this.getUserId();
-  
+created: async function() {
+  try {
+    await this.getFullName();
+    this.getFirstDayOfWeek(); 
+    await this.getUserId(); 
+    await this.getHoursWorked(this.user.id, this.date);
+  } catch (error) {
+    console.error("An error occurred during the creation process:", error);
+  }
 }
-
 
 }
 </script>
