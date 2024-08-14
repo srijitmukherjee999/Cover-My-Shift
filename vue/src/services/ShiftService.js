@@ -82,6 +82,10 @@ export default {
       return axios.get(`/user/username`);
    },
 
+   getCoverRequestByCovererId(){
+      return axios.get(`/shift/coverrequest`)
+   },
+
 
 
 }
