@@ -3,15 +3,18 @@ import axios from "axios";
 export default {
 
    getShifts(){
-   return  axios.get('/shifts');
+      return  axios.get('/shifts');
+   },
+
+   getShiftById(id){
+      return axios.get(`/shift/${id}`);
    },
 
    getUserByUserId(id){
-    return axios.get(`/user/${id}`);
+      return axios.get(`/user/${id}`);
    },
 
    getShiftByStatus(status){
-
       return axios.get(`/shifts?status=${status}`);
    },
 
@@ -85,6 +88,9 @@ export default {
    getCoverRequestByCovererId(){
       return axios.get(`/shift/coverrequest`)
    },
+   getCleanup(){
+      return axios.get(`/cleanup`);
+   }
 
 
 
