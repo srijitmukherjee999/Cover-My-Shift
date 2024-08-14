@@ -60,6 +60,9 @@
                     <p>{{ user.fullName }}</p>
                   </div>
                   <div>
+                    <p v-bind:key="user.hours">{{ user.hours }}</p>
+                  </div>
+                  <div>
                     <button
                       :class="[
                         'add-shift-button',
@@ -107,12 +110,19 @@ export default {
     };
   },
 
+  computed: {
+    startAndEnd() { // computed property for if the start or end changes, used for watcher
+      return [this.shiftInputs.startDate, this.shiftInputs.endDate];
+    }
+  },
+
   methods: {
     getAllUsers() {
       AuthService.getUsers().then((response) => {
         this.listOfUsers = response.data.map((user) => ({
           ...user,
           showShiftForm: false,
+          hours: "",
         }));
       });
     },
@@ -145,9 +155,6 @@ export default {
 
         alert(`Shift/s has been added to employee ${userId}`);
       })
-
-      
-
     },
 
     submitShifts() {
@@ -156,9 +163,9 @@ export default {
       this.selectedUsers.forEach((userId) => {
        
         let startDate = new Date(this.shiftInputs.startDate);
-        const endDate = this.shiftInputs.endDate
+        const endDate = this.shiftInputs.endDate // if end date isnt specified, end date is a copy of start date so the loop runs once
           ? new Date(this.shiftInputs.endDate)
-          : startDate;
+          : new Date(startDate); 
 
         while (startDate <= endDate) {
           const startDateTime = new Date(startDate);
@@ -177,10 +184,9 @@ export default {
           ShiftService.createShift(newShift).then((response) => {
             if (response.status === 201) {
               if(x == 0){
-             this.showNewShiftAddedAlert(userId);
-             x++;
+                this.showNewShiftAddedAlert(userId);
+                x++;
               }
-             
             }
           });
 
@@ -193,64 +199,60 @@ export default {
       this.selectedUsers = [];
     },
 
-    //     computed: {
-    //       userRole() {
-    //         return this.$store.state.user.authorities[0].name; // Adapt this based on your state management
-    //   }
-    // }
+    getFirstDayOfWeek(date) {
+      const newDate = new Date(date);
+      const first = newDate.getDate() - newDate.getDay();
+      const firstDay = new Date(newDate.setDate(first));
+      return firstDay.toISOString().split('T')[0];
+    },
 
+  // ShiftNotifications() {
+  //     ShiftService.getShifts().then((response) => {
+  //       let count = 0;
+  //       const shifts = response.data;
+  //       const now = new Date();
+  //       const deadline = new Date(now.getTime() + (48 * 60 * 60 * 1000));
+  //       console.log(deadline); // print to check
+  //       console.log("hello"); ///check if you show what is needed
 
-////////////////////////////////////////////////////////////////////////
+  //       const filteredShifts = shifts.filter((shift) => { 
+  //         const shiftDate = new Date(shift.startDateTime);
+  //         console.log(shift.startDateTime);
+  //         return shift.status == 3 && shiftDate <= deadline && shiftDate >= now;
+  //       });
+  //       console.log(filteredShifts.length);
 
+  //       if (filteredShifts.length > 0) {  // Show notification alert for matching shifts
+  //           filteredShifts.forEach((shift) => {
+  //           const shiftDate = new Date(shift.startDateTime).toLocaleString();
+  //           alert(`Uncovered Shift Reminder: Shift "${shift.description}" is scheduled on ${shiftDate}.`);
+  //         });
+  //       }
+  //     });
+  //   },
 
+    ShiftNotifications() {
+        ShiftService.getShifts().then((response) => {
+            const shifts = response.data;
+            const now = new Date();
+            const deadline = new Date(now.getTime() + (48 * 60 * 60 * 1000));
+            
 
-// ShiftNotifications() {
-//     ShiftService.getShifts().then((response) => {
-//       let count = 0;
-//       const shifts = response.data;
-//       const now = new Date();
-//       const deadline = new Date(now.getTime() + (48 * 60 * 60 * 1000));
-//       console.log(deadline); // print to check
-//       console.log("hello"); ///check if you show what is needed
-
-//       const filteredShifts = shifts.filter((shift) => { 
-//         const shiftDate = new Date(shift.startDateTime);
-//         console.log(shift.startDateTime);
-//         return shift.status == 3 && shiftDate <= deadline && shiftDate >= now;
-//       });
-//       console.log(filteredShifts.length);
-
-//       if (filteredShifts.length > 0) {  // Show notification alert for matching shifts
-//           filteredShifts.forEach((shift) => {
-//           const shiftDate = new Date(shift.startDateTime).toLocaleString();
-//           alert(`Uncovered Shift Reminder: Shift "${shift.description}" is scheduled on ${shiftDate}.`);
-//         });
-//       }
-//     });
-//   },
-
-ShiftNotifications() {
-    ShiftService.getShifts().then((response) => {
-        const shifts = response.data;
-        const now = new Date();
-        const deadline = new Date(now.getTime() + (48 * 60 * 60 * 1000));
-        
-
-        const filteredShifts = shifts.filter((shift) => { 
-            const shiftDate = new Date(shift.startDateTime);
+            const filteredShifts = shifts.filter((shift) => { 
+                const shiftDate = new Date(shift.startDateTime);
+              
+                return shift.status == 3 && shiftDate <= deadline && shiftDate >= now;
+            });
           
-            return shift.status == 3 && shiftDate <= deadline && shiftDate >= now;
+
+            if (filteredShifts.length > 0) {  
+                // Show a single alert with the count of uncovered shifts
+                alert(`There are ${filteredShifts.length} uncovered shift(s) upcoming.`);
+            }
         });
-       
+    }
 
-        if (filteredShifts.length > 0) {  
-            // Show a single alert with the count of uncovered shifts
-            alert(`There are ${filteredShifts.length} uncovered shift(s) upcoming.`);
-        }
-    });
-}
-
-},
+  },
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -270,7 +272,40 @@ ShiftNotifications() {
     //   this.getFullName();
     // }
   },
- 
+
+  watch: {
+    startAndEnd() {
+      if(this.shiftInputs.startDate == ""){ // if no start date, set hours to blank and return
+        for(const user of this.listOfUsers){
+          user.hours = ""
+        }
+        return;
+      }
+      let startDate = new Date(this.shiftInputs.startDate);
+      const endDate = this.shiftInputs.endDate // if end date isnt specified, end date is a copy of start date so the loop runs once
+        ? new Date(this.shiftInputs.endDate)
+        : new Date(startDate); 
+      let weeks = [];
+
+      while (startDate <= endDate) { // get all unique starts of week in a date range
+        let firstDay = this.getFirstDayOfWeek(startDate)
+        if(weeks.indexOf(firstDay) == -1){
+          weeks.push(firstDay);
+        }
+        startDate.setDate(startDate.getDate() + 1);
+      }
+      console.log(weeks);
+
+      for(const user of this.listOfUsers){
+        user.hours = "";
+        for(const w of weeks){ // for all unique starts of weeks, show hours worked for that week
+          ShiftService.getHoursWorkedByUserId(user.id, w).then(response => {
+            user.hours += "Hours for week of " + w + ": " + response.data + "\n";
+          })
+        }
+      }
+    }
+  }
 };
   
   
