@@ -411,6 +411,13 @@ section {
   height: 100vh;
 }
 
+h2 {
+  display: flex;
+  justify-content: center;
+  color: black;
+  text-decoration-line: underline;
+}
+
 
 .scrollable-container {
   position: relative; /* Adjust positioning to allow scrolling */
@@ -422,16 +429,16 @@ section {
 #search-shifts {
   display: flex;
   width: 65%; /* Make the search shifts section take more width on smaller screens */
-  padding: px;
+  padding: 20px;
   z-index: 2;
 }
 
 .filter {
   display: flex;
   flex-direction: row;
-  justify-content: flex-start;
+  justify-content: center;
   align-items: flex-start;
-  padding: 10px;
+  padding: 5px;
 }
 
 input[type="text"], input[type="date"], select, [type="button"] {
@@ -453,6 +460,18 @@ input[type="text"], input[type="date"], select, [type="button"] {
 #backImage {
 background-attachment: scroll;
 background-repeat: repeat;
+background: transparent;
+}
+
+.overlay {
+position: absolute;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background: transparent;
+z-index: 1;
+overflow: auto;
 }
 }
 
@@ -481,6 +500,7 @@ section {
   background-attachment: scroll;
   background-repeat: repeat; /* Ensure scroll behavior on very small screens */
   overflow: auto;
+  background: transparent;
 }
 
 .overlay {
@@ -500,5 +520,13 @@ overflow: auto;
   top: 0; /* Reset top position */
   padding-bottom: 120px;
 }
+
+h2 {
+  display: flex;
+  justify-content: center;
+  color: black;
+  text-decoration-line: underline;
 }
+}
+
 </style>

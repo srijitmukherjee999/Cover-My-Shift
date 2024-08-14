@@ -501,7 +501,6 @@ h1 {
   margin: 20px;
   text-align: center;
   border-radius: 5px;
-  border-color: red;
 }
 
 #pendShiftButton:hover {
@@ -543,9 +542,21 @@ h1 {
 @media (max-width: 600px) {
 
 section {
-  
+  display: flex;
+  flex-direction: column;
   overflow: auto; /* Enable scrolling */
   
+}
+
+#pendShiftButton {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  justify-content: flex-start;
+  padding: 20px;
+  margin: 20px;
+  text-align: center;
+  border-radius: 5px;
 }
 
 .fixed-header {
@@ -564,17 +575,18 @@ section {
 }
 #search-shifts {
   display: flex;
+  flex-direction: column;
   width: 65%; /* Make the search shifts section take more width on smaller screens */
-  padding: px;
+  padding: 20px;
   z-index: 2;
 }
 
 .filter {
   display: flex;
   flex-direction: row;
-  justify-content: flex-start;
+  justify-content: center;
   align-items: flex-start;
-  padding: 10px;
+  padding: 5px;
 }
 
 input[type="text"], input[type="date"], select, [type="button"] {
@@ -596,6 +608,18 @@ input[type="text"], input[type="date"], select, [type="button"] {
 #backImage {
 background-attachment: scroll;
 background-repeat: repeat;
+background: transparent;
+}
+
+.overlay {
+position: absolute;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background: transparent;
+z-index: 1;
+overflow: auto;
 }
 }
 
@@ -624,6 +648,7 @@ section {
   background-attachment: scroll;
   background-repeat: repeat; /* Ensure scroll behavior on very small screens */
   overflow: auto;
+  background: transparent;
 }
 
 .overlay {

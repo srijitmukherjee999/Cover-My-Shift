@@ -316,20 +316,6 @@ export default {
   flex-wrap: wrap;
 }
 
-@media (max-width: 600px) {
-  .container {
-    flex-direction: column;
-  }
-}
-
-section,
-html {
-  margin: 0;
-  padding: 0;
-  height: 100%;
-  background: transparent;
-}
-
 #backImage {
   position: relative;
   height: 100vh;
@@ -394,4 +380,104 @@ html {
   font-size: 16px;
 }
 
+section {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+@media (max-width: 600px) {
+
+section {
+  
+  overflow: auto; /* Enable scrolling */
+  
+}
+
+.fixed-header {
+  position: relative;
+  overflow: auto;
+  height: 100%;
+}
+
+
+.scrollable-container {
+  position: relative; /* Adjust positioning to allow scrolling */
+  overflow: auto; /* Allow scrolling */
+  top: 0; /* Reset top position */
+  padding-bottom: 120px;
+  margin-bottom: 50px;
+}
+
+.bubble {
+  flex-direction: column; /* Stack elements vertically in smaller screens */
+  padding: 15px;
+  top: 5px;
+}
+
+.bubble-title {
+  font-size: 16px; /* Smaller text size */
+  padding: 10px;
+}
+
+#backImage {
+background-attachment: scroll;
+background-repeat: repeat;
+background: transparent;
+height: 100%;
+
+
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  z-index: 1;
+  overflow: auto;
+}
+}
+
+/* For even smaller screens */
+@media (max-width: 400px) {
+
+section {
+  overflow: auto; /* Enable scrolling */
+}
+
+.fixed-header {
+  overflow: auto;
+}
+.bubble-title {
+  font-size: 14px; /* Further reduce text size */
+}
+
+#backImage {
+  background-attachment: scroll;
+  background-repeat: repeat; /* Ensure scroll behavior on very small screens */
+  overflow: auto;
+  height: 100%;
+}
+
+.overlay {
+position: absolute;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background: transparent;
+z-index: 1;
+overflow: auto;
+}
+
+.scrollable-container {
+  position: relative; /* Adjust positioning to allow scrolling */
+  overflow: auto; /* Allow scrolling */
+  top: 0; /* Reset top position */
+  padding-bottom: 120px;
+}
+}
 </style>
