@@ -22,6 +22,12 @@
                     <p class="bubble-title">
                       Request by: {{ request.fullName }}
                     </p>
+                    <p>
+                      Current hours: {{ request.hours }}
+                    </p>
+                    <p>
+                      Hours on accept: {{ request.hours + this.shiftDuration }}
+                    </p>
                   </div>
                   <div class="bubble-actions">
                     <button
@@ -70,17 +76,20 @@ import CompanyHeader from "../components/CompanyHeader.vue";
 import ManagerGreeting from "../components/ManagerGreeting.vue";
 import ManagerNavigation from "../components/ManagerNavigation.vue";
 import ManagerService from "../services/ManagerService";
+import ShiftService from "../services/ShiftService";
 
 export default {
   data() {
     return {
       shiftId: this.$route.params.shiftId,
+      shiftDuration: 0,
+      shiftDate: null,
       coverRequests: [],
       message: "",
       showPopup: false,
       popupAction: "",
       selectedShiftId: null,
-      selectedEmployeeId: null,
+      selectedEmployeeId: null
     };
   },
   methods: {
@@ -88,6 +97,10 @@ export default {
       ManagerService.getCoverRequests(this.shiftId, 1)
         .then((response) => {
           this.coverRequests = response.data;
+          for(let req of this.coverRequests) {
+            console.log(req)
+            ShiftService.getHoursWorkedByUserId(req.id, this.shiftDate.split('T')[0]).then((response) => {console.log(response.data); req.hours = response.data})
+          }
         })
         .catch((error) => {
           console.error("Error fetching cover requests:", error);
@@ -129,8 +142,15 @@ export default {
         message: this.message,
       };
     },
+    getFirstDayOfWeek(date) {
+      const newDate = new Date(date);
+      const first = newDate.getDate() - newDate.getDay();
+      const firstDay = new Date(newDate.setDate(first));
+      return firstDay.toISOString().split('T')[0];
+    },
   },
   created() {
+    ShiftService.getShiftById(this.shiftId).then(response => {this.shiftDuration = response.data.duration; this.shiftDate = this.getFirstDayOfWeek(response.data.startDateTime)});
     this.getCoverRequests();
   },
   components: { CompanyHeader, ManagerGreeting, ManagerNavigation },

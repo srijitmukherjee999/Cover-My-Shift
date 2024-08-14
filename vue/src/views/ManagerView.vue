@@ -40,8 +40,11 @@
             <div id="data" v-for="user in listOfUsers" :key="user.id">
               <div class="together">
                 <div class="bubble">
-                  <div class="bubble-title">
+                  <div class="bubble-title" v-bind:class="{grey: isShiftBetweenVacation()}" >
                     <p>{{ user.fullName }}</p>
+                  </div>
+                  <div class="bubble-title">
+                    <p v-for="h in user.hours" v-bind:key="h"><p>Hours worked week of:</p>{{ h }}</p>
                   </div>
                   <div>
                     <button :class="[
@@ -67,6 +70,7 @@ import AuthService from "../services/AuthService";
 import CompanyHeader from "../components/CompanyHeader.vue";
 import ManagerNavigation from "../components/ManagerNavigation.vue";
 import ManagerGreeting from "../components/ManagerGreeting.vue";
+import ManagerService from '../services/ManagerService.js';
 
 export default {
   components: { CompanyHeader, ManagerNavigation, ManagerGreeting },
@@ -85,6 +89,16 @@ export default {
       selectedUsers: [],
       userRole: "",
       isManager: false,
+      listOfVacations: [{
+        vacationId: 0,
+        employeeId: 0,
+        employeeName: '',
+        startDate: '',
+        endDate: '',
+        status: 0,
+        description: ''
+
+      }]
     };
   },
 
@@ -94,6 +108,7 @@ export default {
         this.listOfUsers = response.data.map((user) => ({
           ...user,
           showShiftForm: false,
+          hours: [],
         }));
       });
     },
@@ -111,6 +126,7 @@ export default {
         this.name = response.data;
 
         this.$store.commit("ADD_NAME", this.name);
+      
       });
     },
 
@@ -126,9 +142,35 @@ export default {
 
         alert(`Shift/s has been added to employee ${userId}`);
       })
+    },
+
+    isShiftBetweenVacation(){
+      
+      let start = new Date(this.shiftInputs.startDate);
+      let end = start;
+      
+     this.listOfVacations.forEach(e => {
+        console.log(start + ':' + (start>= e.startDate && start <= e.endDate))
+      if((start>= e.startDate && start <= e.endDate) || (end >= e.startDate && end<=e.endDate) || (start<= e.startDate && end >= e.endDate) ){
+        console.log("Hello")
+        return true
+      }else{
+        console.log("END")
+        return false
+      }
+
+     })
+      return false;
+    
+    },
 
 
+    getListOfVacations(){
+      ManagerService.getListOfVacations().then(response => {
 
+            this.listOfVacations = response.data;
+      }
+      )
     },
 
     submitShifts() {
@@ -138,9 +180,9 @@ export default {
       this.selectedUsers.forEach((userId) => {
 
         let startDate = new Date(this.shiftInputs.startDate);
-        const endDate = this.shiftInputs.endDate
+        const endDate = this.shiftInputs.endDate // if end date isnt specified, end date is a copy of start date so the loop runs once
           ? new Date(this.shiftInputs.endDate)
-          : startDate;
+          : new Date(startDate); 
 
         if(startDate>endDate){ //check if start date is greater then endDate then alert
            alert("Error submitting this request check start date");
@@ -167,7 +209,6 @@ export default {
                 this.showNewShiftAddedAlert(userId);
                 x++;
               }
-
             }
 
           });
@@ -181,13 +222,12 @@ export default {
       this.selectedUsers = [];
   },
 
-    //     computed: {
-    //       userRole() {
-    //         return this.$store.state.user.authorities[0].name; // Adapt this based on your state management
-    //   }
-    // }
-
-
+    getFirstDayOfWeek(date) {
+      const newDate = new Date(date);
+      const first = newDate.getDate() - newDate.getDay();
+      const firstDay = new Date(newDate.setDate(first));
+      return firstDay.toISOString().split('T')[0];
+    },
 
     ShiftNotifications() {
       ShiftService.getShifts().then((response) => {
@@ -223,12 +263,18 @@ export default {
       return `${year}-${month}-${day}`;
     },
 
+    startAndEnd() { // computed property for if the start or end changes, used for watcher
+      return [this.shiftInputs.startDate, this.shiftInputs.endDate];
+    }
   },
 
   created() {
     this.getAllUsers();
     this.getFullName();
     this.ShiftNotifications();
+    this.getListOfVacations();
+
+   // setInterval(this.checkUncoveredShifts, 60 * 60 * 1000);  //to check every Hour
     // setInterval(this.checkUncoveredShifts, 60 * 60 * 1000);  //to check every Hour
 
     ///////
@@ -242,6 +288,39 @@ export default {
     // }
   },
 
+  watch: {
+    startAndEnd() {
+      if(this.shiftInputs.startDate == ""){ // if no start date, set hours to blank and return
+        for(const user of this.listOfUsers){
+          user.hours = [];
+        }
+        return;
+      }
+      let startDate = new Date(this.shiftInputs.startDate);
+      const endDate = this.shiftInputs.endDate // if end date isnt specified, end date is a copy of start date so the loop runs once
+        ? new Date(this.shiftInputs.endDate)
+        : new Date(startDate); 
+      let weeks = [];
+
+      while (startDate <= endDate) { // get all unique starts of week in a date range
+        let firstDay = this.getFirstDayOfWeek(startDate)
+        if(weeks.indexOf(firstDay) == -1){
+          weeks.push(firstDay);
+        }
+        startDate.setDate(startDate.getDate() + 1);
+      }
+      console.log(weeks);
+
+      for(const user of this.listOfUsers){
+        user.hours = [];
+        for(const w of weeks){ // for all unique starts of weeks, show hours worked for that week
+          ShiftService.getHoursWorkedByUserId(user.id, w).then(response => {
+            user.hours.push(w +  ": " + response.data);
+          })
+        }
+      }
+    }
+  }
 };
 
 
@@ -431,6 +510,13 @@ input[type="number"] {
   background: rgba(0, 0, 0, 0.8);
   z-index: 1;
   /* Less than header */
+}
+
+
+.grey{
+
+  color: grey;
+
 }
 
 .fixed-header {
