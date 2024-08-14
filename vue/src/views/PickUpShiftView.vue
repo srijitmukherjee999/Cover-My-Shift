@@ -59,13 +59,7 @@
       <div class="scrollable-container">
         <div class="scrollable-content">
           <div class="content">
-            <div
-              id="data"
-              v-if="showButton"
-              v-for="shift in listOfShiftsByStatus"
-              v-bind:key="shift"
-            >
-              <!-- <router-link :to="{ name: 'shiftdetails', params: { id: shift.shiftId }} "> -->
+            <div id="data" v-if="showButton" v-for="shift in listOfShiftsByStatus" v-bind:key="shift">
               <div class="together">
                 <div
                   class="bubble"
@@ -96,13 +90,10 @@
                     </p>
                   </div>
 
-                  <!-- <div id="shiftObjects5">
-                    <p class="bubble-title">Emergency: {{ shift.emergency }}</p>
-                  </div> -->
-
                   <div id="shiftObjects6">
                     <button
                       class="button-title"
+                       :disabled="isShiftCovered(shift.shiftId)" 
                       @click="coverThisShift(shift.shiftId)"
                     >
                       Cover This Shift
@@ -110,7 +101,6 @@
                   </div>
                 </div>
               </div>
-              <!-- </router-link> -->
             </div>
           </div>
         </div>
@@ -120,33 +110,23 @@
 </template>
 
 
+
 <script>
 import CompanyHeader from "../components/CompanyHeader.vue";
 import EmployeeGreeting from "../components/EmployeeGreeting.vue";
 import EmployeeNavigation from "../components/EmployeeNavigation.vue";
 import ShiftService from "../services/ShiftService";
+
 export default {
   components: { CompanyHeader, EmployeeGreeting, EmployeeNavigation },
 
   data() {
     return {
       showButton: true,
-      listOfShiftsByStatus: [
-        {
-          assignedName: "",
-          shiftId: 0,
-          assigned: 0,
-          startDateTime: "",
-          duration: 0,
-          status: 0,
-          emergency: false,
-          coverer: 0,
-          covererName: "",
-          description: "",
-        },
-      ],
+      listOfShiftsByStatus: [],
       name: "",
       emergencyShifts: [],
+      coverRequests: [],
     };
   },
   methods: {
@@ -165,7 +145,6 @@ export default {
     getFullName() {
       ShiftService.getUserFullName().then((response) => {
         this.name = response.data;
-
         this.$store.commit("ADD_NAME", this.name);
       });
     },
@@ -176,7 +155,6 @@ export default {
       });
     },
 
-    /** <button @click="deleteShift(shift.shiftId)">Delete Shift</button>*/
     deleteShift(shiftId) {
       ShiftService.deleteUserShift(shiftId)
         .then((response) => {
@@ -196,33 +174,44 @@ export default {
       this.showButton = !this.showButton;
       this.emergencyShifts = [];
     },
+    formatDate(dateTime) {
+      const options = {
+        weekday: "long",
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+        hour: "numeric",
+        minute: "numeric",
+        hour12: true,
+      };
+      return new Date(dateTime).toLocaleString("en-US", options);
+    },
     coverThisShift(shiftId) {
       ShiftService.createCoverRequest(shiftId).then((response) => {
         if (response.status === 201) {
           alert(
-            "You have requested to cover this shift.Pending Management decision"
+            "You have requested to cover this shift. Pending Management decision"
           );
           this.getShifts(3);
+          this.getCoverRequests();
         }
       });
     },
-    formatDate(dateTime) {
-      const options = {
-        weekday: 'long', // "Monday"
-        year: 'numeric', // "2024"
-        month: 'long', // "August"
-        day: 'numeric', // "20"
-        hour: 'numeric', // "4 PM"
-        minute: 'numeric', // "00"
-        hour12: true, // Use 12-hour time format
-      };
-      return new Date(dateTime).toLocaleString('en-US', options);
+    getCoverRequests() {
+      ShiftService.getCoverRequestByCovererId().then((response) => {
+        this.coverRequests = response.data;
+      });
     },
+    isShiftCovered(shiftId) {
+      return this.coverRequests.some((request) => request.shiftId === shiftId);
+    },
+
   },
 
   created() {
     this.getShifts(3);
     this.getFullName();
+    this.getCoverRequests();
   },
 };
 </script>
@@ -433,12 +422,6 @@ h1 {
   flex-wrap: wrap;
 }
 
-@media (max-width: 600px) {
-  .container {
-    flex-direction: column;
-  }
-}
-
 #emergency-button {
   display: flex;
   flex-direction: column;
@@ -475,5 +458,123 @@ h1 {
 .content {
   position: relative;
   z-index: 1; /* Make sure it's behind the fixed header */
+}
+
+@media (max-width: 600px) {
+
+section {
+  
+  overflow: auto; /* Enable scrolling */
+  
+}
+
+.fixed-header {
+  position: relative;
+  overflow: auto;
+  height: 100vh;
+}
+
+
+.scrollable-container {
+  position: relative; /* Adjust positioning to allow scrolling */
+  overflow: auto; /* Allow scrolling */
+  top: 0; /* Reset top position */
+  padding-bottom: 120px;
+  margin-bottom: 50px;
+}
+#search-shifts {
+  display: flex;
+  width: 65%; /* Make the search shifts section take more width on smaller screens */
+  padding: 20px;
+  z-index: 2;
+}
+
+.filter {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 5px;
+}
+
+input[type="text"], input[type="date"], select, [type="button"] {
+  width: 100%;
+  height: auto; /* Adjust height for better fit */
+  margin-bottom: 2px; /* Add margin for spacing between elements */
+}
+
+.bubble {
+  flex-direction: column; /* Stack elements vertically in smaller screens */
+  padding: 15px;
+}
+
+.bubble-title {
+  font-size: 16px; /* Smaller text size */
+  padding: 10px;
+}
+
+#backImage {
+background-attachment: scroll;
+background-repeat: repeat;
+background: transparent;
+}
+
+.overlay {
+position: absolute;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background: transparent;
+z-index: 1;
+overflow: auto;
+}
+}
+
+/* For even smaller screens */
+@media (max-width: 400px) {
+
+section {
+  overflow: auto; /* Enable scrolling */
+}
+
+.fixed-header {
+  overflow: auto;
+}
+.bubble-title {
+  font-size: 14px; /* Further reduce text size */
+}
+
+.filter input[type="text"], 
+.filter input[type="date"], 
+.filter select, 
+.filter [type="button"] {
+  font-size: 16px; /* Adjust font size for better readability */
+}
+
+#backImage {
+  background-attachment: scroll;
+  background-repeat: repeat; /* Ensure scroll behavior on very small screens */
+  overflow: auto;
+  background: transparent;
+}
+
+.overlay {
+position: absolute;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background: transparent;
+z-index: 1;
+overflow: auto;
+}
+
+.scrollable-container {
+  position: relative; /* Adjust positioning to allow scrolling */
+  overflow: auto; /* Allow scrolling */
+  top: 0; /* Reset top position */
+  padding-bottom: 120px;
+}
 }
 </style>
