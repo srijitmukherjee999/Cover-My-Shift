@@ -46,6 +46,7 @@
                   <div>
                     <p v-bind:key="user.hours">{{ user.hours }}</p>
                   </div>
+                  <div>
                     <button :class="[
                       'add-shift-button',
                       isSelected(user.id) ? 'selected-button' : 'add-button',
