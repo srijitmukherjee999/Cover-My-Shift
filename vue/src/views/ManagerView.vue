@@ -56,7 +56,7 @@
             <div id="data" v-for="user in listOfUsers" :key="user.id">
               <div class="together">
                 <div class="bubble">
-                  <div class="bubble-title">
+                  <div class="bubble-title" v-bind:class="{grey: isShiftBetweenVacation()}" >
                     <p>{{ user.fullName }}</p>
                   </div>
                   <div>
@@ -86,6 +86,7 @@ import AuthService from "../services/AuthService";
 import CompanyHeader from "../components/CompanyHeader.vue";
 import ManagerNavigation from "../components/ManagerNavigation.vue";
 import ManagerGreeting from "../components/ManagerGreeting.vue";
+import ManagerService from '../services/ManagerService.js';
 
 export default {
   components: { CompanyHeader, ManagerNavigation, ManagerGreeting },
@@ -104,6 +105,16 @@ export default {
       selectedUsers: [],
       userRole: "",
       isManager: false,
+      listOfVacations: [{
+        vacationId: 0,
+        employeeId: 0,
+        employeeName: '',
+        startDate: '',
+        endDate: '',
+        status: 0,
+        description: ''
+
+      }]
     };
   },
 
@@ -130,6 +141,7 @@ export default {
         this.name = response.data;
 
         this.$store.commit("ADD_NAME", this.name);
+      
       });
     },
 
@@ -148,6 +160,35 @@ export default {
 
       
 
+    },
+
+    isShiftBetweenVacation(){
+      
+      let start = new Date(this.shiftInputs.startDate);
+      let end = start;
+      
+     this.listOfVacations.forEach(e => {
+        console.log(start + ':' + (start>= e.startDate && start <= e.endDate))
+      if((start>= e.startDate && start <= e.endDate) || (end >= e.startDate && end<=e.endDate) || (start<= e.startDate && end >= e.endDate) ){
+        console.log("Hello")
+        return true
+      }else{
+        console.log("END")
+        return false
+      }
+
+     })
+      return false;
+    
+    },
+
+
+    getListOfVacations(){
+      ManagerService.getListOfVacations().then(response => {
+
+            this.listOfVacations = response.data;
+      }
+      )
     },
 
     submitShifts() {
@@ -181,6 +222,8 @@ export default {
              x++;
               }
              
+            }else{
+              alert("Couldn't submit your shift request");
             }
           });
 
@@ -258,6 +301,8 @@ ShiftNotifications() {
     this.getAllUsers();
     this.getFullName();
     this.ShiftNotifications();
+    this.getListOfVacations();
+
    // setInterval(this.checkUncoveredShifts, 60 * 60 * 1000);  //to check every Hour
 
     ///////
@@ -453,6 +498,13 @@ input[type="number"] {
   height: 100%;
   background: rgba(0, 0, 0, 0.8);
   z-index: 1; /* Less than header */
+}
+
+
+.grey{
+
+  color: grey;
+
 }
 
 .fixed-header {

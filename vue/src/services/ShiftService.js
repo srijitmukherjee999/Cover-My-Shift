@@ -85,6 +85,9 @@ export default {
    getCoverRequestByCovererId(){
       return axios.get(`/shift/coverrequest`)
    },
+   getCleanup(){
+      return axios.get(`/cleanup`);
+   }
 
 
 

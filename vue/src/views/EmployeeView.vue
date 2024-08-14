@@ -168,6 +168,12 @@ export default {
       if (status === 3) return "uncovered";
       if (status == 4) return "covered";
     },
+    cleanup(){
+      ShiftService.getCleanup().then(response => {
+
+        response.data;
+      })
+    },
 
     convertStatusToNumber(status) {
       if (status.toLowerCase().includes("assigned")) return 1;
@@ -204,6 +210,7 @@ export default {
   },
 
   created() {
+    this.cleanup();
     this.getAllShifts();
     this.getFullName();
 
