@@ -229,11 +229,19 @@ export default {
     convertStringToBoolean(emergency) {
       return emergency === "true";
     },
+    cleanup(){
+      ShiftService.getCleanup().then(response => {
+
+        response.data;
+      })
+    },
   },
   async created() {
+    this.cleanup();
     await this.getAllShifts();
     await this.getFullName();
   },
+  
 
   computed: {
     filteredList() {

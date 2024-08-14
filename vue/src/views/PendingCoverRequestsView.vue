@@ -149,7 +149,16 @@ export default {
       return firstDay.toISOString().split('T')[0];
     },
   },
+
+  cleanup(){
+      ShiftService.getCleanup().then(response => {
+
+        response.data;
+      })
+    },
+
   created() {
+    this.cleanup();
     ShiftService.getShiftById(this.shiftId).then(response => {this.shiftDuration = response.data.duration; this.shiftDate = this.getFirstDayOfWeek(response.data.startDateTime)});
     this.getCoverRequests();
   },

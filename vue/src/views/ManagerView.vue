@@ -242,7 +242,14 @@ export default {
           alert(`There are ${filteredShifts.length} uncovered shift(s) upcoming.`);
         }
       });
-    }
+    },
+
+    cleanup(){
+      ShiftService.getCleanup().then(response => {
+
+        response.data;
+      })
+    },
 
   },
 
@@ -263,6 +270,7 @@ export default {
   },
 
   created() {
+    this.cleanup();
     this.getAllUsers();
     this.getFullName();
     this.ShiftNotifications();

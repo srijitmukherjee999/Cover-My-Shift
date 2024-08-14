@@ -212,8 +212,17 @@ export default {
       };
       return new Date(dateTime).toLocaleString('en-US', options);
     },
+
+    cleanup(){
+      ShiftService.getCleanup().then(response => {
+
+        response.data;
+      })
+    },
   },
+
   created() {
+    this.cleanup();
     this.getFullName();
     this.getShiftPendingRequests();
 
