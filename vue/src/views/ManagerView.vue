@@ -43,8 +43,8 @@
                   <div class="bubble-title" v-bind:class="{grey: isShiftBetweenVacation()}" >
                     <p>{{ user.fullName }}</p>
                   </div>
-                  <div>
-                    <p v-bind:key="user.hours">{{ user.hours }}</p>
+                  <div class="bubble-title">
+                    <p v-for="h in user.hours" v-bind:key="h"><p>Hours worked week of:</p>{{ h }}</p>
                   </div>
                   <div>
                     <button :class="[
@@ -108,7 +108,7 @@ export default {
         this.listOfUsers = response.data.map((user) => ({
           ...user,
           showShiftForm: false,
-          hours: "",
+          hours: [],
         }));
       });
     },
@@ -286,7 +286,7 @@ export default {
     startAndEnd() {
       if(this.shiftInputs.startDate == ""){ // if no start date, set hours to blank and return
         for(const user of this.listOfUsers){
-          user.hours = ""
+          user.hours = [];
         }
         return;
       }
@@ -306,10 +306,10 @@ export default {
       console.log(weeks);
 
       for(const user of this.listOfUsers){
-        user.hours = "";
+        user.hours = [];
         for(const w of weeks){ // for all unique starts of weeks, show hours worked for that week
           ShiftService.getHoursWorkedByUserId(user.id, w).then(response => {
-            user.hours += "Hours for week of " + w + ": " + response.data + "\n";
+            user.hours.push(w +  ": " + response.data);
           })
         }
       }
