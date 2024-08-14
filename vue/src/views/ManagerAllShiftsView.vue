@@ -34,7 +34,7 @@
                 />
               </div>
               <div>
-                <select id="myList" v-model="filter.status">
+                <select class="myList" v-model="filter.status">
                   <option value="--None--">--None--</option>
                   <option value="uncovered request">Uncovered Request</option>
                   <option value="covered">Covered</option>
@@ -44,7 +44,7 @@
               </div>
 
               <div>
-                <select id="myList" v-model="filter.emergency">
+                <select class="myList" v-model="filter.emergency">
                   <option value="--None--">--None--</option>
                   <option value="true">true</option>
                   <option value="false">false</option>
@@ -391,7 +391,7 @@ input[type="date"] {
   text-align: center;
 }
 
-#myList {
+.myList {
   width: 200px;
   height: 50px;
   padding: 10px;
