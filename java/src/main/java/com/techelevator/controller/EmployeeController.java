@@ -15,6 +15,7 @@ import javax.validation.Valid;
 import java.security.Principal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeParseException;
 import java.util.List;
 
 @CrossOrigin
@@ -52,6 +53,26 @@ public class EmployeeController {
         }
         return shifts;
     }
+
+    @GetMapping(path = "/shift/{day}")
+    public List<Shift> getShiftsByDay(@PathVariable String day){
+        if(day == null){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Please provide a date.");
+        }
+        LocalDate date;
+
+        // if no date can be parsed from the string, show bad request
+        try {
+            date = LocalDate.parse(day);
+        } catch (DateTimeParseException e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Please provide a valid date formatted as [yyyy-mm-dd].");
+        }
+
+        List<Shift> shifts = shiftDao.getAllShift();
+        shifts.removeIf(s -> !s.getStartDateTime().toLocalDate().equals(date)); // if startDateTime is not equal to date, remove
+        return shifts;
+    }
+
     @GetMapping(path = "/shift/{id}")
     public Shift getShift(@PathVariable int id){
         return shiftDao.getShiftById(id);
