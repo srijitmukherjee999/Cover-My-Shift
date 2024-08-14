@@ -21,15 +21,15 @@
                 v-model="myFilter.duration"
                 placeholder="Duration"
               />
-              <select id="myList" v-model="myFilter.status">
-                <option id="">--None--</option>
+              <select class="myList" v-model="myFilter.status">
+                <option >--None--</option>
                 <option value="uncovered request">Uncovered request</option>
                 <option value="covered">Covered</option>
                 <option value="uncovered">Uncovered</option>
                 <option value="assigned">Assigned</option>
               </select>
 
-              <select id="myList" v-model="myFilter.emergency">
+              <select class="myList" v-model="myFilter.emergency">
                 Emergency
                 <option id="emergency">--None--</option>
                 <option value="true">true</option>
@@ -111,23 +111,23 @@
                       green: shift.status == 4 || shift.status == 1,
                     }"
                   >
-                    <div id="shiftObjects">
+                    <div class="shiftObjects">
                       <p class="bubble-title">{{ shift.assignedName }}</p>
                     </div>
 
-                    <div id="shiftObjects">
+                    <div class="shiftObjects">
                       <p class="bubble-title">
                         {{ formatDate(shift.startDateTime) }}
                       </p>
                     </div>
 
-                    <div id="shiftObjects">
+                    <div class="shiftObjects">
                       <p class="bubble-title">
                         {{ shift.duration }} <span>Hours</span>
                       </p>
                     </div>
 
-                    <div id="shiftObjects">
+                    <div class="shiftObjects">
                       <p class="bubble-title">
                         Emergency: {{ shift.emergency }}
                       </p>
@@ -345,7 +345,7 @@ input[type="date"] {
   background-color: lightgray;
 }
 
-#myList {
+.myList {
   width: 200px;
   height: 50px;
   padding: 10px;
@@ -458,7 +458,9 @@ h1 {
 
 #shiftObjects5:hover {
   transform: scale(1.05);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 6px 12px rgba(0,
+  
+  0, 0, 0.3);
 }
 
 .button-title {

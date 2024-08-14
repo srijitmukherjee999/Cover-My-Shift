@@ -1,11 +1,13 @@
 package com.techelevator.controller;
 
 import com.techelevator.dao.*;
+import com.techelevator.model.CoverRequest;
 import com.techelevator.model.Shift;
 import com.techelevator.model.User;
 import com.techelevator.model.Vacation;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -154,6 +156,10 @@ public class EmployeeController {
     @GetMapping(path = "/vacations/{id}")
     public List<Vacation> getVacationById(@PathVariable int id){
         return vacationDao.getVacationsByEmployeeId(id);
+    }
+    @GetMapping(path = "/shift/coverrequest/{id}")
+    public List<CoverRequest> getCoverRequestByCovererId(@PathVariable int id){
+        return coverRequestDao.getCoverRequestByCovererId(id);
     }
 
 //    @GetMapping(path = "/user/fullName")
