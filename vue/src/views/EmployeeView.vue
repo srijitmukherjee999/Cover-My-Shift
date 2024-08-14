@@ -259,6 +259,14 @@ export default {
       return filteredUsers;
     },
 
+    // currentDate(){   //  :min="currentDate" add this date in the input
+    //   const today = new Date(); //current date and time object
+    //   const year = today.getFullYear(); // get year based on date
+    //   const month = String(today.getMonth() + 1).padStart(2, '0'); // get month
+    //   const day =String(today.getDate()).padStart(2, '0'); //get day
+
+    //   return `${year}-${month}-${day}`;
+    // },
     // userRole() {
     //   return this.$store.state.user.authorities[0].name; // Adapt this based on your state management
     // },
