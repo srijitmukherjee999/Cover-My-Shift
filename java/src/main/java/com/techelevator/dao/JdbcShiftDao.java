@@ -3,10 +3,12 @@ package com.techelevator.dao;
 import com.techelevator.exception.DaoException;
 import com.techelevator.model.Shift;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.HttpStatus;
 import org.springframework.jdbc.CannotGetJdbcConnectionException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -122,6 +124,25 @@ public class JdbcShiftDao implements ShiftDao{
     public void createShift(Shift shift) {
 
         String insertShiftSql = "INSERT INTO shift (assigned, start_date_time, duration, status, emergency, coverer, description) VALUES (?, ?, ?, ?, ?, ?, ?) RETURNING shift_id";
+        String getShiftSql = "SELECT *, '' as assigned_name, '' as coverer_name FROM shift WHERE assigned = ?";
+        List<Shift> listOfAssigneeShifts = new ArrayList<>();
+
+
+       SqlRowSet result = jdbcTemplate.queryForRowSet(getShiftSql,shift.getAssignedId());
+
+       while(result.next()){
+           listOfAssigneeShifts.add(mapRowToShift(result));
+       }
+
+       for(Shift shifts: listOfAssigneeShifts){
+           if(shift.getStartDateTime().isBefore(shifts.getStartDateTime().plusHours((long)shifts.getDuration()))  && shift.getStartDateTime().isAfter(shifts.getStartDateTime())){
+
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Bad Request");
+
+           }
+
+       }
+
 
         try {
             jdbcTemplate.queryForObject(

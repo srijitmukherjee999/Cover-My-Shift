@@ -87,6 +87,7 @@ public class ManagerController {
         if(shift.getDuration() <= 0){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Shift duration must be greater than 0.");
         }
+
         LocalDateTime start = shift.getStartDateTime();
         for( Vacation v : vacationDao.getVacationsByEmployeeId(shift.getAssignedId())){
             // for every vacation: if it's not before the start date or after the end date, it's during a vacation
