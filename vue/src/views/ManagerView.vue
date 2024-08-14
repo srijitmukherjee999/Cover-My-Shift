@@ -11,32 +11,16 @@
           <div id="shift-inputs">
             <div class="filter">
               <div>
-                <input
-                  type="date"
-                  v-model="shiftInputs.startDate"
-                  placeholder="Start Date"
-                />
+                <input type="date" v-model="shiftInputs.startDate" placeholder="Start Date" :min="dateNow"/>
               </div>
               <div>
-                <input
-                  type="date"
-                  v-model="shiftInputs.endDate"
-                  placeholder="End Date (optional)"
-                />
+                <input type="date" v-model="shiftInputs.endDate" placeholder="End Date (optional)" :min="dateNow"/>
               </div>
               <div>
-                <input
-                  type="time"
-                  v-model="shiftInputs.startTime"
-                  placeholder="Start Time"
-                />
+                <input type="time" v-model="shiftInputs.startTime" placeholder="Start Time" />
               </div>
               <div>
-                <input
-                  type="number"
-                  v-model="shiftInputs.duration"
-                  placeholder="Duration (hours)"
-                />
+                <input type="number" v-model="shiftInputs.duration" placeholder="Duration (hours)" />
               </div>
 
 
@@ -62,14 +46,10 @@
                   <div>
                     <p v-bind:key="user.hours">{{ user.hours }}</p>
                   </div>
-                  <div>
-                    <button
-                      :class="[
-                        'add-shift-button',
-                        isSelected(user.id) ? 'selected-button' : 'add-button',
-                      ]"
-                      @click="toggleSelection(user.id)"
-                    >
+                    <button :class="[
+                      'add-shift-button',
+                      isSelected(user.id) ? 'selected-button' : 'add-button',
+                    ]" @click="toggleSelection(user.id)">
                       {{ isSelected(user.id) ? "Selected" : "Add Shift" }}
                     </button>
                   </div>
@@ -83,7 +63,7 @@
   </section>
 </template>
   
-  <script>
+<script>
 import ShiftService from "../services/ShiftService.js";
 import AuthService from "../services/AuthService";
 import CompanyHeader from "../components/CompanyHeader.vue";
@@ -96,7 +76,7 @@ export default {
   data() {
     return {
       name: "",
-    
+
       shiftInputs: {
         startDate: "",
         endDate: "",
@@ -108,12 +88,6 @@ export default {
       userRole: "",
       isManager: false,
     };
-  },
-
-  computed: {
-    startAndEnd() { // computed property for if the start or end changes, used for watcher
-      return [this.shiftInputs.startDate, this.shiftInputs.endDate];
-    }
   },
 
   methods: {
@@ -147,9 +121,9 @@ export default {
       return this.selectedUsers.includes(userId);
     },
 
-    showNewShiftAddedAlert(userId){
-       const listOfSelectedUsers = [];
-       listOfSelectedUsers.push(userId);
+    showNewShiftAddedAlert(userId) {
+      const listOfSelectedUsers = [];
+      listOfSelectedUsers.push(userId);
 
       listOfSelectedUsers.forEach(userId => {
 
@@ -158,10 +132,10 @@ export default {
     },
 
     submitShifts() {
-     
-      let x = 0 ;
+
+      let x = 0;
       this.selectedUsers.forEach((userId) => {
-       
+
         let startDate = new Date(this.shiftInputs.startDate);
         const endDate = this.shiftInputs.endDate // if end date isnt specified, end date is a copy of start date so the loop runs once
           ? new Date(this.shiftInputs.endDate)
@@ -183,15 +157,17 @@ export default {
 
           ShiftService.createShift(newShift).then((response) => {
             if (response.status === 201) {
-              if(x == 0){
+              if (x == 0) {
                 this.showNewShiftAddedAlert(userId);
                 x++;
               }
+
             }
+
           });
 
           startDate.setDate(startDate.getDate() + 1);
-          
+
         }
       });
 
@@ -206,61 +182,50 @@ export default {
       return firstDay.toISOString().split('T')[0];
     },
 
-  // ShiftNotifications() {
-  //     ShiftService.getShifts().then((response) => {
-  //       let count = 0;
-  //       const shifts = response.data;
-  //       const now = new Date();
-  //       const deadline = new Date(now.getTime() + (48 * 60 * 60 * 1000));
-  //       console.log(deadline); // print to check
-  //       console.log("hello"); ///check if you show what is needed
-
-  //       const filteredShifts = shifts.filter((shift) => { 
-  //         const shiftDate = new Date(shift.startDateTime);
-  //         console.log(shift.startDateTime);
-  //         return shift.status == 3 && shiftDate <= deadline && shiftDate >= now;
-  //       });
-  //       console.log(filteredShifts.length);
-
-  //       if (filteredShifts.length > 0) {  // Show notification alert for matching shifts
-  //           filteredShifts.forEach((shift) => {
-  //           const shiftDate = new Date(shift.startDateTime).toLocaleString();
-  //           alert(`Uncovered Shift Reminder: Shift "${shift.description}" is scheduled on ${shiftDate}.`);
-  //         });
-  //       }
-  //     });
-  //   },
-
     ShiftNotifications() {
-        ShiftService.getShifts().then((response) => {
-            const shifts = response.data;
-            const now = new Date();
-            const deadline = new Date(now.getTime() + (48 * 60 * 60 * 1000));
-            
+      ShiftService.getShifts().then((response) => {
+        const shifts = response.data;
+        const now = new Date();
+        const deadline = new Date(now.getTime() + (48 * 60 * 60 * 1000));
 
-            const filteredShifts = shifts.filter((shift) => { 
-                const shiftDate = new Date(shift.startDateTime);
-              
-                return shift.status == 3 && shiftDate <= deadline && shiftDate >= now;
-            });
-          
 
-            if (filteredShifts.length > 0) {  
-                // Show a single alert with the count of uncovered shifts
-                alert(`There are ${filteredShifts.length} uncovered shift(s) upcoming.`);
-            }
+        const filteredShifts = shifts.filter((shift) => {
+          const shiftDate = new Date(shift.startDateTime);
+
+          return shift.status == 3 && shiftDate <= deadline && shiftDate >= now;
         });
+
+
+        if (filteredShifts.length > 0) {
+          // Show a single alert with the count of uncovered shifts
+          alert(`There are ${filteredShifts.length} uncovered shift(s) upcoming.`);
+        }
+      });
     }
 
   },
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////
+  computed: {
+
+    dateNow() {
+      const today = new Date(); //current date and time object
+      const year = today.getFullYear(); // get year based on date
+      const month = String(today.getMonth() + 1).padStart(2, '0'); // get month
+      const day = String(today.getDate()).padStart(2, '0'); //get day
+
+      return `${year}-${month}-${day}`;
+    },
+
+    startAndEnd() { // computed property for if the start or end changes, used for watcher
+      return [this.shiftInputs.startDate, this.shiftInputs.endDate];
+    }
+  },
 
   created() {
     this.getAllUsers();
     this.getFullName();
     this.ShiftNotifications();
-   // setInterval(this.checkUncoveredShifts, 60 * 60 * 1000);  //to check every Hour
+    // setInterval(this.checkUncoveredShifts, 60 * 60 * 1000);  //to check every Hour
 
     ///////
     // this.userRole = this.$store.state.user.authorities[0].name;
@@ -307,11 +272,11 @@ export default {
     }
   }
 };
-  
-  
+
+
 </script>
   
-  <style scoped>
+<style scoped>
 #data {
   display: inline-block;
   flex-direction: column;
@@ -362,12 +327,6 @@ export default {
   flex-wrap: wrap;
 }
 
-@media (max-width: 600px) {
-  .container {
-    flex-direction: column;
-  }
-}
-
 .add-shift-button {
   border: none;
   border-radius: 20px;
@@ -378,25 +337,30 @@ export default {
 }
 
 .add-button {
-  background-color: #5cb85c; /* Green */
+  background-color: #5cb85c;
+  /* Green */
 }
 
 .add-button:hover {
-  background-color: #4cae4c; /* Darker green */
+  background-color: #4cae4c;
+  /* Darker green */
 }
 
 .cancel-button {
-  background-color: #d9534f; /* Red */
+  background-color: #d9534f;
+  /* Red */
 }
 
 .cancel-button:hover {
-  background-color: #c9302c; /* Darker red */
+  background-color: #c9302c;
+  /* Darker red */
 }
 
 @keyframes fadeIn {
   from {
     opacity: 0;
   }
+
   to {
     opacity: 1;
   }
@@ -407,7 +371,8 @@ export default {
   width: 80%;
   max-width: fit-content;
   position: relative;
-  z-index: 2; /* Ensure it is above the overlay but below scrolling content */
+  z-index: 2;
+  /* Ensure it is above the overlay but below scrolling content */
 }
 
 .filter {
@@ -476,14 +441,6 @@ input[type="number"] {
   text-align: center;
 }
 
-section,
-html {
-  margin: 0;
-  padding: 0;
-  height: 100%;
-  background: transparent;
-}
-
 #backImage {
   position: relative;
   height: 100vh;
@@ -491,6 +448,7 @@ html {
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
+  background-attachment: fixed; /* Fixed by default */
 }
 
 .overlay {
@@ -500,7 +458,8 @@ html {
   width: 100%;
   height: 100%;
   background: rgba(0, 0, 0, 0.8);
-  z-index: 1; /* Less than header */
+  z-index: 1;
+  /* Less than header */
 }
 
 .fixed-header {
@@ -508,23 +467,24 @@ html {
   top: 0;
   left: 0;
   width: 100%;
-  z-index: 1000;
   background: white;
+  z-index: 2;
 }
 
 .scrollable-container {
   position: fixed;
-  top: 20em; /* Adjust this based on your header height */
+  top: 20em;
+  /* Adjust this based on your header height */
   left: 0;
   right: 0;
   bottom: 0;
-  overflow: hidden;
+  overflow: auto;
   z-index: 1; /* Less than header */
 }
 
 .scrollable-content {
   height: 100%;
-  overflow-y: auto;
+  overflow: auto;
   padding: 10px;
 }
 
@@ -533,6 +493,138 @@ html {
   z-index: 1; /* Make sure it's behind the fixed header */
 }
 
+section {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+@media (max-width: 600px) {
+
+section {
+  
+  overflow: auto; /* Enable scrolling */
+  
+}
+
+.fixed-header {
+  position: relative;
+  overflow: auto;
+  height: 100vh;
+}
+
+
+.scrollable-container {
+  position: relative; /* Adjust positioning to allow scrolling */
+  overflow: auto; /* Allow scrolling */
+  top: 0; /* Reset top position */
+  padding-bottom: 120px;
+  margin-bottom: 50px;
+}
+#search-shifts {
+  display: flex;
+  width: 65%; /* Make the search shifts section take more width on smaller screens */
+  padding: 20px;
+  z-index: 2;
+}
+
+.filter {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 20px;
+}
+
+input[type="text"], input[type="date"], select, [type="button"] {
+  width: 100%;
+  height: auto; /* Adjust height for better fit */
+  margin-bottom: 2px; /* Add margin for spacing between elements */
+}
+
+.bubble {
+  flex-direction: column; /* Stack elements vertically in smaller screens */
+  padding: 20px;
+}
+
+.bubble-title {
+  font-size: 16px; /* Smaller text size */
+  padding: 10px;
+}
+
+#backImage {
+background-attachment: scroll;
+background-repeat: repeat;
+background: transparent;
+height: 100%;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  z-index: 1;
+  overflow: auto;
+}
+}
+
+/* For even smaller screens */
+@media (max-width: 400px) {
+
+section {
+  overflow: auto; /* Enable scrolling */
+  height: 100%;
+}
+
+.content {
+  position: relative;
+  z-index: 1; /* Make sure it's behind the fixed header */
+  overflow: auto;
+}
+
+.fixed-header {
+  overflow: auto;
+}
+.bubble-title {
+  font-size: 14px; /* Further reduce text size */
+}
+
+.filter input[type="text"], 
+.filter input[type="date"], 
+.filter select, 
+.filter [type="button"] {
+  font-size: 16px; /* Adjust font size for better readability */
+}
+
+#backImage {
+  background-attachment: scroll;
+  background-repeat: repeat; /* Ensure scroll behavior on very small screens */
+  overflow: auto;
+  background: transparent;
+  height: 100%;
+}
+
+.overlay {
+position: absolute;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background: transparent;
+z-index: 0;
+overflow: auto;
+}
+
+.scrollable-container {
+  position: relative; /* Adjust positioning to allow scrolling */
+  overflow: auto; /* Allow scrolling */
+  top: 0; /* Reset top position */
+  padding-bottom: 120px;
+}
+}
 </style>
 
   

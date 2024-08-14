@@ -15,6 +15,7 @@ import MyShiftView from '../views/MyShiftView.vue'
 import PendingRequestsView from '../views/PendingRequestsView.vue'
 import PendingCoverRequestsView from '../views/PendingCoverRequestsView.vue'
 import ManagerAllShiftsView from '../views/ManagerAllShiftsView.vue'
+import ShiftCalendarView from '../views/ShiftCalendarView.vue'
 
 
 /**
@@ -139,6 +140,16 @@ const routes = [
       requiresAuth: true,
       role: 'ROLE_MANAGER',
     }
+  },
+  {
+    path: '/shiftCalendar',
+    name: 'shiftCalendar',
+    component: ShiftCalendarView,
+    meta:{
+      requiresAuth: false,
+      
+    }
+
   }
   
 ];

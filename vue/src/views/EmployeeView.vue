@@ -259,6 +259,14 @@ export default {
       return filteredUsers;
     },
 
+    // currentDate(){   //  :min="currentDate" add this date in the input
+    //   const today = new Date(); //current date and time object
+    //   const year = today.getFullYear(); // get year based on date
+    //   const month = String(today.getMonth() + 1).padStart(2, '0'); // get month
+    //   const day =String(today.getDate()).padStart(2, '0'); //get day
+
+    //   return `${year}-${month}-${day}`;
+    // },
     // userRole() {
     //   return this.$store.state.user.authorities[0].name; // Adapt this based on your state management
     // },
@@ -483,13 +491,13 @@ h1 {
   left: 0;
   right: 0;
   bottom: 0;
-  overflow-y: auto;
+  overflow: auto;
   z-index: 1; /* Less than header */
 }
 
 .scrollable-content {
   height: 100%;
-  overflow-y: auto;
+  overflow: auto;
   padding: 10px;
 }
 
@@ -507,28 +515,38 @@ section {
 @media (max-width: 600px) {
 
   section {
+    
     overflow: auto; /* Enable scrolling */
+    
+  }
+
+  .fixed-header {
+    position: relative;
+    overflow: auto;
+    height: 100vh;
   }
 
 
   .scrollable-container {
     position: relative; /* Adjust positioning to allow scrolling */
-    overflow-y: auto; /* Allow scrolling */
+    overflow: auto; /* Allow scrolling */
     top: 0; /* Reset top position */
+    padding-bottom: 120px;
+    margin-bottom: 50px;
   }
   #search-shifts {
     display: flex;
-    width: 55%; /* Make the search shifts section take more width on smaller screens */
-    padding: 2px;
+    width: 65%; /* Make the search shifts section take more width on smaller screens */
+    padding: 20px;
     z-index: 2;
   }
 
   .filter {
     display: flex;
     flex-direction: row;
-    justify-content: flex-start;
+    justify-content: center;
     align-items: flex-start;
-    padding: 10px;
+    padding: 5px;
   }
 
   input[type="text"], input[type="date"], select, [type="button"] {
@@ -550,6 +568,18 @@ section {
   #backImage {
   background-attachment: scroll;
   background-repeat: repeat;
+  background: transparent;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  z-index: 1;
+  overflow: auto;
 }
 }
 
@@ -558,6 +588,10 @@ section {
 
   section {
     overflow: auto; /* Enable scrolling */
+  }
+
+  .fixed-header {
+    overflow: auto;
   }
   .bubble-title {
     font-size: 14px; /* Further reduce text size */
@@ -573,12 +607,26 @@ section {
   #backImage {
     background-attachment: scroll;
     background-repeat: repeat; /* Ensure scroll behavior on very small screens */
+    overflow: auto;
+    background: transparent;
   }
+
+  .overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  z-index: 1;
+  overflow: auto;
+}
 
   .scrollable-container {
     position: relative; /* Adjust positioning to allow scrolling */
-    overflow-y: auto; /* Allow scrolling */
+    overflow: auto; /* Allow scrolling */
     top: 0; /* Reset top position */
+    padding-bottom: 120px;
   }
 }
 </style>

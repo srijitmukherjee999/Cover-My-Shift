@@ -2,7 +2,7 @@
   <section>
     <div class="yes">
          <h1>Hello {{ name }}</h1>
-        <h1>Hours Worked: {{hours}}</h1>
+        <h1>Hours Assigned: {{hours}}</h1>
  </div>
   </section>
 </template>
