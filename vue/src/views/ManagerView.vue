@@ -133,6 +133,7 @@ export default {
 
     submitShifts() {
 
+    
       let x = 0;
       this.selectedUsers.forEach((userId) => {
 
@@ -140,6 +141,11 @@ export default {
         const endDate = this.shiftInputs.endDate
           ? new Date(this.shiftInputs.endDate)
           : startDate;
+
+        if(startDate>endDate){ //check if start date is greater then endDate then alert
+           alert("Error submitting this request check start date");
+          return;
+        }
 
         while (startDate <= endDate) {
           const startDateTime = new Date(startDate);
@@ -173,7 +179,7 @@ export default {
 
       this.shiftInputs = {};
       this.selectedUsers = [];
-    },
+  },
 
     //     computed: {
     //       userRole() {
