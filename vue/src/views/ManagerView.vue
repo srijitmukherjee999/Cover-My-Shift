@@ -289,7 +289,7 @@ ShiftNotifications() {
   display: flex;
   width: 100%;
   margin: 20px;
-  justify-content: space-around;
+  justify-content: space-evenly;
 }
 
 .bubble {

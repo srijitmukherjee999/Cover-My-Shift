@@ -354,7 +354,7 @@ export default {
 
 #search-shifts {
   position: relative;
-  width: 90%; /* Adjust width as needed */
+  width: 68%; /* Adjust width as needed */
   margin: auto;
   padding: 10px;
   background-color: orange;
