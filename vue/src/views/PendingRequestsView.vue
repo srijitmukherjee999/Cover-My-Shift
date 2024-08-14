@@ -468,6 +468,7 @@ section {
   background-attachment: scroll;
   background-repeat: repeat; /* Ensure scroll behavior on very small screens */
   overflow: auto;
+  background: transparent;
   height: 100%;
 }
 
