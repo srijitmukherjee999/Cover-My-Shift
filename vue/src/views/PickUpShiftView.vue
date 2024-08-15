@@ -154,6 +154,12 @@ export default {
         this.showButton = false;
       });
     },
+    cleanup(){
+      ShiftService.getCleanup().then(response => {
+
+        response.data;
+      })
+    },
 
     deleteShift(shiftId) {
       ShiftService.deleteUserShift(shiftId)
@@ -209,6 +215,7 @@ export default {
   },
 
   created() {
+    this.cleanup();
     this.getShifts(3);
     this.getFullName();
     this.getCoverRequests();

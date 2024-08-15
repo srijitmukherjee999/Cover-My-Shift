@@ -39,8 +39,8 @@
           <div class="content">
             <div id="data" v-for="user in listOfUsers" :key="user.id">
               <div class="together">
-                <div class="bubble">
-                  <div class="bubble-title" v-bind:class="{grey: isShiftBetweenVacation()}" >
+                <div class="bubble" v-bind:class="{grey: isShiftBetweenVacation(user)}">
+                  <div class="bubble-title"  >
                     <p>{{ user.fullName }}</p>
                   </div>
                   <div class="bubble-title">
@@ -144,29 +144,31 @@ export default {
       })
     },
 
-    isShiftBetweenVacation(){
+    isShiftBetweenVacation(user){
       
+      let x = 0;
       let start = new Date(this.shiftInputs.startDate);
       let end = start;
       
      this.listOfVacations.forEach(e => {
-        console.log(start + ':' + (start>= e.startDate && start <= e.endDate))
-      if((start>= e.startDate && start <= e.endDate) || (end >= e.startDate && end<=e.endDate) || (start<= e.startDate && end >= e.endDate) ){
-        console.log("Hello")
-        return true
-      }else{
-        console.log("END")
-        return false
+      let startVacation = new Date(e.startDate);
+      let endVacation = new Date(e.endDate);
+     
+
+      if(e.employeeId == user.id)
+      if((start>= startVacation && start <= endVacation) || (end >= startVacation && end <= endVacation) || (start<= startVacation && end >= endVacation) ){
+        x = 1;
       }
 
      })
-      return false;
-    
+     if(x==1){
+      return true;
+     }
     },
 
 
     getListOfVacations(){
-      ManagerService.getListOfVacations().then(response => {
+      ManagerService.getListOfVacations(2).then(response => {
 
             this.listOfVacations = response.data;
       }
@@ -187,6 +189,11 @@ export default {
         if(startDate>endDate){ //check if start date is greater then endDate then alert
            alert("Error submitting this request check start date");
           return;
+        }
+        if(this.shiftInputs.duration>8){
+           alert("Duration must be 8 hours")
+          return;
+          
         }
 
         while (startDate <= endDate) {
@@ -209,6 +216,8 @@ export default {
                 this.showNewShiftAddedAlert(userId);
                 x++;
               }
+            }else{
+              alert("The shift could not be submitted");
             }
 
           });

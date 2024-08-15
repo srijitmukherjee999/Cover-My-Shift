@@ -27,7 +27,7 @@ export default{
         return axios.put(`/vacation/${vacationId}?status=${status}`);
     },
     
-    getListOfVacations(){
-        return axios.get(`/vacations`);
+    getListOfVacations(status){
+        return axios.get(`/vacations?status=${status}`);
     }
 }

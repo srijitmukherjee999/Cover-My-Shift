@@ -100,6 +100,12 @@ export default {
         this.$store.commit("ADD_NAME", this.name);
       });
     },
+    cleanup(){
+      ShiftService.getCleanup().then(response => {
+
+        response.data;
+      })
+    },
 
     getPendingVacationRequests() {
       ShiftService.getVacationByStatus(1, true).then(response => {
@@ -180,6 +186,7 @@ export default {
   },
 
   created() {
+    this.cleanup();
     this.getFullName();
     this.getPendingVacationRequests();
   },
