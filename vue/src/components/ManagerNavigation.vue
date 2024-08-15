@@ -3,7 +3,7 @@
     <div>
       <nav class="navigation">
         <ul>
-          <li><router-link v-bind:to="{ name: 'manager' }">MY HOME</router-link></li>
+          <li><router-link v-bind:to="{ name: 'manager' }">HOME</router-link></li>
           <li><router-link v-bind:to="{ name: 'pendingrequests' }">PENDING REQUESTS</router-link></li>
           <li><router-link v-bind:to="{ name: 'allShifts' }">ALL SHIFTS</router-link></li>
           <li><router-link v-bind:to="{ name: 'coverage' }">COVERAGE</router-link></li>
