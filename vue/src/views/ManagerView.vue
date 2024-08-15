@@ -20,7 +20,7 @@
                 <input type="time" v-model="shiftInputs.startTime" placeholder="Start Time" />
               </div>
               <div>
-                <input type="number" v-model="shiftInputs.duration" placeholder="Duration (hours)" />
+                <input type="number" v-model="shiftInputs.duration" placeholder="Duration (hours)" min="0" max="8"/> 
               </div>
 
 
@@ -305,7 +305,7 @@ export default {
         return;
       }
       let startDate = new Date(this.shiftInputs.startDate);
-      const endDate = this.shiftInputs.endDate // if end date isnt specified, end date is a copy of start date so the loop runs once
+      const endDate = this.shiftInputs.endDate // if end date is not specified, end date is a copy of start date so the loop runs once
         ? new Date(this.shiftInputs.endDate)
         : new Date(startDate); 
       let weeks = [];
