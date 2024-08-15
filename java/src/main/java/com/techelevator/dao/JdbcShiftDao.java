@@ -168,7 +168,7 @@ public class JdbcShiftDao implements ShiftDao{
     public void cleanupShift(){
         try {
             jdbcTemplate.update("DELETE FROM shift WHERE start_date_time < (CURRENT_DATE - 7);");
-            jdbcTemplate.update("UPDATE shift SET emergency = true WHERE start_date_time < (LOCALTIMESTAMP + interval '1 day');");
+            jdbcTemplate.update("UPDATE shift SET emergency = true WHERE start_date_time < (LOCALTIMESTAMP + interval '1 day') AND status = 3;");
         } catch (CannotGetJdbcConnectionException e) {
             throw new DaoException("Unable to connect to server or database", e);
         } catch (DataIntegrityViolationException e) {
