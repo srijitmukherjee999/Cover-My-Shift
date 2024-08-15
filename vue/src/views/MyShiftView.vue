@@ -207,6 +207,12 @@ export default {
         }
       });
     },
+    cleanup(){
+      ShiftService.getCleanup().then(response => {
+
+        response.data;
+      })
+    },
     getFullName() {
       ShiftService.getUserFullName().then((response) => {
         this.name = response.data;
@@ -277,6 +283,7 @@ export default {
     },
   },
   created() {
+    this.cleanup();
     this.getMyShifts();
     this.getFullName();
     
