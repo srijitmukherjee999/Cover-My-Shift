@@ -88,11 +88,14 @@ export default {
    getCoverRequestByCovererId(){
       return axios.get(`/shift/coverrequest`)
    },
+
    getCleanup(){
       return axios.get(`/cleanup`);
+   },
+
+   getShiftByDate(date){
+      return axios.get(`/shift/date/${date}`)
    }
-
-
 
 }
 
