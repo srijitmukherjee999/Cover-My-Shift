@@ -16,6 +16,7 @@ import PendingRequestsView from '../views/PendingRequestsView.vue'
 import PendingCoverRequestsView from '../views/PendingCoverRequestsView.vue'
 import ManagerAllShiftsView from '../views/ManagerAllShiftsView.vue'
 import ShiftCalendarView from '../views/ShiftCalendarView.vue'
+import ManagerCoverageView from '../views/ManagerCoverageView.vue'
 
 
 /**
@@ -149,7 +150,15 @@ const routes = [
       requiresAuth: false,
       
     }
-
+  },
+  {
+    path: '/coverage',
+    name: 'coverage',
+    component: ManagerCoverageView,
+    meta: {
+      requiresAuth: true,
+      role: 'ROLE_MANAGER',
+    }
   }
   
 ];

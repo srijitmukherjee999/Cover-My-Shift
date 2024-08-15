@@ -22,10 +22,10 @@
                     <p class="bubble-title">
                       Request by: {{ request.fullName }}
                     </p>
-                    <p>
+                    <p class="bubble-title">
                       Current hours: {{ request.hours }}
                     </p>
-                    <p>
+                    <p class="bubble-title">
                       Hours on accept: {{ request.hours + this.shiftDuration }}
                     </p>
                   </div>
@@ -159,8 +159,7 @@ export default {
 
   created() {
     this.cleanup();
-    ShiftService.getShiftById(this.shiftId).then(response => {this.shiftDuration = response.data.duration; this.shiftDate = this.getFirstDayOfWeek(response.data.startDateTime)});
-    this.getCoverRequests();
+    ShiftService.getShiftById(this.shiftId).then(response => {this.shiftDuration = response.data.duration; this.shiftDate = this.getFirstDayOfWeek(response.data.startDateTime); this.getCoverRequests();});
   },
   components: { CompanyHeader, ManagerGreeting, ManagerNavigation },
 };
@@ -384,10 +383,17 @@ section {
   
 }
 
+h2 {
+  display: flex;
+  justify-content: center;
+  color: black;
+  text-decoration-line: underline;
+}
+
 .fixed-header {
   position: relative;
   overflow: auto;
-  height: 100vh;
+  height: 100%;
 }
 
 
@@ -398,30 +404,11 @@ section {
   padding-bottom: 120px;
   margin-bottom: 50px;
 }
-#search-shifts {
-  display: flex;
-  width: 65%; /* Make the search shifts section take more width on smaller screens */
-  padding: 20px;
-  z-index: 2;
-}
-
-.filter {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: flex-start;
-  padding: 5px;
-}
-
-input[type="text"], input[type="date"], select, [type="button"] {
-  width: 100%;
-  height: auto; /* Adjust height for better fit */
-  margin-bottom: 2px; /* Add margin for spacing between elements */
-}
 
 .bubble {
   flex-direction: column; /* Stack elements vertically in smaller screens */
   padding: 15px;
+  top: 5px;
 }
 
 .bubble-title {
@@ -434,6 +421,7 @@ background-attachment: scroll;
 background-repeat: repeat;
 background: transparent;
 height: 100%;
+
 }
 
 .overlay {
@@ -458,23 +446,24 @@ section {
 .fixed-header {
   overflow: auto;
 }
+
+h2 {
+  display: flex;
+  justify-content: center;
+  color: black;
+  text-decoration-line: underline;
+}
 .bubble-title {
   font-size: 14px; /* Further reduce text size */
 }
 
-.filter input[type="text"], 
-.filter input[type="date"], 
-.filter select, 
-.filter [type="button"] {
-  font-size: 16px; /* Adjust font size for better readability */
-}
 
 #backImage {
   background-attachment: scroll;
   background-repeat: repeat; /* Ensure scroll behavior on very small screens */
   overflow: auto;
   background: transparent;
-  height: 100%;
+  
 }
 
 .overlay {
