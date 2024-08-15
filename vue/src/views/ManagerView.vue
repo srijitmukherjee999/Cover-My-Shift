@@ -39,8 +39,8 @@
           <div class="content">
             <div id="data" v-for="user in listOfUsers" :key="user.id">
               <div class="together">
-                <div class="bubble">
-                  <div class="bubble-title" v-bind:class="{grey: isShiftBetweenVacation(user)}" >
+                <div class="bubble" v-bind:class="{grey: isShiftBetweenVacation(user)}">
+                  <div class="bubble-title"  >
                     <p>{{ user.fullName }}</p>
                   </div>
                   <div class="bubble-title">
@@ -157,7 +157,6 @@ export default {
 
       if(e.employeeId == user.id)
       if((start>= startVacation && start <= endVacation) || (end >= startVacation && end <= endVacation) || (start<= startVacation && end >= endVacation) ){
-        console.log("Hello")
         x = 1;
       }
 
@@ -191,6 +190,11 @@ export default {
            alert("Error submitting this request check start date");
           return;
         }
+        if(this.shiftInputs.duration>8){
+           alert("Duration must be 8 hours")
+          return;
+          
+        }
 
         while (startDate <= endDate) {
           const startDateTime = new Date(startDate);
@@ -212,6 +216,8 @@ export default {
                 this.showNewShiftAddedAlert(userId);
                 x++;
               }
+            }else{
+              alert("The shift could not be submitted");
             }
 
           });
