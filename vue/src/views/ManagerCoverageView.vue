@@ -82,106 +82,107 @@
         totalHours: {}, // Object to store total hours per date in yyyy-mm-dd format
       };
     },
-    methods: {
-        async getHours() {
-  const totalHours = {};
+  methods: {
+    async getHours() {
+      const totalHours = {};
 
-  // Combine all weeks into one array
-  const allDates = [...this.currentWeek, ...this.nextWeek, ...this.followingWeek];
+      // Combine all weeks into one array
+      const allDates = [...this.currentWeek, ...this.nextWeek, ...this.followingWeek];
 
-  for (const date of allDates) {
-    try {
-      const response = await ShiftService.getShiftByDate(date);
-      const shifts = response.data;
+      for (const date of allDates) {
+        try {
+          const response = await ShiftService.getShiftByDate(date);
+          const shifts = response.data;
 
-      if (Array.isArray(shifts)) {
-        let totalDuration = 0;
+          if (Array.isArray(shifts)) {
+            let totalDuration = 0;
 
-        shifts.forEach((shift) => {
-          const { duration } = shift;
-          totalDuration += duration;
-        });
+            shifts.forEach((shift) => {
+              if(shift.status != 3){ // if shift is not uncovered
+                totalDuration += shift.duration;
+              }
+            });
 
-        // Store the total duration for the date
-        totalHours[date] = totalDuration;
-      } else {
-        console.error('Unexpected data format:', response.data);
+            // Store the total duration for the date
+            totalHours[date] = totalDuration;
+          } else {
+            console.error('Unexpected data format:', response.data);
+          }
+        } catch (error) {
+          console.error('Error fetching shifts:', error);
+        }
       }
-    } catch (error) {
-      console.error('Error fetching shifts:', error);
-    }
-  }
 
-  // Update the totalHours data property
-  this.totalHours = totalHours;
+      // Update the totalHours data property
+      this.totalHours = totalHours;
 
-  // Debugging log
-  console.log('Total Hours:', totalHours);
-},
+      // Debugging log
+      console.log('Total Hours:', totalHours);
+    },
 
-async getDatesForNextTwoWeeks() {
-  const today = new Date();
-  today.setHours(0, 0, 0, 0); // Reset time to ensure accurate date calculations
+  async getDatesForNextTwoWeeks() {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0); // Reset time to ensure accurate date calculations
 
-  const formatLocalDate = (date) => {
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const day = String(date.getDate()).padStart(2, '0');
-    return `${year}-${month}-${day}`;
-  };
+    const formatLocalDate = (date) => {
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, '0');
+      const day = String(date.getDate()).padStart(2, '0');
+      return `${year}-${month}-${day}`;
+    };
 
-  const addDatesToArray = async (array, startDate, days) => {
-    for (let i = 0; i < days; i++) {
-      const date = new Date(startDate);
-      date.setDate(startDate.getDate() + i);
-      const localDate = formatLocalDate(date);
-      array.push(localDate);
+    const addDatesToArray = async (array, startDate, days) => {
+      for (let i = 0; i < days; i++) {
+        const date = new Date(startDate);
+        date.setDate(startDate.getDate() + i);
+        const localDate = formatLocalDate(date);
+        array.push(localDate);
 
-      // Fetch and sum shifts for the date
-      try {
-        const response = await ShiftService.getShiftByDate(localDate);
-        // Process data as needed
-      } catch (error) {
-        console.error('Error fetching shifts:', error);
+        // Fetch and sum shifts for the date
+        try {
+          const response = await ShiftService.getShiftByDate(localDate);
+          // Process data as needed
+        } catch (error) {
+          console.error('Error fetching shifts:', error);
+        }
       }
+    };
+
+    // Calculate the start date of the current week (from today)
+    const startOfWeek = new Date(today);
+    const dayOfWeek = today.getDay(); // Sunday is 0, Monday is 1, etc.
+    const daysToStartOfWeek = dayOfWeek === 0 ? 6 : dayOfWeek - 1; // Calculate days back to Monday
+    startOfWeek.setDate(today.getDate() - daysToStartOfWeek); // Move to Monday of the current week
+
+    // Ensure current week starts from today
+    if (today < startOfWeek) {
+      startOfWeek.setDate(today.getDate()); // Adjust if today is earlier than Monday
     }
-  };
 
-  // Calculate the start date of the current week (from today)
-  const startOfWeek = new Date(today);
-  const dayOfWeek = today.getDay(); // Sunday is 0, Monday is 1, etc.
-  const daysToStartOfWeek = dayOfWeek === 0 ? 6 : dayOfWeek - 1; // Calculate days back to Monday
-  startOfWeek.setDate(today.getDate() - daysToStartOfWeek); // Move to Monday of the current week
+    // Debugging logs
+    console.log('Today:', formatLocalDate(today));
+    console.log('Start of Week:', formatLocalDate(startOfWeek));
 
-  // Ensure current week starts from today
-  if (today < startOfWeek) {
-    startOfWeek.setDate(today.getDate()); // Adjust if today is earlier than Monday
+    // Current Week
+    this.currentWeek = []; // Clear current week array
+    await addDatesToArray(this.currentWeek, startOfWeek, 7); // 7 days in the current week
+
+    // Next Week
+    const nextWeekStart = new Date(startOfWeek);
+    nextWeekStart.setDate(startOfWeek.getDate() + 7);
+    this.nextWeek = []; // Clear next week array
+    await addDatesToArray(this.nextWeek, nextWeekStart, 7);
+
+    // Following Week
+    const followingWeekStart = new Date(startOfWeek);
+    followingWeekStart.setDate(startOfWeek.getDate() + 14);
+    this.followingWeek = []; // Clear following week array
+    await addDatesToArray(this.followingWeek, followingWeekStart, 7);
+
+    console.log('Current Week:', this.currentWeek);
+    console.log('Next Week:', this.nextWeek);
+    console.log('Following Week:', this.followingWeek);
   }
-
-  // Debugging logs
-  console.log('Today:', formatLocalDate(today));
-  console.log('Start of Week:', formatLocalDate(startOfWeek));
-
-  // Current Week
-  this.currentWeek = []; // Clear current week array
-  await addDatesToArray(this.currentWeek, startOfWeek, 7); // 7 days in the current week
-
-  // Next Week
-  const nextWeekStart = new Date(startOfWeek);
-  nextWeekStart.setDate(startOfWeek.getDate() + 7);
-  this.nextWeek = []; // Clear next week array
-  await addDatesToArray(this.nextWeek, nextWeekStart, 7);
-
-  // Following Week
-  const followingWeekStart = new Date(startOfWeek);
-  followingWeekStart.setDate(startOfWeek.getDate() + 14);
-  this.followingWeek = []; // Clear following week array
-  await addDatesToArray(this.followingWeek, followingWeekStart, 7);
-
-  console.log('Current Week:', this.currentWeek);
-  console.log('Next Week:', this.nextWeek);
-  console.log('Following Week:', this.followingWeek);
-}
 
 ,
   
@@ -198,8 +199,7 @@ async getDatesForNextTwoWeeks() {
 
   
       isSufficientHours(date) {
-        const localDate = this.formatLocalDate(new Date(date));
-        const hours = this.totalHours[localDate] || 0;
+        const hours = this.totalHours[date] || 0;
         return hours >= this.requiredHours;
       },
   
@@ -225,18 +225,15 @@ async getDatesForNextTwoWeeks() {
           month: "long", // "August"
           day: "numeric", // "20"
           year: "numeric", // "2024"
+          timeZone: "UTC"
         };
   
         return date.toLocaleDateString("en-US", options);
       },
 
       navigateToAllShifts(date) {
-      if (!(date instanceof Date)) {
-        date = new Date(date); // Convert to Date object if it's not already
+        this.$router.push({ name: 'allShifts', query: { date: date } });
       }
-      const formattedDate = date.toISOString().split('T')[0]; // Convert to YYYY-MM-DD
-      this.$router.push({ name: 'allShifts', query: { date: formattedDate } });
-    }
   },
     async created() {
       await this.getDatesForNextTwoWeeks();

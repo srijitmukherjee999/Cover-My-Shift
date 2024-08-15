@@ -44,7 +44,8 @@
                     <p>{{ user.fullName }}</p>
                   </div>
                   <div class="bubble-title">
-                    <p v-for="h in user.hours" v-bind:key="h"><p>Hours worked week of:</p>{{ h }}</p>
+                    <p>Hours worked week of:</p>
+                    <p v-for="h in user.hours" v-bind:key="h">{{ h }}</p>
                   </div>
                   <div>
                     <button :class="[
