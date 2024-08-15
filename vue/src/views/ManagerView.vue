@@ -20,7 +20,7 @@
                 <input type="time" v-model="shiftInputs.startTime" placeholder="Start Time" />
               </div>
               <div>
-                <input type="number" v-model="shiftInputs.duration" placeholder="Duration (hours)" />
+                <input type="number" v-model="shiftInputs.duration" placeholder="Duration (hours)" min="0" max="8"/> 
               </div>
 
 
@@ -38,7 +38,7 @@
         <div class="scrollable-content">
           <div class="content">
             <div id="data" v-for="user in listOfUsers" :key="user.id">
-              <div class="together">
+              <div class="together" >
                 <div class="bubble" v-bind:class="{grey: isShiftBetweenVacation(user)}">
                   <div class="bubble-title"  >
                     <p>{{ user.fullName }}</p>
@@ -48,7 +48,7 @@
                     <p v-for="h in user.hours" v-bind:key="h">{{ h }}</p>
                   </div>
                   <div>
-                    <button :class="[
+                    <button  v-if="!isShiftBetweenVacation(user)"  :class="[
                       'add-shift-button',
                       isSelected(user.id) ? 'selected-button' : 'add-button',
                     ]" @click="toggleSelection(user.id)">
@@ -315,7 +315,7 @@ export default {
         return;
       }
       let startDate = new Date(this.shiftInputs.startDate);
-      const endDate = this.shiftInputs.endDate // if end date isnt specified, end date is a copy of start date so the loop runs once
+      const endDate = this.shiftInputs.endDate // if end date is not specified, end date is a copy of start date so the loop runs once
         ? new Date(this.shiftInputs.endDate)
         : new Date(startDate); 
       let weeks = [];
@@ -533,7 +533,7 @@ input[type="number"] {
 
 .grey{
 
-  color: grey;
+  color: red;
 
 }
 
