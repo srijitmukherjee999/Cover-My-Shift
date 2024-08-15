@@ -77,8 +77,9 @@ export default {};
 <style scoped>
 .login {
   display: flex;
-  justify-content: flex-end;
-  justify-self: flex-end;
+  /* float: right; */
+  justify-content: center;
+  justify-self: flex-end ;
   background-color: white;
   padding: 20px;
   font-size: 20px;
@@ -120,6 +121,7 @@ export default {};
 
 .content {
   position: relative;
+
   z-index: 1;
   padding: 20px;
 }

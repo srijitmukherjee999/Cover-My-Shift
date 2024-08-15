@@ -221,7 +221,7 @@ export default {
               }
             }else{
               alert("The shift could not be submitted");
-              console.log("Shift could not be submitted!");
+              
             }
 
           })
