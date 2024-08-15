@@ -55,7 +55,7 @@
                 :key="shift.shiftId"
               >
                 <div class="together">
-                  <div class="bubble" :class="{ emergency: shift.emergency }">
+                  <div class="bubble" :class="{ emergency: shift.emergency && shift.status == 3 }">
                     <div id="shiftObjects1">
                       <p class="bubble-title">{{ shift.assignedName }}</p>
                     </div>
