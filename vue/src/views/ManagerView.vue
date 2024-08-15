@@ -201,7 +201,7 @@ export default {
           startDateTime.setHours(...this.shiftInputs.startTime.split(":"));
           const offset = startDateTime.getTimezoneOffset()
           startDateTime = new Date(startDateTime.getTime() - (offset*60*1000))
-          
+
           const newShift = {
             assignedId: userId,
             startDateTime: startDateTime.toISOString(),
@@ -212,7 +212,8 @@ export default {
             description: `Shift for ${startDateTime.toLocaleDateString()}`,
           };
 
-          ShiftService.createShift(newShift).then((response) => {
+          ShiftService.createShift(newShift)
+          .then((response) => {
             if (response.status === 201) {
               if (x == 0) {
                 this.showNewShiftAddedAlert(userId);
@@ -220,8 +221,13 @@ export default {
               }
             }else{
               alert("The shift could not be submitted");
+              console.log("Shift could not be submitted!");
             }
 
+          })
+          .catch(err => {
+            alert("The shift could not be submitted");
+            
           });
 
           startDate.setDate(startDate.getDate() + 1);
@@ -231,7 +237,7 @@ export default {
 
       this.shiftInputs = {};
       this.selectedUsers = [];
-  },
+    },
 
     getFirstDayOfWeek(date) {
       const newDate = new Date(date);
