@@ -48,7 +48,7 @@
                     <p v-for="h in user.hours" v-bind:key="h">{{ h }}</p>
                   </div>
                   <div>
-                    <button :class="[
+                    <button  v-if="!isShiftBetweenVacation(user)"  :class="[
                       'add-shift-button',
                       isSelected(user.id) ? 'selected-button' : 'add-button',
                     ]" @click="toggleSelection(user.id)">
