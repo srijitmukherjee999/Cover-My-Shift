@@ -93,7 +93,7 @@
                     </div>
                   
                     <div id="shiftObjects6">
-                      <button v-if="shift.status === 3" @click="newPage(shift.shiftId)" class="button-title">
+                      <button v-if="shift.status === 3" @click="newPage(shift.shiftId, shift.startDateTime)" class="button-title">
                         Cover Requests:
                         {{ coverRequestsCount[shift.shiftId] }}
                       </button>
@@ -178,9 +178,11 @@ export default {
     return new Date(dateTime).toLocaleString('en-US', options);
   },
 
-    newPage(shiftId) {
-      this.$router.push(`/shift/${shiftId}/cover`)
+    newPage(shiftId, date) {
+      this.filter.startDateTime = date; // Update the filter with the date
+      this.$router.push(`/shift/${shiftId}/cover`);
     },
+
     async getAllShifts() {
       try {
         const response = await ShiftService.getShifts();
@@ -235,11 +237,16 @@ export default {
         response.data;
       })
     },
+    
   },
   async created() {
     this.cleanup();
     await this.getAllShifts();
     await this.getFullName();
+    const queryDate = this.$route.query.date;
+    if(queryDate){
+      this.filter.startDateTime = queryDate;
+    }
   },
   
 

@@ -54,7 +54,7 @@ public class EmployeeController {
         return shifts;
     }
 
-    @GetMapping(path = "/shift/{day}")
+    @GetMapping(path = "/shift/date/{day}")
     public List<Shift> getShiftsByDay(@PathVariable String day){
         if(day == null){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Please provide a date.");
