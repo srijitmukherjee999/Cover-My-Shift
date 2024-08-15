@@ -38,7 +38,7 @@
         <div class="scrollable-content">
           <div class="content">
             <div id="data" v-for="user in listOfUsers" :key="user.id">
-              <div class="together">
+              <div class="together" >
                 <div class="bubble" v-bind:class="{grey: isShiftBetweenVacation(user)}">
                   <div class="bubble-title"  >
                     <p>{{ user.fullName }}</p>
@@ -532,7 +532,7 @@ input[type="number"] {
 
 .grey{
 
-  color: grey;
+  color: red;
 
 }
 
