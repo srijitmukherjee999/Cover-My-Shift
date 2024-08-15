@@ -4,7 +4,7 @@
       <nav class="navigation">
         <ul>
           <li>
-            <router-link v-bind:to="{ name: 'employee' }">MY HOME</router-link>
+            <router-link v-bind:to="{ name: 'employee' }">HOME</router-link>
           </li>
 
           <li>
