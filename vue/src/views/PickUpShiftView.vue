@@ -22,12 +22,13 @@
               </button>
             </div>
 
-            <div id="emergency-bubbles">
-              <div class="together">
-                <div
+            
+              
+                <div id="emergency-bubbles"
                   class="emergencybubble"
                   v-for="emergency in emergencyShifts"
                   v-bind:key="emergency.shiftId">
+                  <div class="together">
                   <div id="shiftObjects1">
                     <p class="bubble-title">
                       Name: {{ emergency.assignedName }}
@@ -50,7 +51,7 @@
                   </div>
                 </div>
               </div>
-            </div>
+            
           </div>
         </div>
       </div>
