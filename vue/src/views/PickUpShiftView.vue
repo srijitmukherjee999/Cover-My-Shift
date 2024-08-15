@@ -22,36 +22,36 @@
               </button>
             </div>
 
-            <div id="emergency-button">
-              <div class="together">
-                <div
+            
+              
+                <div id="emergency-bubbles"
                   class="emergencybubble"
                   v-for="emergency in emergencyShifts"
-                  v-bind:key="emergency.shiftId"
-                >
-                  <div id="shiftObjects">
+                  v-bind:key="emergency.shiftId">
+                  <div class="together">
+                  <div id="shiftObjects1">
                     <p class="bubble-title">
                       Name: {{ emergency.assignedName }}
                     </p>
                   </div>
-                  <div id="shiftObjects">
+                  <div id="shiftObjects2">
                     <p class="bubble-title">
                       Start Time: {{ emergency.startDateTime }}
                     </p>
                   </div>
-                  <div id="shiftObjects">
+                  <div id="shiftObjects3">
                     <p class="bubble-title">
                       Duration: {{ emergency.duration }}
                     </p>
                   </div>
-                  <div id="shiftObjects">
+                  <div id="shiftObjects4">
                     <p class="bubble-title">
                       {{ convertStatus(emergency.status) }}
                     </p>
                   </div>
                 </div>
               </div>
-            </div>
+            
           </div>
         </div>
       </div>
@@ -279,19 +279,6 @@ section {
   text-align: center;
   font-weight: bold;
 }
-
-.container {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-}
-
-@media (max-width: 600px) {
-  .container {
-    flex-direction: column;
-  }
-}
-
 .bubble-title {
   font-weight: bold;
   flex: 1 1 auto;
@@ -368,6 +355,14 @@ h1 {
   text-align: center;
   border-radius: 5px;
   border-color: red;
+}
+
+#emergency-bubbles {
+  display: inline-block;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  padding: 20px;
 }
 
 .emergencyButton {

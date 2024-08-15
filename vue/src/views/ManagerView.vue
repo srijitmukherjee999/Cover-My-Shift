@@ -181,7 +181,6 @@ export default {
     
       let x = 0;
       this.selectedUsers.forEach((userId) => {
-
         let startDate = new Date(this.shiftInputs.startDate);
         const endDate = this.shiftInputs.endDate // if end date isnt specified, end date is a copy of start date so the loop runs once
           ? new Date(this.shiftInputs.endDate)
@@ -198,8 +197,10 @@ export default {
         }
 
         while (startDate <= endDate) {
-          const startDateTime = new Date(startDate);
+          let startDateTime = new Date(startDate);
           startDateTime.setHours(...this.shiftInputs.startTime.split(":"));
+          const offset = startDateTime.getTimezoneOffset()
+          startDateTime = new Date(startDateTime.getTime() - (offset*60*1000))
 
           const newShift = {
             assignedId: userId,
@@ -211,7 +212,8 @@ export default {
             description: `Shift for ${startDateTime.toLocaleDateString()}`,
           };
 
-          ShiftService.createShift(newShift).then((response) => {
+          ShiftService.createShift(newShift)
+          .then((response) => {
             if (response.status === 201) {
               if (x == 0) {
                 this.showNewShiftAddedAlert(userId);
@@ -219,8 +221,13 @@ export default {
               }
             }else{
               alert("The shift could not be submitted");
+              
             }
 
+          })
+          .catch(err => {
+            alert("The shift could not be submitted");
+            
           });
 
           startDate.setDate(startDate.getDate() + 1);
@@ -230,7 +237,7 @@ export default {
 
       this.shiftInputs = {};
       this.selectedUsers = [];
-  },
+    },
 
     getFirstDayOfWeek(date) {
       const newDate = new Date(date);
@@ -327,7 +334,7 @@ export default {
         }
         startDate.setDate(startDate.getDate() + 1);
       }
-      console.log(weeks);
+      // console.log(weeks);
 
       for(const user of this.listOfUsers){
         user.hours = [];

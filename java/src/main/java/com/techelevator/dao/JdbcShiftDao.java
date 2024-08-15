@@ -135,7 +135,9 @@ public class JdbcShiftDao implements ShiftDao{
        }
 
        for(Shift shifts: listOfAssigneeShifts){
-           if(shift.getStartDateTime().isBefore(shifts.getStartDateTime().plusHours((long)shifts.getDuration()))  && shift.getStartDateTime().isAfter(shifts.getStartDateTime())){
+           boolean firstTest = shift.getStartDateTime().isBefore(shifts.getStartDateTime().plusHours((long)shifts.getDuration()));
+           boolean secondTest = shift.getStartDateTime().isAfter(shifts.getStartDateTime());
+           if(firstTest && secondTest) {
 
                 throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Bad Request");
 
